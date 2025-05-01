@@ -1,0 +1,86 @@
+# /etc/ssh/sshd_config - Beispiel für eine sicherere SSH-Konfiguration
+#
+# Siehe 'man sshd_config' für alle Optionen.
+
+# --- Authentifizierung ---
+
+# Root-Login komplett verbieten (sehr empfohlen)
+PermitRootLogin no
+
+# Nur bestimmten Benutzern den Login erlauben.
+# Ersetze 'dein_benutzername' durch den tatsächlichen Benutzernamen, der sich per SSH anmelden darf.
+# Mehrere Benutzer können mit Leerzeichen getrennt werden: AllowUsers user1 user2
+AllowUsers dein_benutzername
+
+# Public-Key-Authentifizierung aktivieren (Standard, aber explizit ist gut)
+PubkeyAuthentication yes
+
+# Passwort-Authentifizierung komplett deaktivieren.
+# Dies ist der wichtigste Schritt, um Nur-Schlüssel-Login zu erzwingen.
+PasswordAuthentication no
+
+# Leere Passwörter verbieten (wird durch PasswordAuthentication no überflüssig, aber schadet nicht)
+PermitEmptyPasswords no
+
+# Challenge-Response-Authentifizierung deaktivieren (verhindert oft zusätzliche Passwortabfragen, z.B. über PAM)
+ChallengeResponseAuthentication no
+
+# Kerberos-Authentifizierung deaktivieren (falls nicht benötigt)
+#KerberosAuthentication no
+
+# GSSAPI-Authentifizierung deaktivieren (falls nicht benötigt)
+#GSSAPIAuthentication no
+#GSSAPICleanupCredentials no
+
+# --- Sicherheitseinstellungen ---
+
+# Strikte Modus-Prüfung für Home-Verzeichnisse und Schlüsseldateien aktivieren
+StrictModes yes
+
+# Maximale Anzahl an Authentifizierungsversuchen pro Verbindung
+MaxAuthTries 3
+
+# Maximale Anzahl gleichzeitiger, nicht authentifizierter Verbindungen
+MaxStartups 10:30:100
+
+# --- Netzwerk & Adressen ---
+
+# Port (Standard ist 22, Änderung kann Sicherheit durch Verschleierung leicht erhöhen,
+# aber 'security through obscurity' ist kein Ersatz für echte Sicherheit)
+#Port 22
+
+# Lausche auf allen IPv4 und IPv6 Adressen
+ListenAddress 0.0.0.0
+ListenAddress ::
+
+# --- Logging ---
+SyslogFacility AUTH
+LogLevel INFO
+
+# --- Subsystem ---
+# Standardmäßig für SFTP benötigt
+Subsystem sftp /usr/lib/ssh/sftp-server
+
+# --- Sonstiges ---
+
+# X11 Forwarding deaktivieren, wenn nicht benötigt (erhöht Sicherheit)
+X11Forwarding no
+
+# TCP KeepAlive aktivieren, um Verbindungen offen zu halten
+TCPKeepAlive yes
+
+# ClientAlive Intervalle (optional, um inaktive Sessions zu trennen)
+#ClientAliveInterval 300
+#ClientAliveCountMax 0
+
+# Banner anzeigen (optional, Pfad zu einer Textdatei)
+#Banner /etc/issue.net
+
+# DNS-Abfragen für Client-Hostnamen deaktivieren (kann Logins beschleunigen, wenn DNS langsam ist)
+UseDNS no
+
+# Akzeptiere Umgebungsvariablen vom Client (nur ausgewählte zulassen)
+AcceptEnv LANG LC_*
+
+# --- Ende der Konfiguration ---
+
