@@ -50,10 +50,10 @@ precmd() {
 
 # --- Prompt Definition (PS1) ---
 # Farben definieren
-local user_color="%F{\e[38;2;255;0;128m}"
-local host_color="%F{\e[38;2;174;223;248m}"
-local dir_color="%F{\e[38;2;246;174;45m}"
-local prompt_char_color="%F{\e[38;2;255;0;128m}"
+local user_color="%F{#FF0080}"
+local host_color="%F{#AEFFD8}"
+local dir_color="%F{#F6AE2D}"
+local prompt_char_color="%F{#FF0080}"
 local reset_color="%f"
 
 # Zeile 1: [user@host]
@@ -68,7 +68,7 @@ PS1+=$'%{\n%}${dir_color}%~${reset_color} ${vcs_info_msg_0_}${prompt_char_color}
 
 # --- Rechter Prompt (RPROMPT) ---
 # Beispiel: Zeigt die aktuelle Uhrzeit in Gelb an
-RPROMPT="%F{\e[38;2;255;0;128m}%T%f" # %T für HH:MM:SS (24h)
+RPROMPT="%F{#FF0080}" # %T für HH:MM:SS (24h)
 
 # --- Aliases ---
 alias ls='ls --color=auto'
