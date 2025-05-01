@@ -81,6 +81,7 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ~='cd ~'
 alias c='clear'
+alias gre='brew upgrade --greedy'
 alias update='sudo pacman -Syu' # Beispiel für Arch Linux
 
 # --- PATH Konfiguration ---
