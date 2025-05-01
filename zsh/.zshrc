@@ -1,4 +1,4 @@
-# ~/.zshrc - Minimale Zsh-Konfiguration (Garuda-ähnlicher Prompt)
+# ~/.zshrc - Minimale Zsh-Konfiguration 
 
 # --- History ---
 HISTFILE=~/.zsh_history       # Speicherort der History-Datei
@@ -13,6 +13,8 @@ setopt inc_append_history     # Einträge sofort anhängen
 
 # --- Completion System ---
 # Zsh's mächtiges Autovervollständigungs-System aktivieren
+# Ignoriere unsichere Verzeichnisse für compinit, falls nötig (z.B. bei globalen Installationen)
+# Sicherheitswarnung umgehen: compinit -i -u -d ~/.cache/zcompdump-$ZSH_VERSION
 autoload -Uz compinit && compinit
 zstyle ':completion:*' menu select # Menü-Auswahl für Vervollständigungen
 zstyle ':completion:*' auto-description 'specify: %d'
@@ -35,9 +37,9 @@ autoload -Uz colors vcs_info promptinit
 colors && promptinit
 
 # Definiere das Format für Git-Informationen (vcs_info)
-# Zeigt Branch-Namen, geänderte Dateien (*), Staged-Dateien (+)
-zstyle ':vcs_info:git:*' formats '(%b%u%c)' # Branch, untracked (?), changed (*)
-zstyle ':vcs_info:git:*' actionformats '(%b|%a%u%c)' # Action (rebase etc.), Branch, untracked, changed
+# Zeigt Branch-Namen (*=geändert, +=gestaged, ?=untracked)
+zstyle ':vcs_info:git:*' formats '%F{magenta}(%b%u%c)%f' # (branch*+?) in Magenta
+zstyle ':vcs_info:git:*' actionformats '%F{magenta}(%b|%a%u%c)%f' # Action (rebase etc.)
 zstyle ':vcs_info:*' enable git # Nur Git aktivieren
 
 # Prompt-Funktion (wird vor jeder Prompt-Anzeige ausgeführt)
@@ -46,25 +48,27 @@ precmd() {
   vcs_info
 }
 
-# Farben definieren (optional, anpassbar)
+# --- Prompt Definition (PS1) ---
+# Farben definieren
 local user_color="%F{cyan}"
 local host_color="%F{blue}"
 local dir_color="%F{green}"
-local git_color="%F{magenta}"
-local reset_color="%f" # Farbe zurücksetzen
+local prompt_char_color="%F{yellow}"
+local reset_color="%f"
 
-# Zweizeiliger Prompt
 # Zeile 1: [user@host]
+PS1="${user_color}%n${reset_color}@${host_color}%m${reset_color} "
+
 # Zeile 2: Verzeichnis > Git-Status $ (oder # für root)
-PROMPT="${user_color}%n${reset_color}@${host_color}%m${reset_color} " # Zeile 1: user@host
-PROMPT+="%# " # Fügt '#' für root hinzu, sonst '%' - wird am Ende von Zeile 2 platziert
+# %{\n%} = Neue Zeile (innerhalb von %{...%} damit die Breite korrekt berechnet wird)
+# %~ = Aktuelles Verzeichnis (~ für Home)
+# ${vcs_info_msg_0_} = Git-Status von vcs_info (wird in precmd gefüllt)
+# %# = Zeigt '#' für root, '%' für normale Benutzer
+PS1+=$'%{\n%}${dir_color}%~${reset_color} ${vcs_info_msg_0_}${prompt_char_color}%#${reset_color} '
 
-RPROMPT="" # Rechter Prompt (leer)
-
-# Zweite Zeile des Prompts (wird über PS2 oder eine Variable gesteuert - hier einfacher über PROMPT)
-# Wir bauen die zweite Zeile und fügen sie dem PROMPT hinzu.
-# \n für neue Zeile, %~ für Verzeichnis (~ für Home), vcs_info_msg_0_ für Git-Infos
-PROMPT=$'%{\n%}${dir_color}%~${reset_color} ${git_color}${vcs_info_msg_0_}${reset_color}\n$PROMPT'
+# --- Rechter Prompt (RPROMPT) ---
+# Beispiel: Zeigt die aktuelle Uhrzeit in Gelb an
+RPROMPT="%F{yellow}%T%f" # %T für HH:MM:SS (24h)
 
 # --- Aliases ---
 alias ls='ls --color=auto'
@@ -76,18 +80,35 @@ alias ~='cd ~'
 alias c='clear'
 alias update='sudo pacman -Syu' # Beispiel für Arch Linux
 
+# --- PATH Konfiguration ---
+# Füge benutzerdefinierte bin-Verzeichnisse zum PATH hinzu, falls sie existieren
+# und noch nicht im PATH sind.
+# ~/.local/bin (Standard für pipx etc.)
+if [[ -d "$HOME/.local/bin" ]] && [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
+  export PATH="$HOME/.local/bin:$PATH"
+fi
+# ~/bin (Älterer Standard)
+if [[ -d "$HOME/bin" ]] && [[ ":$PATH:" != *":$HOME/bin:"* ]]; then
+  export PATH="$HOME/bin:$PATH"
+fi
+# (Optional) Cargo (Rust)
+# if [[ -d "$HOME/.cargo/bin" ]] && [[ ":$PATH:" != *":$HOME/.cargo/bin:"* ]]; then
+#   export PATH="$HOME/.cargo/bin:$PATH"
+# fi
+# (Optional) Go
+# if [[ -d "$HOME/go/bin" ]] && [[ ":$PATH:" != *":$HOME/go/bin:"* ]]; then
+#   export PATH="$HOME/go/bin:$PATH"
+# fi
+
 # --- Optional: Syntax Highlighting & Autosuggestions ---
 # Diese verbessern das Erlebnis erheblich, benötigen aber Installation.
-# Methode 1: Mit einem Plugin-Manager (z.B. zinit, zplug, antigen)
-#   -> Folge der Anleitung deines Plugin-Managers
-# Methode 2: Manuell klonen und sourcen (Beispiel)
-#   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-#   git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-#   source ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-#   source ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-#   *Hinweis: Der Pfad mit oh-my-zsh ist nur ein Beispiel, passe ihn an oder lege sie in ~/.zsh/ ab.*
-
-# Wenn Syntax Highlighting installiert ist:
-# ZSH_HIGHLIGHT_STYLES[comment]='fg=blue' # Beispielanpassung
+# Siehe vorherige Anleitung für Installationsmethoden.
+# Beispiel-Pfad (anpassen!): ZSH_PLUGINS_DIR=~/.zsh/plugins
+# if [[ -f "$ZSH_PLUGINS_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
+#   source "$ZSH_PLUGINS_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+# fi
+# if [[ -f "$ZSH_PLUGINS_DIR/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
+#   source "$ZSH_PLUGINS_DIR/zsh-autosuggestions/zsh-autosuggestions.zsh"
+# fi
 
 # --- Ende der .zshrc ---
