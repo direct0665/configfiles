@@ -50,10 +50,10 @@ precmd() {
 
 # --- Prompt Definition (PS1) ---
 # Farben definieren
-local user_color="%F{cyan}"
-local host_color="%F{blue}"
-local dir_color="%F{green}"
-local prompt_char_color="%F{yellow}"
+local user_color="%F{FF0080}"
+local host_color="%F{023C40}"
+local dir_color="%F{4A051C}"
+local prompt_char_color="%F{FF0080}"
 local reset_color="%f"
 
 # Zeile 1: [user@host]
