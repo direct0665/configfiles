@@ -83,6 +83,7 @@ alias ~='cd ~'
 alias c='clear'
 alias gre='brew upgrade --greedy'
 alias update='sudo pacman -Syu' # Beispiel für Arch Linux
+alias jinx='liquidctl --match kraken set sync color fixed 000080 && liquidctl --match smart set sync color fixed ff0080'
 
 # --- PATH Konfiguration ---
 # Füge benutzerdefinierte bin-Verzeichnisse zum PATH hinzu, falls sie existieren
