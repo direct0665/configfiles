@@ -1,100 +1,99 @@
-@define-color bar-bg #023C40;
-@define-color bar-fg #AEFFD8;
-@define-color bar-border rgba(174, 255, 216, 0.6);
-@define-color active-ws-bg #F6AE2D;
-@define-color active-ws-fg #023C40;
-@define-color module-hover-bg rgba(174, 255, 216, 0.1);
-@define-color battery-warning #F6AE2D;
-@define-color battery-critical #4A051C;
-@define-color urgent-pink #FF0080;
-
-window#waybar {
-    background-color: @bar-bg;
-    color: @bar-fg;
-    border: 2px solid @bar-border;
-    border-radius: 15px;
-    margin: 5px 20px;
-    font-family: "JetBrainsMono Nerd Font", Roboto, Helvetica, Arial, sans-serif;
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "Cantarell", "DejaVuSansM Nerd Font Mono", sans-serif;
     font-size: 14px;
-    transition-property: background-color;
-    transition-duration: .2s;
+    min-height: 0;
 }
 
-#workspaces,
+window#waybar {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #ffffff;
+    transition-property: background-color;
+    transition-duration: .5s;
+    border-radius: 15px;
+    margin: 5px;
+    padding: 0 10px;
+}
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+.critical,
+.warning,
+.urgent,
+#workspaces button.focused {
+    background-color: #ff0080;
+    color: #ffffff;
+}
+
+#workspaces button,
 #clock,
-#battery,
 #network,
 #pulseaudio,
-#tray {
-    padding: 0 8px;
-    margin: 0 3px;
+#custom-pipewire-output {
+    padding: 0 10px;
+    margin: 5px 3px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+#workspaces button:hover,
+#network:hover,
+#pulseaudio:hover,
+#custom-pipewire-output:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+#workspaces {
+    padding: 0;
+    margin-left: 5px;
 }
 
 #workspaces button {
-    padding: 0 5px;
-    color: @bar-fg;
-    background-color: transparent;
-    border: none;
-    border-radius: 8px;
-    transition: all 0.3s ease-in-out;
-}
-
-#workspaces button:hover {
-    background-color: @module-hover-bg;
-    box-shadow: inherit;
-    text-shadow: inherit;
-}
-
-#workspaces button.focused {
-    background-color: @active-ws-bg;
-    color: @active-ws-fg;
+    padding: 2px 8px;
+    margin: 5px 2px;
     font-weight: bold;
 }
 
+#workspaces button.active {
+    background-color: rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+}
+
 #workspaces button.urgent {
-    background-color: @urgent-pink;
-    color: @bar-bg;
+    background-color: #ff0080;
+    color: #ffffff;
 }
 
 #clock {
     font-weight: bold;
-}
-
-#battery.warning {
-    color: @battery-warning;
-}
-
-#battery.critical {
-    color: @battery-critical;
+    margin: 0 auto;
+    padding: 0 15px;
 }
 
 #network {
-
+    margin-right: 5px;
 }
 
 #network.disconnected {
-    color: @urgent-pink;
+    background-color: #ff0080;
+    color: #ffffff;
 }
 
 #pulseaudio {
-
+    margin-right: 5px;
 }
 
 #pulseaudio.muted {
-   color: @urgent-pink;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.5);
 }
 
-#tray {
-
-}
-
-tooltip {
-  background-color: rgba(2, 60, 64, 0.95);
-  border: 1px solid @bar-border;
-  border-radius: 8px;
-  padding: 8px;
-}
-
-tooltip label {
-  color: @bar-fg;
+#custom-pipewire-output {
+    margin-right: 5px;
 }
