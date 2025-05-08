@@ -17,7 +17,7 @@
         "on-click": "activate"
     },
     "clock": {
-        "format": "󰥔 {:%H:%M:%S}",
+        "format": "{:%H:%M:%S}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "interval": 1
     },
@@ -27,7 +27,7 @@
         "format-linked": "󰈀 {ifname} (Kein IP)",
         "format-disconnected": "󰖪 Disconnected",
         "format-alt": "󰈀 {ifname}: {ipaddr}/{cidr}",
-        "tooltip-format": "{ifname} via {gwaddr} 󰖩 {ipaddr}/{cidr}\nInterface: {ifname}\nSignal: {signalStrength}% @ {frequency}MHz\nDownload: {bandwidthDownBytes}\nUpload: {bandwidthUpBytes}",
+        "tooltip-format": "{ifname} via {gwaddr} 󰖩  {ipaddr}/{cidr}\nInterface: {ifname}\nSignal: {signalStrength}% @ {frequency}MHz\nDownload: {bandwidthDownBytes}\nUpload: {bandwidthUpBytes}",
         "on-click": "nm-connection-editor"
     },
     "pulseaudio": {
