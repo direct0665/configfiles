@@ -57,7 +57,7 @@ window#waybar.hidden {
 #workspaces button {
     padding: 2px 8px;
     margin: 5px 2px;
-    font-weight: bold;
+
 }
 
 #workspaces button.active {
@@ -71,7 +71,6 @@ window#waybar.hidden {
 }
 
 #clock {
-    font-weight: bold;
     margin: 0;
     padding: 0 10px;
 }
