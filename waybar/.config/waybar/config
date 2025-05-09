@@ -3,7 +3,7 @@
     "position": "top",
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["clock"],
-    "modules-right": ["network", "wireplumber"],
+    "modules-right": ["network", "pulseaudio"],
 
     "hyprland/workspaces": {
         "format": "{icon}",
@@ -30,7 +30,7 @@
         "tooltip-format": "{ifname} via {gwaddr} 󰖩  {ipaddr}/{cidr}\nInterface: {ifname}\nSignal: {signalStrength}% @ {frequency}MHz\nDownload: {bandwidthDownBytes}\nUpload: {bandwidthUpBytes}",
         "on-click": "nm-connection-editor"
     },
-    "wireplumber": {
+    "pulseaudio": {
         "format": "{icon} {volume}% {format_source}",
         "format-bluetooth": "{icon} {volume}% {format_source}",
         "format-bluetooth-muted": "󰖁 {icon} {format_source}",
