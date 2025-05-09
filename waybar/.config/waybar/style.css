@@ -31,22 +31,22 @@ window#waybar.hidden {
 #workspaces button,
 #clock,
 #network,
-#pulseaudio,
+#wireplumber,
 #custom-pipewire-output {
     padding: 0 10px;
     margin: 5px 3px;
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.1);
     color: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 0px solid rgba(255, 255, 255, 0.3);
 }
 
 #workspaces button:hover,
 #network:hover,
-#pulseaudio:hover,
+#wireplumber:hover,
 #custom-pipewire-output:hover {
     background-color: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 0px solid rgba(255, 255, 255, 0.5);
 }
 
 #workspaces {
