@@ -73,7 +73,7 @@ window#waybar.hidden {
 #clock {
     font-weight: bold;
     margin: 0;
-    padding: 0 15px;
+    padding: 0 10px;
 }
 
 #network {
