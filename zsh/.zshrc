@@ -84,7 +84,7 @@ alias c='clear'
 alias gre='brew upgrade --greedy'
 alias upd='yay -Syu' 
 alias jinx='liquidctl --match kraken set sync color fixed 000080 && liquidctl --match smart set sync color fixed ff0080'
-alias ä#='Hyprland'
+alias ]+='Hyprland'
 
 
 # --- PATH Konfiguration ---
