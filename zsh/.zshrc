@@ -61,6 +61,14 @@ alias upd='yay -Syu'
 alias jinx='liquidctl --match kraken set sync color fixed 000080 && liquidctl --match smart set sync color fixed ff0080'
 alias ]+='start-hyprland'
 
+alias l='eza --color=auto --icons=auto'
+alias ll='eza -al --color=auto --icons=auto --git'
+alias tree='eza --tree --color=auto --icons=auto'
+
+alias b='bat'
+
+eval "$(zoxide init zsh)"
+
 # --- PATH Konfiguration ---
 if [[ -d "$HOME/.local/bin" ]] && [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
   export PATH="$HOME/.local/bin:$PATH"
