@@ -92,6 +92,6 @@ elif [[ -f /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.z
     source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
-if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
-  # start-hyprland
+if [[ -z "$DISPLAY" ]] && [[ "$TTY" == "/dev/tty1" ]]; then
+  start-hyprland
 fi
