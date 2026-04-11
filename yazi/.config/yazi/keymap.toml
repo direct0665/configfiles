@@ -42,6 +42,7 @@ keymap = [
 	{ on = "/", run = "find --smart",   desc = "Suche" },
 	{ on = "s", run = "search --via=fd", desc = "FD Suche" },
 	{ on = "S", run = "search --via=rg", desc = "RG Suche" },
+	{ on = ".", run = "hidden toggle", desc = "Versteckte Dateien umschalten" },
 
 	# --- Sortierung ---
 	{ on = [ ",", "m" ], run = [ "sort mtime --reverse=no", "linemode mtime" ], desc = "Sort: Zeit" },
