@@ -70,7 +70,7 @@
         "format": "⏻",
         "tooltip": false,
         "on-click": "false",
-        "on-click-right": "~/.config/hypr/scripts/power-menu.sh",
+        "on-click-right": "~/.config/scripts/power-menu.sh",
         "on-click-middle": "hyprlock"
     }
 }
