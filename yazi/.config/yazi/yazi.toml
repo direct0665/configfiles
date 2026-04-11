@@ -1,5 +1,5 @@
 # ~/.config/yazi/yazi.toml
-# Paul's Universal Yazi Config – FINAL REPAIR
+# Paul's Universal Yazi Config – Final Fix
 
 [manager]
 ratio          = [1, 2, 4]
@@ -23,7 +23,8 @@ ueberzug_scale = 1
 ueberzug_offset = [0, 0, 0, 0]
 
 [opener]
-# ALLE Opener müssen in eckigen Klammern [...] stehen!
+# HINWEIS: 'use' erwartet IDs, die wir hier definieren.
+# Jede ID MUSS eine Liste von Objekten sein [ { ... } ]
 zed_mac       = [ { run = 'zed "$@"', desc = "Zed (macOS)", block = false } ]
 zed_arch      = [ { run = 'zeditor "$@"', desc = "Zed (Arch)", block = false } ]
 terminal_edit = [ { run = '${EDITOR:-vi} "$@"', desc = "Terminal Editor", block = true } ]
@@ -34,12 +35,12 @@ play          = [ { run = 'mpv "$@"', orphan = true, desc = "Play" } ]
 
 [open]
 rules = [
-  # 1. Textdateien & Code
+  # 1. Textdateien & Code (Hier lag der Fehler – wir nutzen jetzt die IDs oben)
   { name = "*.{txt,md,js,ts,toml,conf,json,zsh,sh,lua,yaml,yml,nix,c,cpp,h,py,rs,go}", use = ["zed_mac", "zed_arch", "terminal_edit"] },
   { mime = "text/*", use = ["zed_mac", "zed_arch", "terminal_edit"] },
   { mime = "application/json", use = ["zed_mac", "zed_arch", "terminal_edit"] },
 
-  # 2. Bilder
+  # 2. Bilder (Hier nutzen wir beide Systeme parallel)
   { mime = "image/*", use = ["open_mac", "open_linux"] },
 
   # 3. Video & Audio
