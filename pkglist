@@ -1,0 +1,52 @@
+# === [ CORE & SHELL ] ===
+zsh                         # Die interaktive Shell
+zsh-autosuggestions         # Befehlsvorschläge beim Tippen
+zsh-syntax-highlighting     # Farbige Markierung korrekter Befehle
+stow                        # Symlink-Manager für Dotfiles
+zoxide                      # Schnelles Verzeichnis-Springen (j)
+eza                         # Moderner ls-Ersatz
+bat                         # Moderner cat-Ersatz mit Syntax-Highlighting
+ripgrep                     # Extrem schnelle Textsuche (rg)
+fzf                         # Suchmaske für Dateien und Befehle
+fd                          # Schnellerer Ersatz für find
+fastfetch                   # Systeminfos beim Terminal-Start
+btop                        # Schicker Ressourcen-Monitor
+
+# === [ EDITORS & FILE MANAGEMENT ] ===
+helix                       # Dein neuer TUI-Editor
+yazi                        # Terminal-Dateimanager
+lazygit                     # TUI für Git-Operationen
+yt-dlp                      # Video-Downloader für das Terminal
+tldr                        # Praktische Befehlsbeispiele
+wl-clipboard                # Copy-Paste unter Wayland
+rsync                       # Datei-Synchronisation
+poppler                     # PDF-Vorschauen für Yazi
+p7zip                       # Support für 7z Archive
+unrar                       # Support für RAR Archive
+
+# === [ MEDIA & GUI APPS ] ===
+firefox                     # Webbrowser
+mpv                         # Video-Player
+imv                         # Bildbetrachter
+zathura                     # PDF-Viewer (Typst-kompatibel)
+zathura-pdf-mupdf           # PDF-Engine für Zathura
+
+# === [ HYPRLAND INFRA & TOOLS ] ===
+waybar                      # Statusleiste
+wofi                        # App-Launcher
+mako                        # Benachrichtigungs-Dienst
+hyprlock                    # Sperrbildschirm
+hyprpaper                   # Hintergrundbild-Manager
+xdg-desktop-portal-hyprland # Screensharing & Datei-Dialoge
+pavucontrol                 # Grafische Sound-Steuerung
+pulsemixer                  # Sound-Mixer für das Terminal
+perl-file-mimeinfo          # Wichtig für Yazi/Dateizuordnungen
+grim                        # Screenshot-Tool
+slurp                       # Bereichsauswahl für Screenshots
+swappy                      # Screenshot-Editor (Pfeile, Text)
+cliphist                    # Clipboard-Historie (via Wofi aufrufbar)
+playerctl                   # Mediensteuerung per Tastatur
+
+# === [ LSP & ENTWICKLUNG ] ===
+marksman                    # Markdown-Intelligenz für Helix
+bash-language-server        # Hilfe beim Skripten in Helix
