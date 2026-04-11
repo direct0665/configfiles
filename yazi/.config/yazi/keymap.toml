@@ -8,10 +8,10 @@ keymap = [
   { on = ["j"],         run = "arrow 1",              desc = "Runter" },
   { on = ["K"],         run = "arrow -5",             desc = "5 hoch" },
   { on = ["J"],         run = "arrow 5",              desc = "5 runter" },
-  { on = ["g", "g"],    run = "arrow -99999999",       desc = "Zum Anfang" },
-  { on = ["G"],         run = "arrow 99999999",        desc = "Zum Ende" },
+  { on = ["g", "g"],    run = "arrow -99999999",      desc = "Zum Anfang" },
+  { on = ["G"],         run = "arrow 99999999",       desc = "Zum Ende" },
   { on = ["h"],         run = "leave",                desc = "Übergeordnetes Verzeichnis" },
-  { on = ["l"],         run = "enter",                desc = "Verzeichnis betreten / Öffnen" },
+  { on = ["l"],         run = "enter",                desc = "Betreten" },
   { on = ["<Enter>"],   run = "open",                 desc = "Öffnen" },
   { on = ["<Esc>"],     run = "escape",               desc = "Abbrechen / Auswahl aufheben" },
   { on = ["q"],         run = "quit",                 desc = "Beenden" },
@@ -24,7 +24,7 @@ keymap = [
   { on = ["f"],         run = "filter --smart",       desc = "Filtern" },
   { on = ["s"],         run = "search --via=fd",      desc = "Suche mit fd" },
   { on = ["S"],         run = "search --via=rg",      desc = "Volltext-Suche mit rg" },
-  { on = ["<C-s>"],  run = "search --via=none",    desc = "Suche beenden" },
+  { on = ["<C-s>"],     run = "search --via=none",    desc = "Suche beenden" },
 
   # ── Sortierung ─────────────────────────────────────────────────────────────
   { on = [",", "m"],    run = "sort mtime --reverse=no",   desc = "Nach Änderungszeit" },

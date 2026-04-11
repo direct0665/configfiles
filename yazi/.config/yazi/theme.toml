@@ -1,6 +1,5 @@
 # ~/.config/yazi/theme.toml
 # Paul's Yazi Theme – abgestimmt auf Kitty (#FF0080 Pink / #F6AE2D Gold)
-# Prinzip: Farben präsent aber nicht dominant, dunkler Hintergrund, heller Text
 
 [flavor]
 # Kein externer Flavor – alles direkt definiert
@@ -105,8 +104,8 @@ icon_error  = "󰅚"
 # ── Datei-Farben (Icons + Farben nach Typ) ─────────────────────────────────────
 [filetype]
 rules = [
-  # Verzeichnisse
-  { is = "dir",       fg = "#7aa2f7" },       # Blau (klassisch, nicht konkurrierend)
+  # Verzeichnisse (Korrektur: name = "*/" statt is = "dir")
+  { name = "*/",      fg = "#7aa2f7" },       # Blau
   # Ausführbare Dateien
   { is = "exec",      fg = "#66cc66" },       # Grün
   # Symlinks
