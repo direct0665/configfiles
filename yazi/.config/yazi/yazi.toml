@@ -1,93 +1,52 @@
 # ~/.config/yazi/yazi.toml
-# Paul's Universal Yazi Config – Final Fix
+# Angepasst an die 2026-Syntax (Version 26.1.22)
 
-[manager]
-ratio          = [1, 2, 4]
+[mgr]
+ratio          = [ 1, 2, 4 ]
 sort_by        = "natural"
-sort_sensitive = false
-sort_reverse   = false
 sort_dir_first = true
+linemode       = "size"
 show_hidden    = false
 show_symlink   = true
-linemode       = "size"
-
-[preview]
-tab_size       = 2
-max_width      = 1200
-max_height     = 900
-cache_dir      = ""
-image_filter   = "triangle"
-image_quality  = 75
-sixel_scale    = 1.0
-ueberzug_scale = 1
-ueberzug_offset = [0, 0, 0, 0]
 
 [opener]
-# HINWEIS: 'use' erwartet IDs, die wir hier definieren.
-# Jede ID MUSS eine Liste von Objekten sein [ { ... } ]
-zed_mac       = [ { run = 'zed "$@"', desc = "Zed (macOS)", block = false } ]
-zed_arch      = [ { run = 'zeditor "$@"', desc = "Zed (Arch)", block = false } ]
-terminal_edit = [ { run = '${EDITOR:-vi} "$@"', desc = "Terminal Editor", block = true } ]
-open_mac      = [ { run = 'open "$@"', desc = "Open (macOS)", orphan = true } ]
-open_linux    = [ { run = 'xdg-open "$@"', desc = "Open (Linux)", orphan = true } ]
-extract       = [ { run = 'unar "$1"', desc = "Extract here" } ]
-play          = [ { run = 'mpv "$@"', orphan = true, desc = "Play" } ]
+# Editoren (IDs für die Regeln unten)
+# %s ist der Platzhalter für den Dateinamen in der neuen Version
+zed_mac    = [ { run = 'zed %s', desc = "Zed (macOS)", block = false } ]
+zed_arch   = [ { run = 'zeditor %s', desc = "Zed (Arch)", block = false } ]
+term_edit  = [ { run = '${EDITOR:-vi} %s', desc = "Editor", block = true } ]
+
+# System-Öffner
+open_mac   = [ { run = 'open %s', desc = "Open", for = "macos" } ]
+open_linux = [ { run = 'xdg-open %s', desc = "Open", for = "linux" } ]
 
 [open]
 rules = [
-  # 1. Textdateien & Code (Hier lag der Fehler – wir nutzen jetzt die IDs oben)
-  { name = "*.{txt,md,js,ts,toml,conf,json,zsh,sh,lua,yaml,yml,nix,c,cpp,h,py,rs,go}", use = ["zed_mac", "zed_arch", "terminal_edit"] },
-  { mime = "text/*", use = ["zed_mac", "zed_arch", "terminal_edit"] },
-  { mime = "application/json", use = ["zed_mac", "zed_arch", "terminal_edit"] },
+	# 1. Ordner
+	{ url = "*/", use = [ "open_mac", "open_linux" ] },
 
-  # 2. Bilder (Hier nutzen wir beide Systeme parallel)
-  { mime = "image/*", use = ["open_mac", "open_linux"] },
+	# 2. Text & Code (Erzwingt deine Editoren)
+	{ mime = "text/*", use = [ "zed_mac", "zed_arch", "term_edit" ] },
+	{ mime = "application/json", use = [ "zed_mac", "zed_arch", "term_edit" ] },
+	{ name = "*.{toml,conf,zsh,sh,lua,yaml,yml,py,rs}", use = [ "zed_mac", "zed_arch", "term_edit" ] },
 
-  # 3. Video & Audio
-  { mime = "video/*", use = ["play"] },
-  { mime = "audio/*", use = ["play"] },
+	# 3. Medien
+	{ mime = "image/*", use = [ "open_mac", "open_linux" ] },
+	{ mime = "video/*", use = [ "open_mac", "open_linux" ] },
+	{ mime = "application/pdf", use = [ "open_mac", "open_linux" ] },
 
-  # 4. Archive
-  { mime = "application/{zip,x-tar,x-bzip2,x-7z-compressed,x-rar}", use = ["extract"] },
-
-  # 5. PDF
-  { mime = "application/pdf", use = ["open_mac", "open_linux"] },
-
-  # 6. Globaler Fallback
-  { name = "*", use = ["open_mac", "open_linux", "terminal_edit"] },
+	# 4. Globaler Fallback
+	{ url = "*", use = [ "open_mac", "open_linux", "term_edit" ] },
 ]
 
-[tasks]
-micro_workers    = 10
-macro_workers    = 25
-bizarre_retry    = 5
-image_alloc      = 536870912
-image_bound      = [0, 0]
-suppress_preload = false
+[preview]
+tab_size      = 2
+max_width     = 1200
+max_height    = 900
+image_filter  = "triangle"
+image_quality = 75
 
 [plugin]
-preload = [
-  { mime = "image/{avif,hei?,jxl,svg+xml}", run = "magick" },
-  { mime = "image/*", run = "default" },
-  { mime = "video/*", run = "video-thumb" },
-  { mime = "application/pdf", run = "pdf-thumb" },
-]
 fetchers = [
-  { id = "git", name = "*", run = "git" },
+	{ id = "mime", url = "*/", run = "mime.dir", prio = "high" },
 ]
-
-[input]
-cursor_blink = true
-
-[confirm]
-trash_title    = "Trash {n} selected file(s)?"
-trash_origin   = "top-center"
-trash_offset   = [0, 2, 50, 3]
-delete_title   = "Permanently delete {n} selected file(s)?"
-delete_origin  = "top-center"
-delete_offset  = [0, 2, 50, 3]
-overwrite_title   = "Overwrite file?"
-quit_title     = "Quit?"
-
-[log]
-enabled = false
