@@ -1,5 +1,5 @@
 # ~/.config/yazi/yazi.toml
-# Paul's Universal Yazi Config (Arch & macOS)
+# Paul's Universal Yazi Config – FINAL REPAIR
 
 [manager]
 ratio          = [1, 2, 4]
@@ -23,18 +23,18 @@ ueberzug_scale = 1
 ueberzug_offset = [0, 0, 0, 0]
 
 [opener]
-# Definitionen der Programme
-zed_mac       = { run = 'zed "$@"', desc = "Zed (macOS)", block = false }
-zed_arch      = { run = 'zeditor "$@"', desc = "Zed (Arch)", block = false }
-terminal_edit = { run = '${EDITOR:-vi} "$@"', desc = "Terminal Editor", block = true }
-open_mac      = { run = 'open "$@"', desc = "Open (macOS)", orphan = true }
-open_linux    = { run = 'xdg-open "$@"', desc = "Open (Linux)", orphan = true }
-extract       = { run = 'unar "$1"', desc = "Extract here" }
-play          = { run = 'mpv "$@"', orphan = true, desc = "Play" }
+# ALLE Opener müssen in eckigen Klammern [...] stehen!
+zed_mac       = [ { run = 'zed "$@"', desc = "Zed (macOS)", block = false } ]
+zed_arch      = [ { run = 'zeditor "$@"', desc = "Zed (Arch)", block = false } ]
+terminal_edit = [ { run = '${EDITOR:-vi} "$@"', desc = "Terminal Editor", block = true } ]
+open_mac      = [ { run = 'open "$@"', desc = "Open (macOS)", orphan = true } ]
+open_linux    = [ { run = 'xdg-open "$@"', desc = "Open (Linux)", orphan = true } ]
+extract       = [ { run = 'unar "$1"', desc = "Extract here" } ]
+play          = [ { run = 'mpv "$@"', orphan = true, desc = "Play" } ]
 
 [open]
 rules = [
-  # 1. Textdateien & Code (Erzwingt externe Editoren statt internen Pager)
+  # 1. Textdateien & Code
   { name = "*.{txt,md,js,ts,toml,conf,json,zsh,sh,lua,yaml,yml,nix,c,cpp,h,py,rs,go}", use = ["zed_mac", "zed_arch", "terminal_edit"] },
   { mime = "text/*", use = ["zed_mac", "zed_arch", "terminal_edit"] },
   { mime = "application/json", use = ["zed_mac", "zed_arch", "terminal_edit"] },
