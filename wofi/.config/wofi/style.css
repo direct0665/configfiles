@@ -1,0 +1,31 @@
+/* ultra cleaner dark mode */
+window {
+    margin: 0px;
+    border: 2px solid #ff0080; /* dein pinker akzent */
+    background-color: #1e1e1e;
+    border-radius: 12px;
+}
+
+#input {
+    margin: 5px;
+    border: none;
+    color: #ffffff;
+    background-color: #313131;
+}
+
+#inner-box {
+    margin: 5px;
+    border: none;
+    background-color: #1e1e1e;
+}
+
+#outer-box {
+    margin: 5px;
+    border: none;
+    background-color: #1e1e1e;
+}
+
+#text:selected {
+    color: #ffffff;
+    background-color: #ff0080; /* pinker balken bei auswahl */
+}

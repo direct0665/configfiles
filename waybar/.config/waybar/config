@@ -69,6 +69,7 @@
     "custom/power": {
     "format": "⏻",
     "tooltip": false,
+    "on-click": "sh -c $HOME/.config/scripts/magic.sh",
     "on-click-right": "sh -c $HOME/.config/scripts/power-menu.sh",
     "on-click-middle": "hyprlock"
 }
