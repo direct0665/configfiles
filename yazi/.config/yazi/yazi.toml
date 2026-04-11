@@ -1,15 +1,15 @@
 # ~/.config/yazi/yazi.toml
-# Paul's Universal Yazi Config – Optimiert für Arch & macOS
+# Paul's Universal Yazi Config – Korrigierte Version
 
 [manager]
-ratio          = [1, 2, 4]       # Verhältnis: Parent | Current | Preview
-sort_by        = "natural"       # Natürliche Sortierung
+ratio          = [1, 2, 4]
+sort_by        = "natural"
 sort_sensitive = false
 sort_reverse   = false
 sort_dir_first = true
 show_hidden    = false
 show_symlink   = true
-linemode       = "size"          # Zeigt Dateigrößen an
+linemode       = "size"
 
 [preview]
 tab_size       = 2
@@ -23,13 +23,11 @@ ueberzug_scale = 1
 ueberzug_offset = [0, 0, 0, 0]
 
 [opener]
-# Kaskadierende Editoren: Yazi probiert die Liste von oben nach unten
 edit = [
   { run = 'zed "$@"', desc = "Zed (macOS)", block = false },
   { run = 'zeditor "$@"', desc = "Zed (Arch)", block = false },
   { run = '${EDITOR:-vi} "$@"', desc = "Terminal Editor", block = true },
 ]
-# Kaskadierende System-Öffner
 open = [
   { run = 'open "$@"', desc = "Open (macOS)", orphan = true },
   { run = 'xdg-open "$@"', desc = "Open (Linux)", orphan = true },
@@ -47,56 +45,49 @@ play = [
 
 [open]
 rules = [
-  # 1. Sicherster Weg für macOS: Dateiendungen explizit matchen
-  [open]
-  rules = [
+  # 1. Text & Code (Erzwingt deine Editor-Liste für Endungen)
+  { name = "*.{txt,md,js,ts,toml,conf,json,zsh,sh,lua,yaml,yml,nix,c,cpp,h,py,rs,go}", use = ["edit"] },
 
-    { name = "*.{txt,md,js,ts,toml,conf,json,zsh,sh,lua,yaml,yml,nix,c,cpp,h,py,rs,go}", use = ["edit"] },
+  # 2. MIME-Typen für Text (Erzwingt Editor für alles, was als Text erkannt wird)
+  { mime = "text/*", use = ["edit"] },
+  { mime = "application/json", use = ["edit"] },
+  { mime = "application/xml",  use = ["edit"] },
 
-    # Für alle anderen Textdateien (auch ohne Endung)
-    { mime = "text/*", use = ["edit"] },
-  { mime = "application/json", use = ["edit", "reveal"] },
-  { mime = "application/xml",  use = ["edit", "reveal"] },
-
-  # Bilder, Video, Audio
+  # 3. Medien (Bilder, Video, Audio)
   { mime = "image/*",       use = ["open", "reveal"] },
   { mime = "video/*",       use = ["play", "reveal"] },
   { mime = "audio/*",       use = ["play", "reveal"] },
 
-  # Archive
+  # 4. Archive
   { mime = "application/zip",            use = ["extract", "reveal"] },
   { mime = "application/x-tar",          use = ["extract", "reveal"] },
   { mime = "application/x-bzip2",        use = ["extract", "reveal"] },
   { mime = "application/x-7z-compressed",use = ["extract", "reveal"] },
   { mime = "application/x-rar",          use = ["extract", "reveal"] },
 
-  # PDF
+  # 5. PDF
   { mime = "application/pdf", use = ["open", "reveal"] },
 
-  # 3. Der ultimative Fallback für alles andere
-  { name = "*", use = ["open", "edit", "reveal"] },
+  # 6. Fallback (Der Rest geht an das System oder Editoren)
+  { name = "*", use = ["open", "edit"] },
 ]
 
 [tasks]
 micro_workers    = 10
 macro_workers    = 25
 bizarre_retry    = 5
-image_alloc      = 536870912  # 512 MB
+image_alloc      = 536870912
 image_bound      = [0, 0]
 suppress_preload = false
 
 [plugin]
 preload = [
-  # Bild-Vorschau
   { mime = "image/{avif,hei?,jxl,svg+xml}", run = "magick" },
   { mime = "image/*", run = "default" },
-  # Video-Thumbnail
   { mime = "video/*", run = "video-thumb" },
-  # PDF-Vorschau
   { mime = "application/pdf", run = "pdf-thumb" },
 ]
 fetchers = [
-  # Git-Status in der Dateiliste
   { id = "git", name = "*", run = "git" },
 ]
 
