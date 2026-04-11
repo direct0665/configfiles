@@ -1,3 +1,5 @@
+/* Speicherort: ~/.config/waybar/style.css */
+
 * {
     border: none;
     border-radius: 0;
@@ -28,11 +30,13 @@ window#waybar.hidden {
     color: #ffffff;
 }
 
+/* Gemeinsames Styling für alle Module */
 #workspaces button,
 #clock,
 #network,
 #pulseaudio,
-#custom-pipewire-output {
+#battery,
+#custom-power {
     padding: 0 10px;
     margin: 5px 3px;
     border-radius: 10px;
@@ -41,10 +45,12 @@ window#waybar.hidden {
     border: 0px solid rgba(255, 255, 255, 0.3);
 }
 
+/* Hover-Effekte */
 #workspaces button:hover,
 #network:hover,
 #pulseaudio:hover,
-#custom-pipewire-output:hover {
+#battery:hover,
+#custom-power:hover {
     background-color: rgba(255, 255, 255, 0.2);
     border: 0px solid rgba(255, 255, 255, 0.5);
 }
@@ -57,7 +63,6 @@ window#waybar.hidden {
 #workspaces button {
     padding: 2px 8px;
     margin: 5px 2px;
-
 }
 
 #workspaces button.active {
@@ -65,18 +70,8 @@ window#waybar.hidden {
     color: #ffffff;
 }
 
-#workspaces button.urgent {
-    background-color: #ff0080;
-    color: #ffffff;
-}
-
 #clock {
     margin: 5px;
-    
-}
-
-#network {
-    margin-right: 5px;
 }
 
 #network.disconnected {
@@ -84,49 +79,38 @@ window#waybar.hidden {
     color: #ffffff;
 }
 
-#pulseaudio {
-    margin-right: 5px;
-}
-
 #pulseaudio.muted {
     background-color: rgba(255, 255, 255, 0.1);
     color: rgba(255, 255, 255, 0.5);
 }
 
-#custom-pipewire-output {
-    margin-right: 5px;
-}
-
-#battery {
-    margin-right: 5px; /* Oder je nachdem, wo du es platzieren möchtest */
-    padding: 0 10px;
-    margin: 5px 3px;
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.8);
-    border: 0px solid rgba(255, 255, 255, 0.3);
-}
-
-#battery:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    border: 0px solid rgba(255, 255, 255, 0.5);
-}
-
 #battery.charging,
 #battery.plugged {
-    background-color: rgba(46, 204, 113, 0.2); 
+    background-color: rgba(46, 204, 113, 0.2);
     border: 0px solid rgba(46, 204, 113, 0.5);
     color: rgba(255, 255, 255, 0.9);
 }
 
 #battery.critical:not(.charging) {
-    background-color: #ff0080; 
+    background-color: #ff0080;
     color: #ffffff;
     animation-name: blink;
     animation-duration: 0.5s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
     animation-direction: alternate;
+}
+
+/* Spezifisches Styling für den Power-Button */
+#custom-power {
+    margin-right: 10px;
+    color: #ff0080; /* Dein Akzent-Pink */
+    background-color: rgba(255, 0, 128, 0.1);
+}
+
+#custom-power:hover {
+    background-color: #ff0080;
+    color: #ffffff;
 }
 
 @keyframes blink {

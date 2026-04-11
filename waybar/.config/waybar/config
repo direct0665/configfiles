@@ -3,7 +3,7 @@
     "position": "top",
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["clock"],
-    "modules-right": ["network", "pulseaudio", "battery"],
+    "modules-right": ["network", "pulseaudio", "battery", "custom/power"],
 
     "hyprland/workspaces": {
         "format": "{icon}",
@@ -16,27 +16,27 @@
         },
         "on-click": "activate"
     },
+
     "clock": {
         "format": "{:%H:%M:%S}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "interval": 1
     },
+
     "network": {
-        "format-wifi": "󰖩 {essid} ({signalStrength}%)",
-        "format-ethernet": "󰈀 {ifname}: {ipaddr}/{cidr}",
-        "format-linked": "󰈀 {ifname} (Kein IP)",
-        "format-disconnected": "󰖪 Disconnected",
-        "format-alt": "󰈀 {ifname}: {ipaddr}/{cidr}",
-        "tooltip-format": "{ifname} via {gwaddr} 󰖩  {ipaddr}/{cidr}\nInterface: {ifname}\nSignal: {signalStrength}% @ {frequency}MHz\nDownload: {bandwidthDownBytes}\nUpload: {bandwidthUpBytes}",
+        "format-wifi": "󰖩 {essid}",
+        "format-ethernet": "󰈀 Wired",
+        "format-linked": "󰈀 No IP",
+        "format-disconnected": "󰖪 Off",
+        "tooltip-format": "Interface: {ifname}\nIP: {ipaddr}",
         "on-click": "nm-connection-editor"
     },
+
     "pulseaudio": {
-        "format": "{icon} {volume}% {format_source}",
-        "format-bluetooth": "{icon} {volume}% {format_source}",
-        "format-bluetooth-muted": "󰖁 {icon} {format_source}",
-        "format-muted": "󰖁 {format_source}",
-        "format-source": "󰍬 {volume}%",
-        "format-source-muted": "󰍭",
+        "format": "{icon} {volume}%",
+        "format-bluetooth": "{icon} {volume}%",
+        "format-bluetooth-muted": "󰖁 {icon}",
+        "format-muted": "󰖁 Muted",
         "format-icons": {
             "headphone": "󰋋",
             "hands-free": "󰋎",
@@ -46,24 +46,31 @@
             "car": "󰠗",
             "default": ["󰕿", "󰖀", "󰕾"]
         },
-        "on-click": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+",
-        "on-click-right": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+        "on-click": "pavucontrol",
+        "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%+",
+        "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%-"
     },
 
     "battery": {
         "states": {
-            "good": 95, 
-            "warning": 30, 
-            "critical": 15 
+            "good": 95,
+            "warning": 30,
+            "critical": 15
         },
         "format": "{icon} {capacity}%",
         "format-charging": "󰂄 {capacity}%",
-        "format-plugged": "󰂄 {capacity}%", 
-        "format-alt": "{time} {icon}", 
-        
-        "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"], 
+        "format-plugged": "󰂄 {capacity}%",
+        "format-alt": "{time} {icon}",
+        "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
         "tooltip": true,
-        "tooltip-format": "{capacity}% - {timeTo}" 
+        "tooltip-format": "{capacity}% - {timeTo}"
+    },
+
+    "custom/power": {
+        "format": "⏻",
+        "tooltip": false,
+        "on-click": "systemctl poweroff",
+        "on-click-right": "systemctl reboot",
+        "on-click-middle": "hyprlock"
     }
-        
 }
