@@ -69,8 +69,8 @@
     "custom/power": {
         "format": "⏻",
         "tooltip": false,
-        "on-click": "systemctl poweroff",
-        "on-click-right": "systemctl reboot",
+        "on-click": "false",
+        "on-click-right": "~/.config/hypr/scripts/power-menu.sh",
         "on-click-middle": "hyprlock"
     }
 }

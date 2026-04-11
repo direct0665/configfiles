@@ -22,15 +22,7 @@ window#waybar.hidden {
     opacity: 0.2;
 }
 
-.critical,
-.warning,
-.urgent,
-#workspaces button.focused {
-    background-color: #ff0080;
-    color: #ffffff;
-}
-
-/* Gemeinsames Styling für alle Module */
+/* Gemeinsames Styling für alle Module - schlicht und einheitlich */
 #workspaces button,
 #clock,
 #network,
@@ -45,7 +37,7 @@ window#waybar.hidden {
     border: 0px solid rgba(255, 255, 255, 0.3);
 }
 
-/* Hover-Effekte */
+/* Hover-Effekt: Dezent heller, kein Pink */
 #workspaces button:hover,
 #network:hover,
 #pulseaudio:hover,
@@ -70,10 +62,11 @@ window#waybar.hidden {
     color: #ffffff;
 }
 
-#clock {
-    margin: 5px;
-}
-
+/* Akzentfarbe Pink nur für System-Warnungen/Status */
+.critical,
+.warning,
+.urgent,
+#workspaces button.urgent,
 #network.disconnected {
     background-color: #ff0080;
     color: #ffffff;
@@ -81,7 +74,7 @@ window#waybar.hidden {
 
 #pulseaudio.muted {
     background-color: rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.4);
 }
 
 #battery.charging,
@@ -101,16 +94,9 @@ window#waybar.hidden {
     animation-direction: alternate;
 }
 
-/* Spezifisches Styling für den Power-Button */
+/* Power Button: komplett lowkey am Rand */
 #custom-power {
     margin-right: 10px;
-    color: #ff0080; /* Dein Akzent-Pink */
-    background-color: rgba(255, 0, 128, 0.1);
-}
-
-#custom-power:hover {
-    background-color: #ff0080;
-    color: #ffffff;
 }
 
 @keyframes blink {
