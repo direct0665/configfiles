@@ -24,7 +24,7 @@ keymap = [
   { on = ["f"],         run = "filter --smart",       desc = "Filtern" },
   { on = ["s"],         run = "search --via=fd",      desc = "Suche mit fd" },
   { on = ["S"],         run = "search --via=rg",      desc = "Volltext-Suche mit rg" },
-  { on = ["<Ctrl-s>"],  run = "search --via=none",    desc = "Suche beenden" },
+  { on = ["<C-s>"],  run = "search --via=none",    desc = "Suche beenden" },
 
   # ── Sortierung ─────────────────────────────────────────────────────────────
   { on = [",", "m"],    run = "sort mtime --reverse=no",   desc = "Nach Änderungszeit" },
@@ -91,12 +91,12 @@ keymap = [
   { on = ["<Esc>"],       run = "close",           desc = "Abbrechen" },
   { on = ["<Enter>"],     run = "confirm",         desc = "Bestätigen" },
   { on = ["<Backspace>"], run = "backspace",        desc = "Zeichen löschen" },
-  { on = ["<Ctrl-u>"],    run = "kill_line",        desc = "Zeile löschen" },
-  { on = ["<Ctrl-a>"],    run = "move -999",        desc = "Zeilenanfang" },
-  { on = ["<Ctrl-e>"],    run = "move 999",         desc = "Zeilenende" },
-  { on = ["<Ctrl-f>"],    run = "move 1",           desc = "Rechts" },
-  { on = ["<Ctrl-b>"],    run = "move -1",          desc = "Links" },
-  { on = ["<Ctrl-w>"],    run = "backspace --word", desc = "Wort löschen" },
+  { on = ["<C-u>"],    run = "kill_line",        desc = "Zeile löschen" },
+  { on = ["<C-a>"],    run = "move -999",        desc = "Zeilenanfang" },
+  { on = ["<C-e>"],    run = "move 999",         desc = "Zeilenende" },
+  { on = ["<C-f>"],    run = "move 1",           desc = "Rechts" },
+  { on = ["<C-b>"],    run = "move -1",          desc = "Links" },
+  { on = ["<C-w>"],    run = "backspace --word", desc = "Wort löschen" },
 ]
 
 # ── Completion ─────────────────────────────────────────────────────────────────
