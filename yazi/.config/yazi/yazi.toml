@@ -48,10 +48,13 @@ play = [
 [open]
 rules = [
   # 1. Sicherster Weg für macOS: Dateiendungen explizit matchen
-  { name = "*.{txt,md,js,ts,toml,conf,json,zsh,sh,lua,yaml,yml,nix,c,cpp,h,py,rs,go}", use = ["edit", "open"] },
+  [open]
+  rules = [
 
-  # 2. MIME-Typen (Standard für Linux/Arch)
-  { mime = "text/*",        use = ["edit", "reveal"] },
+    { name = "*.{txt,md,js,ts,toml,conf,json,zsh,sh,lua,yaml,yml,nix,c,cpp,h,py,rs,go}", use = ["edit"] },
+
+    # Für alle anderen Textdateien (auch ohne Endung)
+    { mime = "text/*", use = ["edit"] },
   { mime = "application/json", use = ["edit", "reveal"] },
   { mime = "application/xml",  use = ["edit", "reveal"] },
 
