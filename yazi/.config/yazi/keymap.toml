@@ -3,61 +3,45 @@
 
 [mgr]
 keymap = [
-	{ on = "<Esc>", run = "escape", desc = "Abbrechen (Visual Mode/Auswahl/Suche)" },
+	{ on = "<Esc>", run = "escape", desc = "Abbrechen" },
 	{ on = "q",     run = "quit",   desc = "Beenden" },
-	{ on = "<C-c>", run = "close",  desc = "Tab schließen oder Beenden" },
+	{ on = "<C-c>", run = "close",  desc = "Schließen" },
 
-	# --- Navigation ---
+	# Hopping & Navigation
 	{ on = "k", run = "arrow prev", desc = "Hoch" },
 	{ on = "j", run = "arrow next", desc = "Runter" },
-	{ on = "h", run = "leave",      desc = "Ordner verlassen" },
-	{ on = "l", run = "enter",      desc = "Ordner betreten" },
+	{ on = "h", run = "leave",      desc = "Zurück" },
+	{ on = "l", run = "enter",      desc = "Betreten" },
+	{ on = [ "g", "g" ], run = "arrow top", desc = "Anfang" },
+	{ on = "G",          run = "arrow bot", desc = "Ende" },
 
-	{ on = "<Up>",    run = "arrow prev", desc = "Hoch" },
-	{ on = "<Down>",  run = "arrow next", desc = "Runter" },
-	{ on = "<Left>",  run = "leave",      desc = "Zurück" },
-	{ on = "<Right>", run = "enter",      desc = "Betreten" },
-
-	{ on = [ "g", "g" ], run = "arrow top", desc = "Ganz nach oben" },
-	{ on = "G",          run = "arrow bot", desc = "Ganz nach unten" },
-
-	# --- Öffnen (Der Fix für Paul) ---
+	# Öffnen (Der Fix)
 	{ on = "<Enter>", run = "open",              desc = "Öffnen" },
-	{ on = "e",       run = "open --interactive", desc = "Öffnen mit Auswahl-Menü" },
+	{ on = "e",       run = "open --interactive", desc = "Öffnen mit..." },
 
-	# --- Auswahl & Visueller Modus ---
-	{ on = "<Space>", run = [ "toggle", "arrow 1" ], desc = "Markieren und eins weiter" },
-	{ on = "v",       run = "visual_mode",          desc = "Visueller Modus (Markieren)" },
-	{ on = "V",       run = "visual_mode --unset",  desc = "Visueller Modus (Entmarkieren)" },
+	# Auswahl
+	{ on = "<Space>", run = [ "toggle", "arrow 1" ], desc = "Markieren" },
+	{ on = "v",       run = "visual_mode",          desc = "Visual Mode" },
 
-	# --- Datei-Operationen ---
-	{ on = "y", run = "yank",               desc = "Kopieren (Yank)" },
-	{ on = "x", run = "yank --cut",         desc = "Ausschneiden" },
-	{ on = "p", run = "paste",              desc = "Einfügen" },
-	{ on = "P", run = "paste --force",      desc = "Erzwungenes Einfügen (Überschreiben)" },
-	{ on = "d", run = "remove",             desc = "Löschen (Trash)" },
-	{ on = "D", run = "remove --permanently", desc = "Endgültig löschen" },
-	{ on = "a", run = "create",             desc = "Neue Datei / Ordner (mit / am Ende)" },
+	# Operationen
+	{ on = "y", run = "yank",         desc = "Kopieren" },
+	{ on = "x", run = "yank --cut",   desc = "Ausschneiden" },
+	{ on = "p", run = "paste",        desc = "Einfügen" },
+	{ on = "d", run = "remove",       desc = "Löschen" },
+	{ on = "a", run = "create",       desc = "Erstellen" },
 	{ on = "r", run = "rename --cursor=before_ext", desc = "Umbenennen" },
 
-	# --- Suche & Filter ---
-	{ on = "f", run = "filter --smart", desc = "Filtern (Namen tippen)" },
-	{ on = "/", run = "find --smart",   desc = "Suchen (inkrementell)" },
-	{ on = "s", run = "search --via=fd", desc = "FD-Suche (Dateinamen)" },
-	{ on = "S", run = "search --via=rg", desc = "Ripgrep-Suche (Inhalte)" },
-	{ on = "z", run = "plugin fzf",     desc = "Zoxide / FZF Jump" },
+	# Suche & Filter
+	{ on = "f", run = "filter --smart", desc = "Filter" },
+	{ on = "/", run = "find --smart",   desc = "Suche" },
+	{ on = "s", run = "search --via=fd", desc = "FD Suche" },
+	{ on = "S", run = "search --via=rg", desc = "RG Suche" },
 
-	# --- Sortierung (Dein Komma-Kürzel) ---
-	{ on = [ ",", "m" ], run = [ "sort mtime --reverse=no", "linemode mtime" ], desc = "Sortierung: Zeit" },
-	{ on = [ ",", "s" ], run = [ "sort size --reverse=no", "linemode size" ],   desc = "Sortierung: Größe" },
-	{ on = [ ",", "n" ], run = [ "sort natural --reverse=no", "linemode none" ], desc = "Sortierung: Natürlich" },
+	# Sortierung
+	{ on = [ ",", "m" ], run = [ "sort mtime --reverse=no", "linemode mtime" ], desc = "Sort: Zeit" },
+	{ on = [ ",", "s" ], run = [ "sort size --reverse=no", "linemode size" ],   desc = "Sort: Größe" },
+	{ on = [ ",", "n" ], run = [ "sort natural --reverse=no", "linemode none" ], desc = "Sort: Normal" },
 
-	# --- Linemodes ---
-	{ on = [ "m", "s" ], run = "linemode size",        desc = "Modus: Größe" },
-	{ on = [ "m", "m" ], run = "linemode mtime",       desc = "Modus: Zeit" },
-	{ on = [ "m", "n" ], run = "linemode none",        desc = "Modus: Aus" },
-
-	# --- Hilfe ---
-	{ on = "~",    run = "help", desc = "Hilfe öffnen" },
-	{ on = "<F1>", run = "help", desc = "Hilfe öffnen" },
+	# Hilfe
+	{ on = "~", run = "help", desc = "Hilfe" },
 ]
