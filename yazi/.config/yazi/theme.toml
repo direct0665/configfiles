@@ -1,0 +1,180 @@
+# ~/.config/yazi/theme.toml
+# Paul's Yazi Theme – abgestimmt auf Kitty (#FF0080 Pink / #F6AE2D Gold)
+# Prinzip: Farben präsent aber nicht dominant, dunkler Hintergrund, heller Text
+
+[flavor]
+# Kein externer Flavor – alles direkt definiert
+
+# ── Manager ────────────────────────────────────────────────────────────────────
+[manager]
+cwd = { fg = "#F6AE2D" }                     # Aktuelles Verzeichnis: Gold
+
+# Auswahl-Cursor-Zeile
+hovered         = { bg = "#1a1a1a", bold = true }
+previewed       = { bg = "#0d0d0d" }
+selected        = { fg = "#FF0080", bold = true }
+# Mehrfach-Selektion Marker
+marker_selected = { fg = "#FF0080", bg = "#FF0080" }
+marker_copied   = { fg = "#F6AE2D", bg = "#F6AE2D" }
+marker_cut      = { fg = "#ff4444", bg = "#ff4444" }
+
+# Tab-Leiste
+tab_active   = { fg = "#000000", bg = "#FF0080", bold = true }
+tab_inactive = { fg = "#444444", bg = "#1a1a1a" }
+tab_width    = 1
+
+# Border / Rahmen der Panels
+border_symbol = "│"
+border_style  = { fg = "#2a2a2a" }           # Sehr dezent, kaum sichtbar
+
+# ── Status Bar ─────────────────────────────────────────────────────────────────
+[status]
+separator_open  = ""
+separator_close = ""
+separator_style = { fg = "#222222", bg = "#222222" }
+
+# Linke Seite: Modus-Anzeige
+mode_normal = { fg = "#000000", bg = "#FF0080", bold = true }
+mode_select = { fg = "#000000", bg = "#F6AE2D", bold = true }
+mode_unset  = { fg = "#000000", bg = "#888888", bold = true }
+
+# Mitte: Pfad/Info
+progress_label  = { fg = "#dddddd", bold = true }
+progress_normal = { fg = "#FF0080", bg = "#1a1a1a" }
+progress_error  = { fg = "#ff4444", bg = "#1a1a1a" }
+
+permissions_t = { fg = "#555555" }           # file type char (d, -, l …)
+permissions_r = { fg = "#F6AE2D" }           # r – lesbar: Gold
+permissions_w = { fg = "#FF0080" }           # w – schreibbar: Pink
+permissions_x = { fg = "#66cc66" }           # x – ausführbar: Grün
+permissions_s = { fg = "#888888" }           # s – setuid etc.
+
+# ── Input-Prompt ───────────────────────────────────────────────────────────────
+[input]
+border   = { fg = "#FF0080" }                # Rahmen Pink wenn aktiv
+title    = { fg = "#F6AE2D", bold = true }   # Titel Gold
+value    = { fg = "#dddddd" }
+selected = { reversed = true }
+
+# ── Completion-Popup ───────────────────────────────────────────────────────────
+[completion]
+border   = { fg = "#2a2a2a" }
+active   = { bg = "#1a1a1a", bold = true }
+inactive = { fg = "#555555" }
+
+# ── Select-Popup (bei mehreren Optionen) ───────────────────────────────────────
+[select]
+border   = { fg = "#FF0080" }
+active   = { fg = "#FF0080", bold = true }
+inactive = { fg = "#555555" }
+
+# ── Tasks-Panel ────────────────────────────────────────────────────────────────
+[tasks]
+border  = { fg = "#2a2a2a" }
+title   = { fg = "#F6AE2D", bold = true }
+hovered = { bg = "#1a1a1a", bold = true }
+
+# ── Which-Key Overlay ──────────────────────────────────────────────────────────
+[which]
+mask            = { bg = "#0d0d0d" }
+cand            = { fg = "#FF0080" }          # Taste: Pink
+rest            = { fg = "#555555" }
+desc            = { fg = "#aaaaaa" }          # Beschreibung: dezentes Grau
+separator       = "  "
+separator_style = { fg = "#333333" }
+
+# ── Confirm Dialog ─────────────────────────────────────────────────────────────
+[confirm]
+border  = { fg = "#FF0080" }
+title   = { fg = "#FF0080", bold = true }
+content = { fg = "#dddddd" }
+list    = { fg = "#aaaaaa" }
+btn_yes = { fg = "#000000", bg = "#FF0080", bold = true }
+btn_no  = { fg = "#dddddd", bg = "#2a2a2a" }
+btn_labels = ["  Yes  ", "  No  "]
+
+# ── Notify-Toasts ──────────────────────────────────────────────────────────────
+[notify]
+title_info  = { fg = "#aaaaaa", bold = true }
+title_warn  = { fg = "#F6AE2D", bold = true }
+title_error = { fg = "#ff4444", bold = true }
+icon_info   = ""
+icon_warn   = "󰀦"
+icon_error  = "󰅚"
+
+# ── Datei-Farben (Icons + Farben nach Typ) ─────────────────────────────────────
+[filetype]
+rules = [
+  # Verzeichnisse
+  { is = "dir",       fg = "#7aa2f7" },       # Blau (klassisch, nicht konkurrierend)
+  # Ausführbare Dateien
+  { is = "exec",      fg = "#66cc66" },       # Grün
+  # Symlinks
+  { is = "link",      fg = "#BB9AF7" },       # Lila
+  # Fehlerhafte Symlinks
+  { is = "orphan",    fg = "#ff4444" },       # Rot
+
+  # --- Code ---
+  { name = "*.rs",    fg = "#ce9178" },
+  { name = "*.py",    fg = "#4ec9b0" },
+  { name = "*.js",    fg = "#F6AE2D" },
+  { name = "*.ts",    fg = "#4fc1ff" },
+  { name = "*.jsx",   fg = "#61afef" },
+  { name = "*.tsx",   fg = "#61afef" },
+  { name = "*.go",    fg = "#79c0ff" },
+  { name = "*.c",     fg = "#7aa2f7" },
+  { name = "*.cpp",   fg = "#7aa2f7" },
+  { name = "*.h",     fg = "#7aa2f7" },
+  { name = "*.sh",    fg = "#66cc66" },
+  { name = "*.zsh",   fg = "#66cc66" },
+  { name = "*.fish",  fg = "#66cc66" },
+  { name = "*.lua",   fg = "#BB9AF7" },
+  { name = "*.vim",   fg = "#66cc66" },
+  { name = "*.nix",   fg = "#7aa2f7" },
+
+  # --- Config / Data ---
+  { name = "*.toml",  fg = "#ce9178" },
+  { name = "*.yaml",  fg = "#ce9178" },
+  { name = "*.yml",   fg = "#ce9178" },
+  { name = "*.json",  fg = "#F6AE2D" },
+  { name = "*.xml",   fg = "#ce9178" },
+  { name = "*.conf",  fg = "#888888" },
+  { name = "*.ini",   fg = "#888888" },
+  { name = "*.env",   fg = "#888888" },
+
+  # --- Docs ---
+  { name = "*.md",    fg = "#dddddd" },
+  { name = "*.txt",   fg = "#dddddd" },
+  { name = "*.pdf",   fg = "#ff4444" },
+
+  # --- Media ---
+  { name = "*.png",   fg = "#BB9AF7" },
+  { name = "*.jpg",   fg = "#BB9AF7" },
+  { name = "*.jpeg",  fg = "#BB9AF7" },
+  { name = "*.gif",   fg = "#BB9AF7" },
+  { name = "*.svg",   fg = "#BB9AF7" },
+  { name = "*.webp",  fg = "#BB9AF7" },
+  { name = "*.mp4",   fg = "#FF0080" },
+  { name = "*.mkv",   fg = "#FF0080" },
+  { name = "*.mp3",   fg = "#FF0080" },
+  { name = "*.flac",  fg = "#FF0080" },
+
+  # --- Archive ---
+  { name = "*.zip",   fg = "#F6AE2D" },
+  { name = "*.tar",   fg = "#F6AE2D" },
+  { name = "*.gz",    fg = "#F6AE2D" },
+  { name = "*.zst",   fg = "#F6AE2D" },
+  { name = "*.7z",    fg = "#F6AE2D" },
+  { name = "*.rar",   fg = "#F6AE2D" },
+
+  # --- Dotfiles & Special ---
+  { name = ".gitignore",  fg = "#555555" },
+  { name = ".gitconfig",  fg = "#555555" },
+  { name = "Makefile",    fg = "#66cc66" },
+  { name = "Dockerfile",  fg = "#4fc1ff" },
+  { name = "LICENSE",     fg = "#888888" },
+  { name = "README*",     fg = "#F6AE2D" },
+
+  # Fallback
+  { name = "*", fg = "#dddddd" },
+]

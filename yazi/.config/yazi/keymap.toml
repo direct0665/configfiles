@@ -1,0 +1,119 @@
+# ~/.config/yazi/keymap.toml
+# Paul's Yazi Keymap – ergänzt defaults, an zsh/eza-Workflow angepasst
+
+[manager]
+keymap = [
+  # ── Navigation ─────────────────────────────────────────────────────────────
+  { on = ["k"],         run = "arrow -1",             desc = "Hoch" },
+  { on = ["j"],         run = "arrow 1",              desc = "Runter" },
+  { on = ["K"],         run = "arrow -5",             desc = "5 hoch" },
+  { on = ["J"],         run = "arrow 5",              desc = "5 runter" },
+  { on = ["g", "g"],    run = "arrow -99999999",       desc = "Zum Anfang" },
+  { on = ["G"],         run = "arrow 99999999",        desc = "Zum Ende" },
+  { on = ["h"],         run = "leave",                desc = "Übergeordnetes Verzeichnis" },
+  { on = ["l"],         run = "enter",                desc = "Verzeichnis betreten / Öffnen" },
+  { on = ["<Enter>"],   run = "open",                 desc = "Öffnen" },
+  { on = ["<Esc>"],     run = "escape",               desc = "Abbrechen / Auswahl aufheben" },
+  { on = ["q"],         run = "quit",                 desc = "Beenden" },
+  { on = ["Q"],         run = "quit --no-cwd-file",   desc = "Beenden ohne CWD" },
+
+  # ── Suche & Filtern ────────────────────────────────────────────────────────
+  { on = ["/"],         run = "find",                 desc = "Suchen" },
+  { on = ["n"],         run = "find_arrow",           desc = "Nächstes Suchergebnis" },
+  { on = ["N"],         run = "find_arrow --previous",desc = "Vorheriges Suchergebnis" },
+  { on = ["f"],         run = "filter --smart",       desc = "Filtern" },
+  { on = ["s"],         run = "search --via=fd",      desc = "Suche mit fd" },
+  { on = ["S"],         run = "search --via=rg",      desc = "Volltext-Suche mit rg" },
+  { on = ["<Ctrl-s>"],  run = "search --via=none",    desc = "Suche beenden" },
+
+  # ── Sortierung ─────────────────────────────────────────────────────────────
+  { on = [",", "m"],    run = "sort mtime --reverse=no",   desc = "Nach Änderungszeit" },
+  { on = [",", "M"],    run = "sort mtime --reverse",      desc = "Nach Änderungszeit (umgekehrt)" },
+  { on = [",", "s"],    run = "sort size --reverse",       desc = "Nach Größe (groß zuerst)" },
+  { on = [",", "n"],    run = "sort natural --reverse=no", desc = "Natürliche Sortierung" },
+  { on = [",", "e"],    run = "sort extension --reverse=no",desc = "Nach Endung" },
+
+  # ── Versteckte Dateien & Symlinks ─────────────────────────────────────────
+  { on = ["."],         run = "hidden toggle",        desc = "Versteckte Dateien ein/aus" },
+
+  # ── Selektion ──────────────────────────────────────────────────────────────
+  { on = ["<Space>"],   run = ["select --state=none", "arrow 1"], desc = "Auswählen und runter" },
+  { on = ["v"],         run = "visual_mode",          desc = "Visueller Modus" },
+  { on = ["V"],         run = "select_all --state=none", desc = "Alle auswählen / abwählen" },
+
+  # ── Datei-Operationen ──────────────────────────────────────────────────────
+  { on = ["y"],         run = "yank",                 desc = "Kopieren (yank)" },
+  { on = ["x"],         run = "yank --cut",           desc = "Ausschneiden" },
+  { on = ["p"],         run = "paste",                desc = "Einfügen" },
+  { on = ["P"],         run = "paste --force",        desc = "Einfügen (überschreiben)" },
+  { on = ["Y"],         run = "unyank",               desc = "Yank aufheben" },
+  { on = ["d"],         run = "remove",               desc = "In Papierkorb" },
+  { on = ["D"],         run = "remove --permanently", desc = "Dauerhaft löschen" },
+  { on = ["a"],         run = "create",               desc = "Neue Datei / Verzeichnis (mit / am Ende)" },
+  { on = ["r"],         run = "rename --cursor=before_ext", desc = "Umbenennen" },
+  { on = ["R"],         run = "rename --empty",       desc = "Umbenennen (leer)" },
+
+  # ── Clipboard / Pfad kopieren ──────────────────────────────────────────────
+  { on = ["c", "c"],    run = "copy path",            desc = "Absoluten Pfad kopieren" },
+  { on = ["c", "d"],    run = "copy dirname",         desc = "Verzeichnis-Pfad kopieren" },
+  { on = ["c", "f"],    run = "copy filename",        desc = "Dateiname kopieren" },
+  { on = ["c", "n"],    run = "copy stem",            desc = "Dateiname ohne Endung kopieren" },
+
+  # ── Shell / Terminal ───────────────────────────────────────────────────────
+  { on = ["!"],         run = "shell --block",        desc = "Befehl ausführen (blockend)" },
+  { on = ["e"],         run = "open --interactive",   desc = "Mit... öffnen" },
+  { on = ["z"],         run = "plugin zoxide",        desc = "Zoxide-Jump" },
+  { on = ["Z"],         run = "plugin zoxide --list", desc = "Zoxide-Liste" },
+
+  # ── Tabs ───────────────────────────────────────────────────────────────────
+  { on = ["t"],         run = "tab_create --current", desc = "Neuer Tab" },
+  { on = ["1"],         run = "tab_switch 0",         desc = "Tab 1" },
+  { on = ["2"],         run = "tab_switch 1",         desc = "Tab 2" },
+  { on = ["3"],         run = "tab_switch 2",         desc = "Tab 3" },
+  { on = ["["],         run = "tab_switch -1 --relative", desc = "Vorheriger Tab" },
+  { on = ["]"],         run = "tab_switch 1 --relative",  desc = "Nächster Tab" },
+  { on = ["{"],         run = "tab_swap -1",          desc = "Tab nach links" },
+  { on = ["}"],         run = "tab_swap 1",           desc = "Tab nach rechts" },
+
+  # ── Lesezeichen ────────────────────────────────────────────────────────────
+  { on = ["b", "a"],    run = "bookmark_add",         desc = "Lesezeichen hinzufügen" },
+  { on = ["b", "d"],    run = "bookmark_del",         desc = "Lesezeichen entfernen" },
+  { on = ["b", "j"],    run = "bookmark_goto",        desc = "Zu Lesezeichen springen" },
+
+  # ── Ansicht ────────────────────────────────────────────────────────────────
+  { on = ["~"],         run = "help",                 desc = "Hilfe" },
+  { on = ["<F5>"],      run = "refresh",              desc = "Neu laden" },
+]
+
+# ── Input-Überschreibungen ─────────────────────────────────────────────────────
+[input]
+keymap = [
+  { on = ["<Esc>"],       run = "close",           desc = "Abbrechen" },
+  { on = ["<Enter>"],     run = "confirm",         desc = "Bestätigen" },
+  { on = ["<Backspace>"], run = "backspace",        desc = "Zeichen löschen" },
+  { on = ["<Ctrl-u>"],    run = "kill_line",        desc = "Zeile löschen" },
+  { on = ["<Ctrl-a>"],    run = "move -999",        desc = "Zeilenanfang" },
+  { on = ["<Ctrl-e>"],    run = "move 999",         desc = "Zeilenende" },
+  { on = ["<Ctrl-f>"],    run = "move 1",           desc = "Rechts" },
+  { on = ["<Ctrl-b>"],    run = "move -1",          desc = "Links" },
+  { on = ["<Ctrl-w>"],    run = "backspace --word", desc = "Wort löschen" },
+]
+
+# ── Completion ─────────────────────────────────────────────────────────────────
+[completion]
+keymap = [
+  { on = ["<Tab>"],   run = "arrow 1",  desc = "Nächster" },
+  { on = ["<S-Tab>"], run = "arrow -1", desc = "Vorheriger" },
+  { on = ["<Enter>"], run = "confirm",  desc = "Bestätigen" },
+  { on = ["<Esc>"],   run = "close",    desc = "Schließen" },
+]
+
+# ── Tasks-Panel ────────────────────────────────────────────────────────────────
+[tasks]
+keymap = [
+  { on = ["<Esc>"], run = "close",    desc = "Schließen" },
+  { on = ["~"],     run = "help",     desc = "Hilfe" },
+  { on = ["k"],     run = "arrow -1", desc = "Hoch" },
+  { on = ["j"],     run = "arrow 1",  desc = "Runter" },
+  { on = ["x"],     run = "cancel",   desc = "Task abbrechen" },
+]

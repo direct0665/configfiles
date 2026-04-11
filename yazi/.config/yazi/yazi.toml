@@ -1,0 +1,107 @@
+# ~/.config/yazi/yazi.toml
+# Paul's Yazi Config – passend zu Kitty/ZSH
+
+[manager]
+ratio          = [1, 2, 4]       # Verhältnis: Parent | Current | Preview
+sort_by        = "natural"
+sort_sensitive = false
+sort_reverse   = false
+sort_dir_first = true
+show_hidden    = false
+show_symlink   = true
+linemode       = "size"          # Zeigt Dateigrößen an (alternativ: "mtime", "none")
+
+[preview]
+tab_size       = 2
+max_width      = 1200
+max_height     = 900
+cache_dir      = ""
+image_filter   = "triangle"
+image_quality  = 75
+sixel_scale    = 1.0
+ueberzug_scale = 1
+ueberzug_offset = [0, 0, 0, 0]
+
+[opener]
+edit = [
+  { run = 'zeditor "$@"', desc = "Zed Editor", block = false },
+  { run = '$EDITOR "$@"', desc = "$EDITOR", block = true },
+]
+open = [
+  { run = 'xdg-open "$@"', desc = "Open", orphan = true },
+]
+reveal = [
+  { run = 'xdg-open "$(dirname "$1")"', desc = "Reveal", orphan = true },
+]
+extract = [
+  { run = 'unar "$1"', desc = "Extract here" },
+]
+play = [
+  { run = 'mpv "$@"', orphan = true, desc = "Play" },
+]
+
+[open]
+rules = [
+  # Text / Code → Zed / $EDITOR
+  { mime = "text/*",        use = ["edit", "reveal"] },
+  { mime = "application/json", use = ["edit", "reveal"] },
+  { mime = "application/xml",  use = ["edit", "reveal"] },
+  # Bilder
+  { mime = "image/*",       use = ["open", "reveal"] },
+  # Video / Audio
+  { mime = "video/*",       use = ["play", "reveal"] },
+  { mime = "audio/*",       use = ["play", "reveal"] },
+  # Archive
+  { mime = "application/zip",            use = ["extract", "reveal"] },
+  { mime = "application/x-tar",          use = ["extract", "reveal"] },
+  { mime = "application/x-bzip2",        use = ["extract", "reveal"] },
+  { mime = "application/x-7z-compressed",use = ["extract", "reveal"] },
+  { mime = "application/x-rar",          use = ["extract", "reveal"] },
+  # PDF
+  { mime = "application/pdf", use = ["open", "reveal"] },
+  # Fallback
+  { name = "*", use = ["open", "edit", "reveal"] },
+]
+
+[tasks]
+micro_workers    = 10
+macro_workers    = 25
+bizarre_retry    = 5
+image_alloc      = 536870912  # 512 MB
+image_bound      = [0, 0]
+suppress_preload = false
+
+[plugin]
+preload = [
+  # Bild-Vorschau
+  { mime = "image/{avif,hei?,jxl,svg+xml}", run = "magick" },
+  { mime = "image/*", run = "default" },
+  # Video-Thumbnail
+  { mime = "video/*", run = "video-thumb" },
+  # PDF-Vorschau
+  { mime = "application/pdf", run = "pdf-thumb" },
+]
+fetchers = [
+  # Git-Status in der Dateiliste
+  { id = "git", name = "*", run = "git" },
+]
+prepend_previewers = []
+append_previewers  = []
+
+[input]
+cursor_blink = true
+
+[confirm]
+trash_title    = "Trash {n} selected file(s)?"
+trash_origin   = "top-center"
+trash_offset   = [0, 2, 50, 3]
+delete_title   = "Permanently delete {n} selected file(s)?"
+delete_origin  = "top-center"
+delete_offset  = [0, 2, 50, 3]
+overwrite_title   = "Overwrite file?"
+overwrite_content = "Will overwrite the following file:"
+quit_title     = "Quit?"
+quit_content   = "Are you sure you want to quit?"
+
+[log]
+enabled = false
