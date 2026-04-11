@@ -11,7 +11,6 @@ linemode       = "size"
 show_hidden    = false
 show_symlink   = true
 scrolloff      = 5
-mouse_events   = [ "click", "scroll" ]
 
 [opener]
 edit = [
@@ -28,7 +27,7 @@ reveal = [
 	{ run = 'open -R %s1',          desc = "Reveal", for = "macos" },
 ]
 extract = [
-	{ run = 'ya pub extract --list %s', desc = "Extract here" },
+	{ run = "ya pub extract --list %s", desc = "Extract here" },
 ]
 play = [
 	{ run = 'mpv %s', orphan = true, desc = "Play" },
@@ -49,14 +48,10 @@ rules = [
 tab_size        = 2
 max_width       = 1200
 max_height      = 900
-cache_dir       = ""
 image_filter    = "triangle"
 image_quality   = 75
 
 [plugin]
-fetchers = [
-	{ id = "mime", url = "*/", run = "mime.dir", prio = "high" },
-]
 previewers = [
 	{ url = "*/", run = "folder" },
 	{ mime = "text/*", run = "code" },

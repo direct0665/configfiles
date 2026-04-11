@@ -7,23 +7,29 @@ keymap = [
 	{ on = "q",     run = "quit",   desc = "Beenden" },
 	{ on = "<C-c>", run = "close",  desc = "Schließen" },
 
-	# Hopping & Navigation
-	{ on = "k", run = "arrow prev", desc = "Hoch" },
-	{ on = "j", run = "arrow next", desc = "Runter" },
-	{ on = "h", run = "leave",      desc = "Zurück" },
-	{ on = "l", run = "enter",      desc = "Betreten" },
+	# --- Navigation (Vim-Keys + Pfeiltasten) ---
+	{ on = "k",       run = "arrow prev", desc = "Hoch" },
+	{ on = "j",       run = "arrow next", desc = "Runter" },
+	{ on = "h",       run = "leave",      desc = "Zurück" },
+	{ on = "l",       run = "enter",      desc = "Betreten" },
+
+	{ on = "<Up>",    run = "arrow prev", desc = "Hoch" },
+	{ on = "<Down>",  run = "arrow next", desc = "Runter" },
+	{ on = "<Left>",  run = "leave",      desc = "Zurück" },
+	{ on = "<Right>", run = "enter",      desc = "Betreten" },
+
 	{ on = [ "g", "g" ], run = "arrow top", desc = "Anfang" },
 	{ on = "G",          run = "arrow bot", desc = "Ende" },
 
-	# Öffnen (Der Fix)
+	# --- Öffnen ---
 	{ on = "<Enter>", run = "open",              desc = "Öffnen" },
 	{ on = "e",       run = "open --interactive", desc = "Öffnen mit..." },
 
-	# Auswahl
+	# --- Auswahl ---
 	{ on = "<Space>", run = [ "toggle", "arrow 1" ], desc = "Markieren" },
 	{ on = "v",       run = "visual_mode",          desc = "Visual Mode" },
 
-	# Operationen
+	# --- Operationen ---
 	{ on = "y", run = "yank",         desc = "Kopieren" },
 	{ on = "x", run = "yank --cut",   desc = "Ausschneiden" },
 	{ on = "p", run = "paste",        desc = "Einfügen" },
@@ -31,17 +37,17 @@ keymap = [
 	{ on = "a", run = "create",       desc = "Erstellen" },
 	{ on = "r", run = "rename --cursor=before_ext", desc = "Umbenennen" },
 
-	# Suche & Filter
+	# --- Suche & Filter ---
 	{ on = "f", run = "filter --smart", desc = "Filter" },
 	{ on = "/", run = "find --smart",   desc = "Suche" },
 	{ on = "s", run = "search --via=fd", desc = "FD Suche" },
 	{ on = "S", run = "search --via=rg", desc = "RG Suche" },
 
-	# Sortierung
+	# --- Sortierung ---
 	{ on = [ ",", "m" ], run = [ "sort mtime --reverse=no", "linemode mtime" ], desc = "Sort: Zeit" },
 	{ on = [ ",", "s" ], run = [ "sort size --reverse=no", "linemode size" ],   desc = "Sort: Größe" },
 	{ on = [ ",", "n" ], run = [ "sort natural --reverse=no", "linemode none" ], desc = "Sort: Normal" },
 
-	# Hilfe
+	# --- Hilfe ---
 	{ on = "~", run = "help", desc = "Hilfe" },
 ]
