@@ -61,6 +61,7 @@ alias upd='yay -Syu'
 alias jinx='liquidctl --match kraken set sync color fixed 000080 && liquidctl --match smart set sync color fixed ff0080'
 alias ]+='start-hyprland'
 alias ze='zeditor'
+alias y='yazi'
 
 alias l='eza --color=auto --icons=auto'
 alias ll='eza -al --color=auto --icons=auto --git'
