@@ -1,5 +1,5 @@
 # ~/.config/yazi/yazi.toml
-# Paul's Universal Yazi Config – Korrigierte Version
+# Paul's Universal Yazi Config (Arch & macOS)
 
 [manager]
 ratio          = [1, 2, 4]
@@ -23,53 +23,37 @@ ueberzug_scale = 1
 ueberzug_offset = [0, 0, 0, 0]
 
 [opener]
-edit = [
-  { run = 'zed "$@"', desc = "Zed (macOS)", block = false },
-  { run = 'zeditor "$@"', desc = "Zed (Arch)", block = false },
-  { run = '${EDITOR:-vi} "$@"', desc = "Terminal Editor", block = true },
-]
-open = [
-  { run = 'open "$@"', desc = "Open (macOS)", orphan = true },
-  { run = 'xdg-open "$@"', desc = "Open (Linux)", orphan = true },
-]
-reveal = [
-  { run = 'open "$(dirname "$1")"', desc = "Reveal (macOS)", orphan = true },
-  { run = 'xdg-open "$(dirname "$1")"', desc = "Reveal (Linux)", orphan = true },
-]
-extract = [
-  { run = 'unar "$1"', desc = "Extract here" },
-]
-play = [
-  { run = 'mpv "$@"', orphan = true, desc = "Play" },
-]
+# Definitionen der Programme
+zed_mac       = { run = 'zed "$@"', desc = "Zed (macOS)", block = false }
+zed_arch      = { run = 'zeditor "$@"', desc = "Zed (Arch)", block = false }
+terminal_edit = { run = '${EDITOR:-vi} "$@"', desc = "Terminal Editor", block = true }
+open_mac      = { run = 'open "$@"', desc = "Open (macOS)", orphan = true }
+open_linux    = { run = 'xdg-open "$@"', desc = "Open (Linux)", orphan = true }
+extract       = { run = 'unar "$1"', desc = "Extract here" }
+play          = { run = 'mpv "$@"', orphan = true, desc = "Play" }
 
 [open]
 rules = [
-  # 1. Text & Code (Erzwingt deine Editor-Liste für Endungen)
-  { name = "*.{txt,md,js,ts,toml,conf,json,zsh,sh,lua,yaml,yml,nix,c,cpp,h,py,rs,go}", use = ["edit"] },
+  # 1. Textdateien & Code (Erzwingt externe Editoren statt internen Pager)
+  { name = "*.{txt,md,js,ts,toml,conf,json,zsh,sh,lua,yaml,yml,nix,c,cpp,h,py,rs,go}", use = ["zed_mac", "zed_arch", "terminal_edit"] },
+  { mime = "text/*", use = ["zed_mac", "zed_arch", "terminal_edit"] },
+  { mime = "application/json", use = ["zed_mac", "zed_arch", "terminal_edit"] },
 
-  # 2. MIME-Typen für Text (Erzwingt Editor für alles, was als Text erkannt wird)
-  { mime = "text/*", use = ["edit"] },
-  { mime = "application/json", use = ["edit"] },
-  { mime = "application/xml",  use = ["edit"] },
+  # 2. Bilder
+  { mime = "image/*", use = ["open_mac", "open_linux"] },
 
-  # 3. Medien (Bilder, Video, Audio)
-  { mime = "image/*",       use = ["open", "reveal"] },
-  { mime = "video/*",       use = ["play", "reveal"] },
-  { mime = "audio/*",       use = ["play", "reveal"] },
+  # 3. Video & Audio
+  { mime = "video/*", use = ["play"] },
+  { mime = "audio/*", use = ["play"] },
 
   # 4. Archive
-  { mime = "application/zip",            use = ["extract", "reveal"] },
-  { mime = "application/x-tar",          use = ["extract", "reveal"] },
-  { mime = "application/x-bzip2",        use = ["extract", "reveal"] },
-  { mime = "application/x-7z-compressed",use = ["extract", "reveal"] },
-  { mime = "application/x-rar",          use = ["extract", "reveal"] },
+  { mime = "application/{zip,x-tar,x-bzip2,x-7z-compressed,x-rar}", use = ["extract"] },
 
   # 5. PDF
-  { mime = "application/pdf", use = ["open", "reveal"] },
+  { mime = "application/pdf", use = ["open_mac", "open_linux"] },
 
-  # 6. Fallback (Der Rest geht an das System oder Editoren)
-  { name = "*", use = ["open", "edit"] },
+  # 6. Globaler Fallback
+  { name = "*", use = ["open_mac", "open_linux", "terminal_edit"] },
 ]
 
 [tasks]
