@@ -6,7 +6,7 @@ cd "$REPO_ROOT" || exit
 
 # 1. Skripte ausführbar machen
 echo "mache skripte ausführbar..."
-chmod +x "$REPO_ROOT/scripts/.config/scripts/"*.sh 2>/dev/null
+chmod +x "$REPO_ROOT/scripts/.config/scripts/"*.sh 2>/dev/null || true
 
 # 2. Stow ausführen
 echo "verlinke configs via stow..."
