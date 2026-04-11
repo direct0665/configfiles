@@ -1,31 +1,45 @@
-/* ultra cleaner dark mode */
+/* Modern Flat Dark Theme */
 window {
     margin: 0px;
-    border: 2px solid #ff0080; /* dein pinker akzent */
-    background-color: #1e1e1e;
-    border-radius: 12px;
+    background-color: rgba(20, 20, 20, 0.95); /* Leicht transparent */
+    border: none;
+    border-radius: 15px;
+    font-family: "Cantarell", sans-serif;
 }
 
 #input {
-    margin: 5px;
+    margin: 15px;
     border: none;
+    padding: 10px;
     color: #ffffff;
-    background-color: #313131;
+    background-color: rgba(255, 255, 255, 0.05); /* Sehr dezent helleres Feld */
+    border-radius: 8px;
 }
 
 #inner-box {
-    margin: 5px;
-    border: none;
-    background-color: #1e1e1e;
+    margin: 10px;
+    background-color: transparent;
 }
 
 #outer-box {
-    margin: 5px;
-    border: none;
-    background-color: #1e1e1e;
+    margin: 0px;
+    background-color: transparent;
+}
+
+#entry {
+    padding: 10px;
+    border-radius: 8px;
+    color: #cccccc;
+}
+
+#entry:selected {
+    background-color: rgba(255, 255, 255, 0.1); /* Nur ein subtiler Schimmer bei Auswahl */
 }
 
 #text:selected {
     color: #ffffff;
-    background-color: #ff0080; /* pinker balken bei auswahl */
+}
+
+#text {
+    margin-left: 10px;
 }

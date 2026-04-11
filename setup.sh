@@ -21,11 +21,15 @@ done
 # Wir schreiben das in eine lokale Datei, die du in deiner hyprland.conf sourcen kannst
 echo "erzwinge darkmode umgebungsvariablen..."
 mkdir -p ~/.config/hypr/
+# Wir schreiben die env_dark.conf neu für maximalen Flat-Look
 cat <<EOF > ~/.config/hypr/env_dark.conf
+# Dark Mode Essentials
 env = GTK_THEME,Adwaita:dark
 env = QT_QPA_PLATFORMTHEME,qt5ct
-env = QT_STYLE_OVERRIDE,adwaita-dark
 env = ADW_DISABLE_PORTAL,1
+env = GDK_BACKEND,wayland,x11
+env = SDL_VIDEODRIVER,wayland
+env = CLUTTER_BACKEND,wayland
+env = GTK_USE_PORTAL,1
 EOF
-
-echo "--- done. bitte 'source = ~/.config/hypr/env_dark.conf' in deine hyprland.conf eintragen ---"
+echo "--- done.  'source = ~/.config/hypr/env_dark.conf' in deine hyprland.conf eintragen ---"
