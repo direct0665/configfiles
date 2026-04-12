@@ -11,7 +11,7 @@ if [ -f "$PKGLIST" ]; then
     echo "Lese Pakete aus $PKGLIST..."
 
     # Der Befehl filtert Kommentare und Leerzeilen aus der pkglist
-    grep -v '^#' "$PKGLIST" | tr -d '\r' | xargs -r yay -S --needed --noconfirm
+    grep -v '^#' "$PKGLIST" | sed 's/#.*//' | tr -d '\r' | xargs -r yay -S --needed --noconfirm
 
     echo "--- Installation abgeschlossen! ---"
 else
