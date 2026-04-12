@@ -20,7 +20,7 @@ case $op in
     clipboard)
         cliphist list | wofi -dmenu | cliphist decode | wl-copy ;;
     "readme (local)")
-    kitty --title "README" -e sh -c "glow -p ~/.config/scripts/current_readme.md || bat --paging=always ~/.config/scripts/current_readme.md || read -p 'Fehler: Datei nicht gefunden!'" ;;
+    kitty --hold --title "README" -e sh -c "glow -p ~/.config/scripts/current_readme.md || bat --paging=always ~/.config/scripts/current_readme.md || read -p 'Fehler: Datei nicht gefunden!'" ;;
     "github (remote)")
         firefox "https://github.com/direct0665/configfiles" ;;
     cockpit)
