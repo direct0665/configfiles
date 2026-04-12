@@ -8,6 +8,29 @@ cd "$REPO_ROOT" || exit
 # 1. GIT CONFIG FIX (Sicherstellen, dass Rechte getrackt werden)
 git config core.filemode true
 
+if command -v gsettings >/dev/null; then
+    gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+fi
+
+mkdir -p "$HOME/.config/gtk-3.0" "$HOME/.config/gtk-4.0"
+echo -e "[Settings]\ngtk-application-prefer-dark-theme=1" > "$HOME/.config/gtk-3.0/settings.ini"
+echo -e "[Settings]\ngtk-application-prefer-dark-theme=1" > "$HOME/.config/gtk-4.0/settings.ini"
+
+# 2. qt settings (für dolphin/gaming apps)
+# wir erzwingen das dunkle thema über die umgebungsvariable
+if [ -f "$HOME/.zshenv" ] || [ -f "$HOME/.zshrc" ]; then
+    # wir schreiben es in die .zshenv, damit es überall (auch hyprland) greift
+    echo 'export QT_QPA_PLATFORMTHEME=qt5ct' >> "$HOME/.zshenv"
+    echo 'export QT_SELECT_GUI_STYLE=adwaita-dark' >> "$HOME/.zshenv"
+    echo "  qt variablen gesetzt"
+fi
+
+# 3. kdeglobals (der direkte weg für dolphin)
+mkdir -p "$HOME/.config"
+echo -e "[ColorScheme]\nColorScheme=BreezeDark\n\n[General]\nColorScheme=BreezeDark" > "$HOME/.config/kdeglobals"
+
+echo "  darkmode vollständig konfiguriert"
+
 # 2. SKRIPTE REPARIEREN
 echo "Mache Skripte ausführbar..."
 chmod +x "$REPO_ROOT/setup.sh"
