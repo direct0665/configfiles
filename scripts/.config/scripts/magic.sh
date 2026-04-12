@@ -13,12 +13,12 @@ case $op in
     clipboard)
         cliphist list | wofi -dmenu | cliphist decode | wl-copy ;;
     "readme (local)")
-                # Öffnet die README in kitty. Falls du 'bat' hast, nimm 'bat', sonst 'less'
+        # Öffnet die README in kitty. Falls du 'bat' hast, nimm 'bat', sonst 'less'
         kitty --title "README" -e less "$HOME/configfiles/README.md" ;;
     "github (remote)")
-                # Link zu deinem Repo (hier deinen echten Link einsetzen)
-        firefox "https://github.com/DEIN_USER/DEIN_REPO" ;;
+        # Link zu deinem Repo (hier deinen echten Link einsetzen)
+        firefox "https://github.com/direct0665/configfiles" ;;
     cockpit)
-                # Direkt zum lokalen Cockpit Dashboard
+        # Direkt zum lokalen Cockpit Dashboard
         firefox "https://localhost:9090" ;;
 esac
