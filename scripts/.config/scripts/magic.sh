@@ -17,8 +17,7 @@ case $op in
     clipboard)
         cliphist list | wofi -dmenu | cliphist decode | wl-copy ;;
     "readme (local)")
-        # Nutzt jetzt den Symlink aus dem setup.sh
-        kitty --title "README" -e bat --paging=always "$HOME/.config/scripts/current_readme.md" ;;
+                kitty --hold --title "README" -e bat "$HOME/.config/scripts/current_readme.md" ;;
     "github (remote)")
         firefox "https://github.com/direct0665/configfiles" ;;
     cockpit)
