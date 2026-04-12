@@ -23,6 +23,7 @@ rsync                       # Datei-Synchronisation
 poppler                     # PDF-Vorschauen für Yazi
 p7zip                       # Support für 7z Archive
 unrar                       # Support für RAR Archive
+glow                        # Markdown
 
 # === [ MEDIA & GUI APPS ] ===
 firefox                     # Webbrowser
