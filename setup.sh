@@ -1,14 +1,36 @@
 #!/bin/bash
 
-# Pfad-Erkennung (Egal ob der Ordner configfiles oder dotfiles heißt)
+# Pfad-Erkennung
 REPO_ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
-echo "--- 🚀 Starte Setup in $REPO_ROOT ---"
+echo "--- starte setup in $REPO_ROOT ---"
 cd "$REPO_ROOT" || exit
 
-# 1. GIT CONFIG FIX
+# 1. Sicherheitscheck
+if [[ "$(id -u)" -eq 0 ]]; then
+    echo "FEHLER: Bitte als normaler Benutzer ausführen!" >&2
+    exit 1
+fi
+
+# 2. yay installieren (falls nötig)
+if ! command -v yay &> /dev/null; then
+    echo ">>> installiere yay"
+    git clone https://aur.archlinux.org/yay.git "$HOME/yay-build"
+    cd "$HOME/yay-build" && makepkg -si --noconfirm
+    cd "$REPO_ROOT" && rm -rf "$HOME/yay-build"
+fi
+
+# 3. ZSH als Standard-Shell setzen
+if [[ "$SHELL" != */zsh ]]; then
+    echo ">>> Setze ZSH als Standard-Shell..."
+    sudo pacman -S --needed --noconfirm zsh
+    chsh -s $(which zsh)
+fi
+
+# 4. GIT CONFIG FIX
 git config core.filemode true
 
 # --- DARKMODE KONFIGURATION ---
+echo ">>> konfiguriere darkmode..."
 if command -v gsettings >/dev/null; then
     gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 fi
@@ -17,40 +39,34 @@ mkdir -p "$HOME/.config/gtk-3.0" "$HOME/.config/gtk-4.0"
 echo -e "[Settings]\ngtk-application-prefer-dark-theme=1" > "$HOME/.config/gtk-3.0/settings.ini"
 echo -e "[Settings]\ngtk-application-prefer-dark-theme=1" > "$HOME/.config/gtk-4.0/settings.ini"
 
-# QT & Environment (Zsh)
+# Zsh-Exports (verhindert Dopplungen)
 if [ -f "$HOME/.zshrc" ]; then
-    # Nur anhängen, wenn noch nicht drin (verhindert Dopplungen)
     grep -qq "QT_QPA_PLATFORMTHEME" "$HOME/.zshrc" || echo 'export QT_QPA_PLATFORMTHEME=qt5ct' >> "$HOME/.zshrc"
     grep -qq "QT_SELECT_GUI_STYLE" "$HOME/.zshrc" || echo 'export QT_SELECT_GUI_STYLE=adwaita-dark' >> "$HOME/.zshrc"
-    echo "  qt variablen in .zshrc geprüft"
 fi
 
-# Dolphin Fix
+# Dolphin Darkmode Fix
 mkdir -p "$HOME/.config"
 echo -e "[ColorScheme]\nColorScheme=BreezeDark\n\n[General]\nColorScheme=BreezeDark" > "$HOME/.config/kdeglobals"
-echo "  darkmode vollständig konfiguriert"
 
-# 2. SKRIPTE REPARIEREN
-echo "Mache Skripte ausführbar..."
+# 5. SKRIPTE REPARIEREN & STOW
+echo ">>> Verlinke Configs und mache Skripte ausführbar..."
 chmod +x "$REPO_ROOT/setup.sh"
-# Findet alle Skripte im Unterordner
 find "$REPO_ROOT/scripts" -name "*.sh" -exec chmod +x {} + 2>/dev/null
 
-# 3. STOW (Verlinken)
-echo "Verlinke Konfigurationen..."
 for dir in */; do
     module=${dir%/}
     if [ "$module" != ".git" ] && [ -d "$module" ]; then
-        stow "$module" 2>/dev/null || echo "Info: $module übersprungen (evtl. bereits vorhanden)."
+        stow --adopt "$module" 2>/dev/null || echo "Info: $module übersprungen."
     fi
 done
+git restore . # Macht Änderungen durch --adopt rückgängig
 
-# Spezieller Link für dein Magic Menu
+# Link für Magic Menu Readme
 mkdir -p "$HOME/.config/scripts"
 ln -sf "$REPO_ROOT/README.md" "$HOME/.config/scripts/current_readme.md"
 
-# 4. HYPRLAND ENV FORCE (Der Kern-Fix für Firefox & GTK)
-echo "Erzwinge Darkmode Konfiguration..."
+# 6. HYPRLAND ENV FORCE
 mkdir -p ~/.config/hypr/
 cat <<EOF > ~/.config/hypr/env_dark.conf
 # --- Generiert vom Setup-Script ---
@@ -67,67 +83,31 @@ EOF
 
 # --- FUNKTION FÜR DIE PAKET-INSTALLATION ---
 install_packages() {
-    echo "> starte paket-installation aus pkglist"
-
-    # Pfad-Erkennung, falls das Skript via Symlink aufgerufen wird
-    local SOURCE="${BASH_SOURCE[0]}"
-    while [ -L "$SOURCE" ]; do
-      local DIR=$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )
-      SOURCE=$(readlink "$SOURCE")
-      [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
-    done
-    local REPO_DIR=$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )
-
-    # Hier definieren wir PKGLIST basierend auf dem erkannten Pfad
-    local PKGLIST="$REPO_DIR/pkglist"
-
+    echo ">>> Starte Paket-Installation..."
+    local PKGLIST="$REPO_ROOT/pkglist"
     if [ -f "$PKGLIST" ]; then
-        echo "  Lese Pakete aus: $PKGLIST"
         grep -v '^#' "$PKGLIST" | sed 's/#.*//' | tr -d '\r' | xargs -r yay -S --needed --noconfirm
-        echo "  installation abgeschlossen"
-    else
-        echo "  fehler: pkglist nicht gefunden in $REPO_DIR"
     fi
 }
 
-# --- ABFRAGE PAKETE ---
-echo "sollen die programme aus der pkglist installiert werden? (y/n)"
+echo "Sollen die Programme aus der pkglist installiert werden? (y/n)"
 read -n 1 -r
 echo ""
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-    install_packages
-fi
+[[ $REPLY =~ ^[Yy]$ ]] && install_packages
 
-# --- MIME-TYPES (Standardprogramme) ---
-echo "> setze standardprogramme für dateitypen"
+# 7. MIME-TYPES
+echo ">>> Setze Standardprogramme..."
 if command -v xdg-mime >/dev/null; then
     xdg-mime default firefox.desktop text/html
     xdg-mime default firefox.desktop x-scheme-handler/http
     xdg-mime default firefox.desktop x-scheme-handler/https
-    xdg-mime default mpv.desktop video/mp4
-    xdg-mime default mpv.desktop video/x-matroska
-    xdg-mime default imv.desktop image/png
-    xdg-mime default imv.desktop image/jpeg
+    xdg-mime default mpv.desktop video/mp4 video/x-matroska audio/mpeg
+    xdg-mime default imv.desktop image/png image/jpeg
     xdg-mime default org.kde.dolphin.desktop inode/directory
 
     ZED_APP="dev.zed.Zed.desktop"
-
-    # text & markdown
-    xdg-mime default "$ZED_APP" text/plain
-    xdg-mime default "$ZED_APP" text/markdown
-
-    # rust & programming
-    xdg-mime default "$ZED_APP" text/x-rust
-    xdg-mime default "$ZED_APP" text/x-c++src
-    xdg-mime default "$ZED_APP" text/x-csrc
-    xdg-mime default "$ZED_APP" text/x-python
-    xdg-mime default "$ZED_APP" application/x-shellscript
-
-    # json & config files (oft wichtig für deine dotfiles)
-    xdg-mime default "$ZED_APP" application/json
-    xdg-mime default "$ZED_APP" text/x-yaml
-
-    echo "  mime-types erfolgreich hinterlegt"
+    xdg-mime default "$ZED_APP" text/plain text/markdown text/x-rust application/json text/x-yaml
 fi
 
-echo "--- setup done."
+echo "--- setup done ---"
+echo "falls auf zsh zum ersten mal umgestellt wurde wird die änderung erst beim nächsten login aktiv"
