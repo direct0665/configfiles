@@ -97,6 +97,24 @@ if command -v xdg-mime >/dev/null; then
     xdg-mime default imv.desktop image/png
     xdg-mime default imv.desktop image/jpeg
     xdg-mime default org.kde.dolphin.desktop inode/directory
+
+    ZED_APP="dev.zed.Zed.desktop"
+
+    # text & markdown
+    xdg-mime default "$ZED_APP" text/plain
+    xdg-mime default "$ZED_APP" text/markdown
+
+    # rust & programming
+    xdg-mime default "$ZED_APP" text/x-rust
+    xdg-mime default "$ZED_APP" text/x-c++src
+    xdg-mime default "$ZED_APP" text/x-csrc
+    xdg-mime default "$ZED_APP" text/x-python
+    xdg-mime default "$ZED_APP" application/x-shellscript
+
+    # json & config files (oft wichtig für deine dotfiles)
+    xdg-mime default "$ZED_APP" application/json
+    xdg-mime default "$ZED_APP" text/x-yaml
+
     echo "  mime-types erfolgreich hinterlegt"
 fi
 
