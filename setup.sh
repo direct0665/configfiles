@@ -9,21 +9,24 @@ cd "$REPO_ROOT" || exit
 git config core.filemode true
 
 # 2. SKRIPTE REPARIEREN
-echo "🔧 Mache Skripte ausführbar..."
+echo "Mache Skripte ausführbar..."
 chmod +x "$REPO_ROOT/setup.sh"
 chmod +x "$REPO_ROOT/scripts/.config/scripts/"*.sh 2>/dev/null || true
 
 # 3. STOW (Verlinken)
-echo "🔗 Verlinke Konfigurationen..."
+echo "Verlinke Konfigurationen..."
 for dir in */; do
     module=${dir%/}
     if [ "$module" != ".git" ]; then
-        stow "$module" 2>/dev/null || echo "⚠️  Info: $module konnte nicht gestowed werden (evtl. bereits vorhanden)."
+        stow "$module" 2>/dev/null || echo "Info: $module konnte nicht gestowed werden (evtl. bereits vorhanden)."
     fi
 done
 
+echo "Erstelle Link zur README für das Magic Menu..."
+ln -sf "$REPO_ROOT/README.md" "$HOME/.config/scripts/current_readme.md"
+
 # 4. FIREFOX & GTK DARKMODE FORCE (Der Kern-Fix)
-echo "🌑 Erzwinge Darkmode Konfiguration..."
+echo "Erzwinge Darkmode Konfiguration..."
 mkdir -p ~/.config/hypr/
 
 cat <<EOF > ~/.config/hypr/env_dark.conf
