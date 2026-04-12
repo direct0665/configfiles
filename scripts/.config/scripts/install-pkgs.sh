@@ -1,16 +1,15 @@
 #!/bin/bash
 
-# Pfad zur pkglist (da wir stow nutzen, liegt sie im Home)
-PKGLIST="$HOME/pkglist"
+PKGLIST="$HOME/pkglist" # pfade könnten noch etwas verfeinert werden aber erstmal macht stow hier was es soll i guess
 
-echo "--- Starte Paket-Installation ---"
+echo "--- starte installation der pakete aus pkglist ---"
 
 if [ -f "$PKGLIST" ]; then
-    # Installiere alles aus der Liste, was noch nicht da ist
-    # Wir nutzen yay, da es sowohl Repo- als auch AUR-Pakete kann
-    echo "Lese Pakete aus $PKGLIST..."
+    # installiert wird nur was noch nicht da ist, also kein ständiges reinstallieren (s.--needed flag).
+    # yay weil manches nicht über pacman geht
+    echo "lese pakete aus $PKGLIST..."
 
-    # Der Befehl filtert Kommentare und Leerzeilen aus der pkglist
+    # convoluted weil in der pkglist noch beschreibungen etc. mit # als kommentar sind
     grep -v '^#' "$PKGLIST" | sed 's/#.*//' | tr -d '\r' | xargs -r yay -S --needed --noconfirm
 
     echo "--- Installation abgeschlossen! ---"
@@ -18,6 +17,6 @@ else
     echo "Fehler: pkglist nicht gefunden in $HOME"
 fi
 
-# Fenster offen halten, damit man das Ergebnis sieht
-echo "Drücke eine Taste zum Schließen..."
+# damit das fenster keinen polnischen macht
+echo "irgendeine taste zum schließen drücken"
 read -n 1

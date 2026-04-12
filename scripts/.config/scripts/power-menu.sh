@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Auswahlmenü via wofi
+# skript für ein simples powermenu in wofi
 op=$(echo -e "ausloggen\nreboot\nshutdown\nsperren" | wofi -dmenu -p "power:")
 
 case $op in
