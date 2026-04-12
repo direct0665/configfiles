@@ -24,6 +24,7 @@ poppler                     # PDF-Vorschauen für Yazi
 p7zip                       # Support für 7z Archive
 unrar                       # Support für RAR Archive
 glow                        # Markdown
+zed                         # Zed Text editor /IDE
 
 # === [ MEDIA & GUI APPS ] ===
 firefox                     # Webbrowser
@@ -47,6 +48,7 @@ slurp                       # Bereichsauswahl für Screenshots
 swappy                      # Screenshot-Editor (Pfeile, Text)
 cliphist                    # Clipboard-Historie (via Wofi aufrufbar)
 playerctl                   # Mediensteuerung per Tastatur
+hyprpolkitagent             # Polkit bzw. passwortabfrage für hyprland  
 
 # === [ LSP & ENTWICKLUNG ] ===
 marksman                    # Markdown-Intelligenz für Helix

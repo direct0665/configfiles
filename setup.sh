@@ -68,13 +68,25 @@ EOF
 # --- FUNKTION FÜR DIE PAKET-INSTALLATION ---
 install_packages() {
     echo "> starte paket-installation aus pkglist"
-    PKGLIST="$REPO_ROOT/pkglist" # Nutzt direkt den oben erkannten Root
+
+    # Pfad-Erkennung, falls das Skript via Symlink aufgerufen wird
+    local SOURCE="${BASH_SOURCE[0]}"
+    while [ -L "$SOURCE" ]; do
+      local DIR=$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )
+      SOURCE=$(readlink "$SOURCE")
+      [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+    done
+    local REPO_DIR=$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )
+
+    # Hier definieren wir PKGLIST basierend auf dem erkannten Pfad
+    local PKGLIST="$REPO_DIR/pkglist"
 
     if [ -f "$PKGLIST" ]; then
+        echo "  Lese Pakete aus: $PKGLIST"
         grep -v '^#' "$PKGLIST" | sed 's/#.*//' | tr -d '\r' | xargs -r yay -S --needed --noconfirm
         echo "  installation abgeschlossen"
     else
-        echo "  fehler: pkglist nicht gefunden in $REPO_ROOT"
+        echo "  fehler: pkglist nicht gefunden in $REPO_DIR"
     fi
 }
 
