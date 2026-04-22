@@ -5,7 +5,7 @@ REPO_ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
 echo "--- starte setup in $REPO_ROOT ---"
 cd "$REPO_ROOT" || exit
 
-# 1. Idiotencheck
+# 1. idiotencheck
 if [[ "$(id -u)" -eq 0 ]]; then
     echo "FEHLER: Bitte als normaler Benutzer ausführen!" >&2
     exit 1
@@ -26,7 +26,7 @@ if [[ "$SHELL" != */zsh ]]; then
     chsh -s $(which zsh)
 fi
 
-# 4. git config fix weil sonst den skripten manchmal unvorhersehbar das executable bit fehlt
+# 4. git config fix weil sonst den skripten manchmal unvorhersehbar das executable bit fehlt. wobei das über git doch über den pre commit hook einigermaßen stabil läuft. trotzdem noch da zur sicherheit
 git config core.filemode true
 
 # 5. darkmode. manuell konfigurieren nervt und das funktioniert für vieles
@@ -45,7 +45,7 @@ if [ -f "$HOME/.zshrc" ]; then
     grep -qq "QT_SELECT_GUI_STYLE" "$HOME/.zshrc" || echo 'export QT_SELECT_GUI_STYLE=adwaita-dark' >> "$HOME/.zshrc"
 fi
 
-# dolphin darkmode fix der nicht funkioniert
+# dolphin darkmode fix der nicht funkioniert :(
 mkdir -p "$HOME/.config"
 echo -e "[ColorScheme]\nColorScheme=BreezeDark\n\n[General]\nColorScheme=BreezeDark" > "$HOME/.config/kdeglobals"
 
@@ -81,7 +81,7 @@ env = XDG_SESSION_TYPE,wayland
 env = XDG_SESSION_DESKTOP,Hyprland
 EOF
 
-# fragt ob pakete installiert werden sollen. wäre besser sonst geht nichts. aber halt nicht jedes mal
+# fragt ob pakete installiert werden sollen. wäre besser sonst geht nichts. aber halt nicht jedes mal, gell
 install_packages() {
     echo ">>> Starte Paket-Installation..."
     local PKGLIST="$REPO_ROOT/pkglist"
@@ -95,7 +95,7 @@ read -n 1 -r
 echo ""
 [[ $REPLY =~ ^[Yy]$ ]] && install_packages
 
-# 7. mime types setzen. funtkionert toll für yazi und manchmal für dolphin oder das gnome file dings, aber irgendwie nicht toll. yazi benutzen
+# 7. mime types setzen. funtkionert toll für yazi & nautilus und manchmal für dolphin, aber irgendwie nicht toll. yazi benutzen.
 echo ">>> Setze Standardprogramme..."
 if command -v xdg-mime >/dev/null; then
     xdg-mime default firefox.desktop text/html

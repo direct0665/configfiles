@@ -1,55 +1,55 @@
 # === [ CORE & SHELL ] ===
-zsh                         # Die interaktive Shell
-zsh-autosuggestions         # Befehlsvorschläge beim Tippen
-zsh-syntax-highlighting     # Farbige Markierung korrekter Befehle
-stow                        # Symlink-Manager für Dotfiles
-zoxide                      # Schnelles Verzeichnis-Springen (j)
-eza                         # Moderner ls-Ersatz
-bat                         # Moderner cat-Ersatz mit Syntax-Highlighting
-ripgrep                     # Extrem schnelle Textsuche (rg)
-fzf                         # Suchmaske für Dateien und Befehle
-fd                          # Schnellerer Ersatz für find
-fastfetch                   # Systeminfos beim Terminal-Start
-btop                        # Schicker Ressourcen-Monitor
+zsh                         # zsh shell
+zsh-autosuggestions         # was der name sagt. auto suggestion beim tippen. keine autosuggestion lol
+zsh-syntax-highlighting     # syntax highlighting in zsh
+stow                        # managed symlinks für die dotfiles
+zoxide                      # schnelles vrrzeichnis-springen (j)
+eza                         # moderner ls-ersatz in rust
+bat                         # moderner cat-ersatz mit syntax-highlighting
+ripgrep                     # extrem schnelle textsuche (rg). kann fast alles von grep nur manchmal halt irgendwie anders
+fzf                         # suchmaske für dateien und befehle
+fd                          # schnellerer ersatz für find
+fastfetch                   # systeminfos. obligatorischer ricing flex
+btop                        # schön gebügelter system monitor
 
 # === [ EDITORS & FILE MANAGEMENT ] ===
-helix                       # Dein neuer TUI-Editor
-yazi                        # Terminal-Dateimanager
-lazygit                     # TUI für Git-Operationen
-yt-dlp                      # Video-Downloader für das Terminal
-tldr                        # Praktische Befehlsbeispiele
-wl-clipboard                # Copy-Paste unter Wayland
-rsync                       # Datei-Synchronisation
-poppler                     # PDF-Vorschauen für Yazi
-p7zip                       # Support für 7z Archive
-unrar                       # Support für RAR Archive
-glow                        # Markdown
-zed                         # Zed Text editor /IDE
+helix                       # helix ist ein tui editor. macht mehr spaß als nvim
+yazi                        # yazi ist ein terminal dateibrowser. wird über configfiles gesteuert und ist schnell und angehm
+lazygit                     # tui für git, bisschen überflüssig aber frisst kaum platz
+yt-dlp                      # video downloader im terminal. falls mpv nicht reicht
+tldr                        # manpages read many word, bad. tldr read few word, good
+wl-clipboard                # copy und paste unter wayland.
+rsync                       # datei syncing
+poppler                     # PDF-vorschau. zb in yazi
+p7zip                       # supported 7zip archive
+unrar                       # das gleiche für rar
+glow                        # Markdown. funktioniert so semi geil, aber fürs erste bleibt der drin
+zed                         # zed text editor /IDE. tolles ding
 
 # === [ MEDIA & GUI APPS ] ===
-firefox                     # Webbrowser
-mpv                         # Video-Player
-imv                         # Bildbetrachter
-zathura                     # PDF-Viewer (Typst-kompatibel)
-zathura-pdf-mupdf           # PDF-Engine für Zathura
+firefox                     # browser. wird mal bei gelegenheit durch librewolf ersetzt
+mpv                         # video player. einfach und gut. kann komischerweise mehr als vlc zb gutes av1 decoding und hdr selbst von gestreamten videos
+imv                         # bildbetrachter
+zathura                     # PDF-viewer (typst-kompatibel)
+zathura-pdf-mupdf           # PDF-engine für zathura
 
 # === [ HYPRLAND INFRA & TOOLS ] ===
-waybar                      # Statusleiste
-wofi                        # App-Launcher
-mako                        # Benachrichtigungs-Dienst
-hyprlock                    # Sperrbildschirm
-hyprpaper                   # Hintergrundbild-Manager
-xdg-desktop-portal-hyprland # Screensharing & Datei-Dialoge
-pavucontrol                 # Grafische Sound-Steuerung
-pulsemixer                  # Sound-Mixer für das Terminal
-perl-file-mimeinfo          # Wichtig für Yazi/Dateizuordnungen
-grim                        # Screenshot-Tool
-slurp                       # Bereichsauswahl für Screenshots
-swappy                      # Screenshot-Editor (Pfeile, Text)
-cliphist                    # Clipboard-Historie (via Wofi aufrufbar)
-playerctl                   # Mediensteuerung per Tastatur
-hyprpolkitagent             # Polkit bzw. passwortabfrage für hyprland  
+waybar                      # statusleiste
+wofi                        # app launcher und praktisch als skript starter
+mako                        # einfacher benachrichtigungsdienst
+hyprlock                    # sperrbildschirm
+hyprpaper                   # hintergrundbild manager. so sehr ich hyprland mag sind doch die standards cringe
+xdg-desktop-portal-hyprland # screensharing und datei dialoge
+pavucontrol                 # gui programm für sound steuerung
+pulsemixer                  # sound mixer fürs terminal
+perl-file-mimeinfo          # wichtig für yazi/dateizuordnungen
+grim                        # screenshot-tool
+slurp                       # bereichsauswahl für screenshots
+swappy                      # screenshot-editor (pfeile, text) so viel arbeit nur für screenshots
+cliphist                    # clipboard-historie (via Wofi aufrufbar)
+playerctl                   # mediensteuerung per tastatur. funktioniert irgendwie so halb bisher
+hyprpolkitagent             # polkit bzw. passwortabfrage für hyprland
 
 # === [ LSP & ENTWICKLUNG ] ===
-marksman                    # Markdown-Intelligenz für Helix
-bash-language-server        # Hilfe beim Skripten in Helix
+marksman                    # markdown-intelligenz für helix
+bash-language-server        # hilfe beim skripten mit helix.
