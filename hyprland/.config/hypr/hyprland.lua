@@ -38,23 +38,23 @@ hl.config({
     },
 
     input = {
-        kbLayout = "de",
-        kbOptions = "grp:alt_shift_toggle",
-        numlockByDefault = true,
-        followMouse = 1,
+        kb_layout = "de",
+        kb_options = "grp:alt_shift_toggle",
+        numlock_by_default = true,
+        follow_mouse = 1,
         sensitivity = 0,
         touchpad = {
-            naturalScroll = true,
-            disableWhileTyping = true
+            natural_scroll = true,
+            disable_while_typing = true
         }
     },
 
     general = {
-        gapsIn = 5,
-        gapsOut = 10,
-        borderSize = 2,
-        activeBorder = "rgb(ff0080) rgb(4A051C) 45deg",
-        inactiveBorder = "rgb(023C40)",
+        gaps_in = 5,
+        gaps_out = 10,
+        border_size = 2,
+        ["col.active_border"] = "rgb(ff0080) rgb(4A051C) 45deg",
+        ["col.inactive_border"] = "rgb(023C40)",
         layout = "dwindle"
     },
 
@@ -66,7 +66,7 @@ hl.config({
     },
 
     dwindle = {
-        preserveSplit = true
+        preserve_split = true
     }
 })
 
