@@ -1,11 +1,7 @@
--- Hyprland 0.55+ Lua Configuration
--- Funktionell identisch zu deiner alten Config
-
 --------------------------------------------------------------------------------
 -- SOURCING & IMPORTS
 --------------------------------------------------------------------------------
--- Externe Konfigurationen laden (Ersetzt die alten 'source =' Befehle)
-dofile(os.getenv("HOME") .. "/.devicespecific/hyprlandlocal.conf")
+pcall(dofile, os.getenv("HOME") .. "/.devicespecific/hyprlandlocal.lua")
 
 --------------------------------------------------------------------------------
 -- MONITORE
@@ -20,73 +16,63 @@ hl.monitor({
 --------------------------------------------------------------------------------
 -- AUTOSTART PROGRAMME
 --------------------------------------------------------------------------------
-
 hl.on("hyprland.start", function()
     hl.dsp.exec_cmd("waybar")
     hl.dsp.exec_cmd("mako")
     hl.dsp.exec_cmd("hyprpaper")
     hl.dsp.exec_cmd("systemctl --user start hyprpolkitagent")
-
-    -- Optionale Autostarts (auskommentiert)
-    -- hl.dsp.exec_cmd("wl-paste --watch cliphist store")
-    -- hl.dsp.exec_cmd("fcitx5")
 end)
 
 --------------------------------------------------------------------------------
--- UMGEBUNGSVARIABLEN
+-- GLOBALE CONFIG-VARIABLEN
 --------------------------------------------------------------------------------
-hl.env("XCURSOR_SIZE", "24")
-hl.env("QT_QPA_PLATFORMTHEME", "qt5ct")
--- hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
--- hl.env("QT_STYLE_OVERRIDE", "kvantum")
-hl.env("QT_QPA_PLATFORM", "wayland")
-hl.env("SDL_VIDEODRIVER", "wayland")
-hl.env("CLUTTER_BACKEND", "wayland")
-hl.env("GDK_BACKEND", "wayland")
+hl.config({
+    env = {
+        { "XCURSOR_SIZE",         "24" },
+        { "QT_QPA_PLATFORMTHEME", "qt5ct" },
+        { "QT_QPA_PLATFORM",      "wayland" },
+        { "SDL_VIDEODRIVER",      "wayland" },
+        { "CLUTTER_BACKEND",      "wayland" },
+        { "GDK_BACKEND",          "wayland" }
+    },
 
---------------------------------------------------------------------------------
--- EINGABEEINSTELLUNGEN
---------------------------------------------------------------------------------
-hl.input({
-    kb_layout = "de",
-    kb_variant = "",
-    kb_model = "",
-    kb_options = "grp:alt_shift_toggle",
-    kb_rules = "",
-    numlock_by_default = true,
-    follow_mouse = 1,
-    sensitivity = 0,
+    input = {
+        kb_layout = "de",
+        kb_options = "grp:alt_shift_toggle",
+        numlock_by_default = true,
+        follow_mouse = 1,
+        sensitivity = 0,
+        touchpad = {
+            natural_scroll = true,
+            disable_while_typing = true
+        }
+    },
 
-    touchpad = {
-        natural_scroll = true,
-        disable_while_typing = true
+    general = {
+        gaps_in = 5,
+        gaps_out = 10,
+        border_size = 2,
+        col_active_border = "rgb(ff0080) rgb(4A051C) 45deg",
+        col_inactive_border = "rgb(023C40)",
+        layout = "dwindle"
+    },
+
+    decoration = {
+        rounding = 5,
+        blur = {
+            enabled = false
+        }
+    },
+
+    dwindle = {
+        preserve_split = true
     }
 })
 
 --------------------------------------------------------------------------------
--- ALLGEMEINE EINSTELLUNGEN
+-- ANIMATIONEN
 --------------------------------------------------------------------------------
-hl.general({
-    gaps_in = 5,
-    gaps_out = 10,
-    border_size = 2,
-    col_active_border = "rgb(ff0080) rgb(4A051C) 45deg",
-    col_inactive_border = "rgb(023C40)",
-    layout = "dwindle"
-    -- cursor_inactive_timeout = 10 -- (Auskommentiert)
-})
-
---------------------------------------------------------------------------------
--- DEKORATIONEN & ANIMATIONEN
---------------------------------------------------------------------------------
-hl.decoration({
-    rounding = 5,
-    blur = {
-        enabled = false
-    }
-})
-
-hl.curve("myBezier", { type = "bezier", points = { {0.05, 0.9}, {0.1, 1.05} } })
+hl.curve("myBezier", { type = "bezier", points = { { 0.05, 0.9 }, { 0.1, 1.05 } } })
 
 hl.animation({ leaf = "windows", enabled = true, speed = 7, bezier = "myBezier" })
 hl.animation({ leaf = "windowsOut", enabled = true, speed = 7, bezier = "default", style = "popin 80%" })
@@ -94,18 +80,6 @@ hl.animation({ leaf = "border", enabled = true, speed = 10, bezier = "default" }
 hl.animation({ leaf = "borderangle", enabled = true, speed = 8, bezier = "default" })
 hl.animation({ leaf = "fade", enabled = true, speed = 7, bezier = "default" })
 hl.animation({ leaf = "workspaces", enabled = true, speed = 6, bezier = "default" })
-
---------------------------------------------------------------------------------
--- LAYOUTS
---------------------------------------------------------------------------------
-hl.dwindle({
-    pseudotile = true,
-    preserve_split = true
-})
-
-hl.gestures({
-    -- workspace_swipe = true -- (Auskommentiert)
-})
 
 --------------------------------------------------------------------------------
 -- FENSTER- & LAYERREGELN
@@ -147,14 +121,14 @@ hl.bind(mainMod .. " + l", hl.dsp.focus({ direction = "right" }))
 hl.bind(mainMod .. " + k", hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + j", hl.dsp.focus({ direction = "down" }))
 
--- Arbeitsbereiche wechseln & Fenster verschieben (1-10 per kompakter Lua-Schleife)
+-- Workspaces 1-10 Navigation & Move
 for i = 1, 10 do
-    local key = i % 10 -- Wandelt 10 in die Taste 0 um
+    local key = i % 10
     hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }))
     hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
 end
 
--- Mausrad-Navigation auf der Leiste
+-- Statusleisten-Scrolling
 hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
 hl.bind(mainMod .. " + mouse_up", hl.dsp.focus({ workspace = "e-1" }))
 
@@ -164,13 +138,11 @@ hl.bind(mainMod .. " + CTRL + right", hl.dsp.window.resize({ size = "20 0" }))
 hl.bind(mainMod .. " + CTRL + up", hl.dsp.window.resize({ size = "0 -20" }))
 hl.bind(mainMod .. " + CTRL + down", hl.dsp.window.resize({ size = "0 20" }))
 
--- Zusätzlicher Toggle für Floating
 hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.float({ action = "toggle" }))
 
 --------------------------------------------------------------------------------
--- SUBMAPS (Apps / Resize-Beispiel)
+-- SUBMAPS
 --------------------------------------------------------------------------------
-
 hl.bind("ALT + SHIFT + Y", hl.dsp.submap("apps"))
 
 hl.submap("apps", function()
