@@ -71,7 +71,6 @@ hl.config({
     },
 
     dwindle = {
-        pseudotile     = true,
         preserve_split = true,
     },
 })
@@ -150,9 +149,8 @@ hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.float({ action = "toggle" }))
 --------------------------------------------------------------------------------
 hl.bind("ALT + SHIFT + Y", hl.dsp.submap("apps"))
 
--- Submap Definitionen werden über globale Binds innerhalb des Scopes registriert
 for i = 1, 10 do
     local key = i % 10
-    hl.bind("CTRL_SHIFT + " .. key, hl.dsp.focus({ workspace = i }), { submap = "apps" })
+    hl.bind("CTRL + SHIFT + " .. key, hl.dsp.focus({ workspace = i }), { submap = "apps" })
 end
 hl.bind(mainMod .. " + ALT + F7", hl.dsp.submap("reset"), { submap = "apps" })
