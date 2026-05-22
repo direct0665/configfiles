@@ -18,10 +18,10 @@ hl.monitor({
 -- AUTOSTART PROGRAMME
 --------------------------------------------------------------------------------
 hl.on("hyprland.start", function()
-    hl.exec_cmd("waybar")
-    hl.exec_cmd("mako")
-    hl.exec_cmd("hyprpaper")
-    hl.exec_cmd("systemctl --user start hyprpolkitagent")
+    hl.dsp.exec_cmd("waybar")
+    hl.dsp.exec_cmd("mako")
+    hl.dsp.exec_cmd("hyprpaper")
+    hl.dsp.exec_cmd("systemctl --user start hyprpolkitagent")
 end)
 
 --------------------------------------------------------------------------------
@@ -53,8 +53,10 @@ hl.config({
         gaps_in = 5,
         gaps_out = 10,
         border_size = 2,
-        ["col.active_border"] = "rgb(ff0080) rgb(4A051C) 45deg",
-        ["col.inactive_border"] = "rgb(023C40)",
+        col = {
+            active_border = "rgb(ff0080) rgb(4A051C) 45deg",
+            inactive_border = "rgb(023C40)"
+        },
         layout = "dwindle"
     },
 
@@ -95,58 +97,58 @@ hl.animation({ leaf = "workspaces", enabled = true, speed = 6, bezier = "default
 --------------------------------------------------------------------------------
 local mainMod = "SUPER"
 
-hl.bind(mainMod .. " + RETURN", "exec, kitty")
-hl.bind(mainMod .. " + C", "killactive")
-hl.bind(mainMod .. " + Q", "exec, kitty")
-hl.bind(mainMod .. " + M", "exit")
-hl.bind(mainMod .. " + E", "exec, dolphin")
-hl.bind(mainMod .. " + V", "togglefloating")
-hl.bind(mainMod .. " + R", "exec, wofi --show drun")
-hl.bind(mainMod .. " + P", "pseudo")
-hl.bind(mainMod .. " + J", "togglesplit")
-hl.bind(mainMod .. " + F", "exec, firefox")
-hl.bind(mainMod .. " + Y", "exec, hyprlock")
-hl.bind(mainMod .. " + X", "exec, ~/.config/scripts/magic.sh")
+hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd("kitty"))
+hl.bind(mainMod .. " + C", hl.dsp.window.close())
+hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd("kitty"))
+hl.bind(mainMod .. " + M", hl.dsp.exit())
+hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("dolphin"))
+hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
+hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("wofi --show drun"))
+hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
+hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))
+hl.bind(mainMod .. " + F", hl.dsp.exec_cmd("firefox"))
+hl.bind(mainMod .. " + Y", hl.dsp.exec_cmd("hyprlock"))
+hl.bind(mainMod .. " + X", hl.dsp.exec_cmd("~/.config/scripts/magic.sh"))
 
-hl.bind(mainMod .. " + SHIFT + left", "movewindow, l")
-hl.bind(mainMod .. " + SHIFT + right", "movewindow, r")
-hl.bind(mainMod .. " + SHIFT + up", "movewindow, u")
-hl.bind(mainMod .. " + SHIFT + down", "movewindow, d")
+hl.bind(mainMod .. " + SHIFT + left", hl.dsp.window.move({ direction = "l" }))
+hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.move({ direction = "r" }))
+hl.bind(mainMod .. " + SHIFT + up", hl.dsp.window.move({ direction = "u" }))
+hl.bind(mainMod .. " + SHIFT + down", hl.dsp.window.move({ direction = "d" }))
 
-hl.bind(mainMod .. " + left", "movefocus, l")
-hl.bind(mainMod .. " + right", "movefocus, r")
-hl.bind(mainMod .. " + up", "movefocus, u")
-hl.bind(mainMod .. " + down", "movefocus, d")
-hl.bind(mainMod .. " + h", "movefocus, l")
-hl.bind(mainMod .. " + l", "movefocus, r")
-hl.bind(mainMod .. " + k", "movefocus, u")
-hl.bind(mainMod .. " + j", "movefocus, d")
+hl.bind(mainMod .. " + left", hl.dsp.focus({ direction = "l" }))
+hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "r" }))
+hl.bind(mainMod .. " + up", hl.dsp.focus({ direction = "u" }))
+hl.bind(mainMod .. " + down", hl.dsp.focus({ direction = "d" }))
+hl.bind(mainMod .. " + h", hl.dsp.focus({ direction = "l" }))
+hl.bind(mainMod .. " + l", hl.dsp.focus({ direction = "r" }))
+hl.bind(mainMod .. " + k", hl.dsp.focus({ direction = "u" }))
+hl.bind(mainMod .. " + j", hl.dsp.focus({ direction = "d" }))
 
 for i = 1, 10 do
     local key = i % 10
-    hl.bind(mainMod .. " + " .. key, "workspace, " .. i)
-    hl.bind(mainMod .. " + SHIFT + " .. key, "movetoworkspace, " .. i)
+    hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }))
+    hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
 end
 
-hl.bind(mainMod .. " + mouse_down", "workspace, e+1")
-hl.bind(mainMod .. " + mouse_up", "workspace, e-1")
+hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
+hl.bind(mainMod .. " + mouse_up", hl.dsp.focus({ workspace = "e-1" }))
 
-hl.bind(mainMod .. " + CTRL + left", "resizeactive, -20 0")
-hl.bind(mainMod .. " + CTRL + right", "resizeactive, 20 0")
-hl.bind(mainMod .. " + CTRL + up", "resizeactive, 0 -20")
-hl.bind(mainMod .. " + CTRL + down", "resizeactive, 0 20")
+hl.bind(mainMod .. " + CTRL + left", hl.dsp.window.resize({ size = "-20 0" }))
+hl.bind(mainMod .. " + CTRL + right", hl.dsp.window.resize({ size = "20 0" }))
+hl.bind(mainMod .. " + CTRL + up", hl.dsp.window.resize({ size = "0 -20" }))
+hl.bind(mainMod .. " + CTRL + down", hl.dsp.window.resize({ size = "0 20" }))
 
-hl.bind(mainMod .. " + SHIFT + F", "togglefloating")
+hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.float({ action = "toggle" }))
 
 --------------------------------------------------------------------------------
 -- SUBMAPS
 --------------------------------------------------------------------------------
-hl.bind("ALT + SHIFT + Y", "submap, apps")
+hl.bind("ALT + SHIFT + Y", hl.dsp.submap("apps"))
 
 hl.submap("apps", function()
     for i = 1, 10 do
         local key = i % 10
-        hl.bind("CTRL_SHIFT + " .. key, "workspace, " .. i)
+        hl.bind("CTRL_SHIFT + " .. key, hl.dsp.focus({ workspace = i }))
     end
-    hl.bind(mainMod .. " + ALT + F7", "submap, reset")
+    hl.bind(mainMod .. " + ALT + F7", hl.dsp.submap("reset"))
 end)
