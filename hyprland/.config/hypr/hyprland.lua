@@ -1,7 +1,8 @@
 --------------------------------------------------------------------------------
 -- SOURCING & IMPORTS
 --------------------------------------------------------------------------------
-pcall(dofile, os.getenv("HOME") .. "/.devicespecific/hyprlandlocal.lua")
+package.path = package.path .. ";" .. os.getenv("HOME") .. "/.devicespecific/?.lua"
+pcall(require, "hyprlandlocal")
 
 --------------------------------------------------------------------------------
 -- MONITORE
@@ -37,23 +38,23 @@ hl.config({
     },
 
     input = {
-        kb_layout = "de",
-        kb_options = "grp:alt_shift_toggle",
-        numlock_by_default = true,
-        follow_mouse = 1,
+        kbLayout = "de",
+        kbOptions = "grp:alt_shift_toggle",
+        numlockByDefault = true,
+        followMouse = 1,
         sensitivity = 0,
         touchpad = {
-            natural_scroll = true,
-            disable_while_typing = true
+            naturalScroll = true,
+            disableWhileTyping = true
         }
     },
 
     general = {
-        gaps_in = 5,
-        gaps_out = 10,
-        border_size = 2,
-        col_active_border = "rgb(ff0080) rgb(4A051C) 45deg",
-        col_inactive_border = "rgb(023C40)",
+        gapsIn = 5,
+        gapsOut = 10,
+        borderSize = 2,
+        activeBorder = "rgb(ff0080) rgb(4A051C) 45deg",
+        inactiveBorder = "rgb(023C40)",
         layout = "dwindle"
     },
 
@@ -65,7 +66,11 @@ hl.config({
     },
 
     dwindle = {
-        preserve_split = true
+        preserveSplit = true
+    },
+
+    layerrule = {
+        "ignore_alpha 0, match:namespace waybar"
     }
 })
 
@@ -82,16 +87,10 @@ hl.animation({ leaf = "fade", enabled = true, speed = 7, bezier = "default" })
 hl.animation({ leaf = "workspaces", enabled = true, speed = 6, bezier = "default" })
 
 --------------------------------------------------------------------------------
--- FENSTER- & LAYERREGELN
---------------------------------------------------------------------------------
-hl.layerrule("ignore_alpha 0, match:namespace waybar")
-
---------------------------------------------------------------------------------
 -- TASTENKÜRZEL (KEYBINDS)
 --------------------------------------------------------------------------------
 local mainMod = "SUPER"
 
--- Standard-Binds
 hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd("kitty"))
 hl.bind(mainMod .. " + C", "killactive")
 hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd("kitty"))
@@ -105,13 +104,11 @@ hl.bind(mainMod .. " + F", hl.dsp.exec_cmd("firefox"))
 hl.bind(mainMod .. " + Y", hl.dsp.exec_cmd("hyprlock"))
 hl.bind(mainMod .. " + X", hl.dsp.exec_cmd("~/.config/scripts/magic.sh"))
 
--- Fenster verschieben
 hl.bind(mainMod .. " + SHIFT + left", hl.dsp.window.move({ direction = "left" }))
 hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.move({ direction = "right" }))
 hl.bind(mainMod .. " + SHIFT + up", hl.dsp.window.move({ direction = "up" }))
 hl.bind(mainMod .. " + SHIFT + down", hl.dsp.window.move({ direction = "down" }))
 
--- Fokus wechseln
 hl.bind(mainMod .. " + left", hl.dsp.focus({ direction = "left" }))
 hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
 hl.bind(mainMod .. " + up", hl.dsp.focus({ direction = "up" }))
@@ -121,18 +118,15 @@ hl.bind(mainMod .. " + l", hl.dsp.focus({ direction = "right" }))
 hl.bind(mainMod .. " + k", hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + j", hl.dsp.focus({ direction = "down" }))
 
--- Workspaces 1-10 Navigation & Move
 for i = 1, 10 do
     local key = i % 10
     hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }))
     hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
 end
 
--- Statusleisten-Scrolling
 hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
 hl.bind(mainMod .. " + mouse_up", hl.dsp.focus({ workspace = "e-1" }))
 
--- Fenstergröße ändern
 hl.bind(mainMod .. " + CTRL + left", hl.dsp.window.resize({ size = "-20 0" }))
 hl.bind(mainMod .. " + CTRL + right", hl.dsp.window.resize({ size = "20 0" }))
 hl.bind(mainMod .. " + CTRL + up", hl.dsp.window.resize({ size = "0 -20" }))
