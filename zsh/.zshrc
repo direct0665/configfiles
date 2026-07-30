@@ -28,7 +28,7 @@ setopt extendedglob           # Erweiterte Mustererkennung (Globbing) aktivieren
 setopt prompt_subst           # Variablen und Befehlssubstitution im Prompt erlauben
 
 # --- Keybindings ---
-bindkey -e                    # Emacs-Tastenkürzel verwenden
+bindkey -e                         # Emacs-Tastenkürzel verwenden
 bindkey '^[[A' up-line-or-search   # Pfeil hoch: History durchsuchen basierend auf Eingabe
 bindkey '^[[B' down-line-or-search # Pfeil runter: History durchsuchen basierend auf Eingabe
 
@@ -92,8 +92,4 @@ if [[ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.
     source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 elif [[ -f /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
     source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
-
-if [[ -z "$DISPLAY" ]] && [[ "$TTY" == "/dev/tty1" ]]; then
-  start-hyprland
 fi
