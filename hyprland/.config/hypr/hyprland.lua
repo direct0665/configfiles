@@ -147,10 +147,14 @@ hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.float({ action = "toggle" }))
 --------------------------------------------------------------------------------
 -- SUBMAPS
 --------------------------------------------------------------------------------
-hl.bind("ALT + SHIFT + Y", hl.dsp.submap("apps"))
+--------------------------------------------------------------------------------
+-- PASSTHROUGH / CITRIX SUBMAP
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-- PASSTHROUGH / CITRIX SUBMAP
+--------------------------------------------------------------------------------
+-- Passthrough-Modus aktivieren
+hl.bind(mainMod .. " + SHIFT + C", hl.dsp.submap("passthrough"))
 
-for i = 1, 10 do
-    local key = i % 10
-    hl.bind("CTRL + SHIFT + " .. key, hl.dsp.focus({ workspace = i }), { submap = "apps" })
-end
-hl.bind(mainMod .. " + ALT + F7", hl.dsp.submap("reset"), { submap = "apps" })
+-- Beenden mit EINZELNER End-Taste
+hl.bind("END", hl.dsp.submap("reset"), { submap = "passthrough" })
