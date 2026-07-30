@@ -153,8 +153,15 @@ hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.float({ action = "toggle" }))
 --------------------------------------------------------------------------------
 -- PASSTHROUGH / CITRIX SUBMAP
 --------------------------------------------------------------------------------
--- Passthrough-Modus aktivieren
+--------------------------------------------------------------------------------
+-- 1. In die Passthrough-Submap wechseln
 hl.bind(mainMod .. " + SHIFT + C", hl.dsp.submap("passthrough"))
 
--- Beenden mit EINZELNER End-Taste
-hl.bind("END", hl.dsp.submap("reset"), { submap = "passthrough" })
+-- 2. Die Submap "passthrough" definieren
+hl.define_submap("passthrough", function()
+    -- Beenden mit der einzelnen End-Taste
+    hl.bind("End", hl.dsp.submap("reset"))
+
+    -- Optionaler Notausstieg: Beenden mit ALT + SHIFT + End
+    hl.bind("ALT + SHIFT + End", hl.dsp.submap("reset"))
+end)
