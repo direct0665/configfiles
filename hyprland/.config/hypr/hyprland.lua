@@ -37,6 +37,10 @@ hl.config({
         { "GDK_BACKEND",          "wayland" },
     },
 
+    xwayland = {
+        force_zero_scaling = true,
+    },
+
     input = {
         kb_layout          = "de",
         kb_variant         = "",
