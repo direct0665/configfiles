@@ -38,8 +38,12 @@ __list_mac_windows() {
         printf 'yabai ist nicht installiert -- fenster-modus nicht verfügbar\ttrue\n'
         return
     fi
+    if ! command -v jq &> /dev/null; then
+        printf 'jq ist nicht installiert -- fenster-modus nicht verfügbar (siehe Brewfile)\ttrue\n'
+        return
+    fi
     yabai -m query --windows 2>/dev/null |
-        jq -r '.[] | select(.title != "") | "\(.app) — \(.title)\tyabai -m window --focus \(.id)"'
+        jq -r '.[] | select(.title != "") | "\(.app) — \(.title)\tyabai -m window --focus \(.id)"' || true
 }
 
 __list_linux_windows() {
@@ -47,8 +51,12 @@ __list_linux_windows() {
         printf 'hyprctl nicht gefunden -- fenster-modus nicht verfügbar\ttrue\n'
         return
     fi
+    if ! command -v jq &> /dev/null; then
+        printf 'jq ist nicht installiert -- fenster-modus nicht verfügbar (siehe pkglist, "yay -S jq")\ttrue\n'
+        return
+    fi
     hyprctl clients -j 2>/dev/null |
-        jq -r '.[] | select(.title != "") | "\(.class) — \(.title)\thyprctl dispatch focuswindow address:\(.address)"'
+        jq -r '.[] | select(.title != "") | "\(.class) — \(.title)\thyprctl dispatch focuswindow address:\(.address)"' || true
 }
 
 __list_mac_apps() {
