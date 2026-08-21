@@ -1,6 +1,11 @@
 #!/bin/bash
 
-# hier wird der pfad der ursprünglichen datei erkannt falls es über den gestoweden (schreibt man das so?) link ausgeführt wird
+# os check bzw sollte halt nicht auf macos alles stowen
+if [[ "$(uname -s)" != "Linux" ]]; then
+    echo "FEHLER: Dieses Skript ist nur für Linux/Arch gedacht!" >&2
+    exit 1
+fi
+
 REPO_ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
 echo "--- starte setup in $REPO_ROOT ---"
 cd "$REPO_ROOT" || exit
@@ -26,10 +31,10 @@ if [[ "$SHELL" != */zsh ]]; then
     chsh -s $(which zsh)
 fi
 
-# 4. git config fix weil sonst den skripten manchmal unvorhersehbar das executable bit fehlt. wobei das über git doch über den pre commit hook einigermaßen stabil läuft. trotzdem noch da zur sicherheit
+# 4. git config fix
 git config core.filemode true
 
-# 5. darkmode. manuell konfigurieren nervt und das funktioniert für vieles
+# 5. darkmode
 echo ">>> konfiguriere darkmode..."
 if command -v gsettings >/dev/null; then
     gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
@@ -39,34 +44,31 @@ mkdir -p "$HOME/.config/gtk-3.0" "$HOME/.config/gtk-4.0"
 echo -e "[Settings]\ngtk-application-prefer-dark-theme=1" > "$HOME/.config/gtk-3.0/settings.ini"
 echo -e "[Settings]\ngtk-application-prefer-dark-theme=1" > "$HOME/.config/gtk-4.0/settings.ini"
 
-# zsh export falls noch nicht vorhanden. wäre sonst eventuell doppelt aka bloat
 if [ -f "$HOME/.zshrc" ]; then
     grep -qq "QT_QPA_PLATFORMTHEME" "$HOME/.zshrc" || echo 'export QT_QPA_PLATFORMTHEME=qt5ct' >> "$HOME/.zshrc"
     grep -qq "QT_SELECT_GUI_STYLE" "$HOME/.zshrc" || echo 'export QT_SELECT_GUI_STYLE=adwaita-dark' >> "$HOME/.zshrc"
 fi
 
-# dolphin darkmode fix der nicht funkioniert :(
 mkdir -p "$HOME/.config"
 echo -e "[ColorScheme]\nColorScheme=BreezeDark\n\n[General]\nColorScheme=BreezeDark" > "$HOME/.config/kdeglobals"
 
-# 5. skripte fixen und stow ausführen
+# 6. skripte fixen und stow ausführen
 echo ">>> verlinke configs und mache skripte ausführbar..."
 chmod +x "$REPO_ROOT/setup.sh"
 find "$REPO_ROOT/scripts" -name "*.sh" -exec chmod +x {} + 2>/dev/null
 
 for dir in */; do
     module=${dir%/}
-    # skhd ist macos-only (globaler hotkey-daemon, siehe mac-stow.sh), auf arch nutzlos
     if [ "$module" != ".git" ] && [ "$module" != "skhd" ] && [ -d "$module" ]; then
         stow "$module" 2>/dev/null || echo "Info: $module übersprungen (konflikt? siehe 'stow $module' für details)."
     fi
 done
 
-# link für magiv menu readme except es funktioniert nicht
+# link für magic menu readme
 mkdir -p "$HOME/.config/scripts"
 ln -sf "$REPO_ROOT/README.md" "$HOME/.config/scripts/current_readme.md"
 
-# 6. hyprland envsin neue konfig. die hyprland config verweist auf die
+# 7. hyprland envs
 mkdir -p ~/.config/hypr/
 cat <<EOF > ~/.config/hypr/env_dark.conf
 # --- Generiert vom Setup-Script ---
@@ -81,7 +83,17 @@ env = XDG_SESSION_TYPE,wayland
 env = XDG_SESSION_DESKTOP,Hyprland
 EOF
 
-# fragt ob pakete installiert werden sollen. wäre besser sonst geht nichts. aber halt nicht jedes mal, gell
+# 8. firefox user.js verlinken
+FF_DIR="$HOME/.mozilla/firefox"
+if [ -d "$FF_DIR" ]; then
+    PROFILE=$(find "$FF_DIR" -maxdepth 1 -type d \( -name "*.default-release" -o -name "*.default" \) | head -n 1)
+    if [ -n "$PROFILE" ] && [ -f "$HOME/.config/firefox/user.js" ]; then
+        ln -sf "$HOME/.config/firefox/user.js" "$PROFILE/user.js"
+        echo ">>> Firefox user.js verlinkt nach: $PROFILE"
+    fi
+fi
+
+# paketinstallation abfragen
 install_packages() {
     echo ">>> Starte Paket-Installation..."
     local PKGLIST="$REPO_ROOT/pkglist"
@@ -95,7 +107,7 @@ read -n 1 -r
 echo ""
 [[ $REPLY =~ ^[Yy]$ ]] && install_packages
 
-# 7. mime types setzen. funtkionert toll für yazi & nautilus und manchmal für dolphin, aber irgendwie nicht toll. yazi benutzen.
+# 9. mime types setzen
 echo ">>> Setze Standardprogramme..."
 if command -v xdg-mime >/dev/null; then
     xdg-mime default firefox.desktop text/html
