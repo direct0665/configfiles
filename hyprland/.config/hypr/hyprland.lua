@@ -113,8 +113,15 @@ hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("dolphin"))
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("wofi --show drun"))
 -- fzf-app-launcher als zweite, schnellere alternative zu wofi (siehe scripts/.config/scripts/launcher.sh)
--- gleicher shortcut wie auf macos (dort per skhd, siehe skhd/.config/skhd/skhdrc)
-hl.bind("ALT + SPACE", hl.dsp.exec_cmd("kitty --title launcher -e ~/.config/scripts/launcher.sh"))
+-- gleicher shortcut wie auf macos (dort per skhd, siehe skhd/.config/skhd/skhdrc). kittys
+-- "quick-access-terminal"-kitten läuft als wlr-layer-shell-panel (wie waybar/wofi), umgeht
+-- also die normale tiling-/window-verwaltung von selbst -- keine eigene windowrule nötig.
+-- WICHTIG: "kitten quick-access-terminal" direkt, NICHT "kitty +kitten quick-access-terminal"
+-- (bricht bei genau diesem kitten mit einer fehlermeldung ab, auf dem mac gegengetestet)
+-- sync_to_monitor/repaint_delay/input_delay nur für dieses panel runtergesetzt,
+-- soll das erste sichtbare frame minimal schneller machen (nicht selbst messbar
+-- verifiziert, siehe infos.dj -- bei bedarf einfach wieder rausnehmen)
+hl.bind("ALT + SPACE", hl.dsp.exec_cmd("kitten quick-access-terminal --instance-group launcher -o edge=center-sized -o lines=20 -o columns=90 -o sync_to_monitor=no -o repaint_delay=2 -o input_delay=0 ~/.config/scripts/launcher.sh"))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))
 hl.bind(mainMod .. " + F", hl.dsp.exec_cmd("firefox"))

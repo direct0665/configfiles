@@ -14,6 +14,7 @@ btop                        # schön gebügelter system monitor
 direnv                      # pro-projekt-ordner automatisch env-vars laden
 kitty                       # terminal. war komischerweise noch gar nicht hier drin obwohl der keybind schon ewig existiert
 ttf-jetbrains-mono-nerd     # jetbrains mono nerd font. brauchts für die icons im prompt/kitty
+jq                          # json-parsing, u.a. für den launcher-"fenster"-modus (hyprctl -j output)
 
 # === [ EDITORS & FILE MANAGEMENT ] ===
 helix                       # helix ist ein tui editor. macht mehr spaß als nvim

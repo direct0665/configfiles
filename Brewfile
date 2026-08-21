@@ -32,7 +32,9 @@ cask "font-jetbrains-mono-nerd-font"   # brauchts für die icons im prompt/kitty
 #   brew tap koekeishiya/formulae
 #   brew trust --formula koekeishiya/formulae/skhd
 tap "koekeishiya/formulae"
-brew "skhd"   # globaler hotkey-daemon, siehe skhd/.config/skhd/skhdrc (ALT+SPACE -> fzf-launcher)
+brew "skhd"    # globaler hotkey-daemon, siehe skhd/.config/skhd/skhdrc (ALT+SPACE -> fzf-launcher)
+brew "yabai"   # fenster query/focus fürs launcher-"fenster"-modus (kein SIP/scripting-addition nötig dafür)
+brew "jq"      # json-parsing für den launcher-"fenster"-modus (yabai/hyprctl output)
 
 # === [ RUST TOOLCHAIN ] ===
 # rustup/cargo selbst NICHT über brew (läuft über rustup-init, siehe infos.dj),
