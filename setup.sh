@@ -56,11 +56,11 @@ find "$REPO_ROOT/scripts" -name "*.sh" -exec chmod +x {} + 2>/dev/null
 
 for dir in */; do
     module=${dir%/}
-    if [ "$module" != ".git" ] && [ -d "$module" ]; then
-        stow --adopt "$module" 2>/dev/null || echo "Info: $module übersprungen."
+    # skhd ist macos-only (globaler hotkey-daemon, siehe mac-stow.sh), auf arch nutzlos
+    if [ "$module" != ".git" ] && [ "$module" != "skhd" ] && [ -d "$module" ]; then
+        stow "$module" 2>/dev/null || echo "Info: $module übersprungen (konflikt? siehe 'stow $module' für details)."
     fi
 done
-git restore . # macht änderungen durch --adopt rückgängig
 
 # link für magiv menu readme except es funktioniert nicht
 mkdir -p "$HOME/.config/scripts"

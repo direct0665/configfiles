@@ -1,0 +1,8 @@
+# globaler hotkey-daemon, mac-pendant zu den hyprland-keybinds in hyprland.lua.
+# syntax-referenz: https://github.com/koekeishiya/skhd
+
+# fzf-app-launcher (siehe scripts/.config/scripts/launcher.sh), gleicher
+# shortcut wie unter hyprland (dort ALT + SPACE, siehe hyprland.lua).
+# -1/--instance-group nutzt eine bereits laufende kitty-instanz falls
+# vorhanden, damit sich das fenster schnell öffnet.
+alt - space : /Applications/kitty.app/Contents/MacOS/kitty -1 --instance-group launcher -T launcher -e ~/.config/scripts/launcher.sh

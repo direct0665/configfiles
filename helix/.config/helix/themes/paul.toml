@@ -1,0 +1,19 @@
+# eigenes theme, erbt von gruber-darker (gut lesbares, ruhiges dark-theme)
+# und überschreibt nur cursor + statuszeile mit den akzentfarben aus
+# kitty.conf (pink FF0080 / orange F6AE2D), damit es zum rest passt.
+# syntax-highlighting bewusst NICHT komplett neu gebaut -- gruber-darker
+# ist gut getestet, hier nur die chrome/akzente angepasst.
+
+inherits = "gruber-darker"
+
+"ui.cursor.primary" = { fg = "#111111", bg = "#FF0080" }
+
+# statuszeile zeigt farbig an in welchem modus man gerade ist -- praktisch
+# als helix-einsteiger, weil man den modus nicht erst im text lesen muss:
+# normal = pink, insert = orange, select = blau
+"ui.statusline.normal" = { fg = "#111111", bg = "#FF0080", modifiers = ["bold"] }
+"ui.statusline.insert" = { fg = "#111111", bg = "#F6AE2D", modifiers = ["bold"] }
+"ui.statusline.select" = { fg = "#111111", bg = "#61AFEF", modifiers = ["bold"] }
+
+"ui.linenr.selected" = { fg = "#F6AE2D" }
+"ui.bufferline.active" = { fg = "#FF0080", modifiers = ["bold"] }

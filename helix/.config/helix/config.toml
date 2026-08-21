@@ -1,0 +1,39 @@
+# bewusst zugänglich gehalten und nicht auf "neovim-abklatsch" getrimmt:
+# absolute statt relative zeilennummern, mouse an, moduswechsel gut sichtbar
+# über die farbige statuszeile (siehe themes/paul.toml).
+
+theme = "paul"
+
+[editor]
+true-color = true
+color-modes = true            # statuszeile färbt sich je nach modus (normal/insert/select) ein
+cursorline = true
+line-number = "absolute"      # kein "relative" -- übersichtlicher für den einstieg
+mouse = true
+bufferline = "multiple"       # zeigt offene buffer als leiste, wie tabs
+rulers = [100]
+auto-pairs = true             # klammern/anführungszeichen automatisch schließen
+auto-completion = true
+completion-trigger-len = 1
+idle-timeout = 200
+
+[editor.statusline]
+left = ["mode", "spinner", "file-name", "read-only-indicator", "file-modification-indicator"]
+right = ["diagnostics", "selections", "position", "file-encoding", "file-type"]
+
+[editor.cursor-shape]
+normal = "block"
+insert = "bar"
+select = "underline"
+
+[editor.file-picker]
+hidden = false   # versteckte dateien im picker zeigen (z.b. .envrc)
+
+[editor.indent-guides]
+render = true
+
+[editor.soft-wrap]
+enable = true
+
+[editor.lsp]
+display-inlay-hints = true   # zeigt z.b. bei rust inferred types inline an
