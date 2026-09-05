@@ -46,5 +46,5 @@ in der `pkglist` stehen alle standardprogramme mit beschreibung. es gibt ein skr
 
 
 ## allgemeine hinweise
-- hyprland wird automatisch beim ersten login in shell 1 geöffnet, öffnet sich aber nicht ständig automatisch wieder. deswegen gibt es in dem setup keinen login manager
+- hyprland wird nicht automatisch gestartet, muss per login manager oder per start-hyprland passieren.
 - darkmode bei manchen apps macht was er will und nicht was er soll idk warum
