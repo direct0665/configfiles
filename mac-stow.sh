@@ -15,7 +15,7 @@ if ! command -v stow &> /dev/null; then
     exit 1
 fi
 
-mac_modules=(zsh kitty git helix skhd yazi scripts firefox)
+mac_modules=(zsh kitty git helix skhd yazi scripts firefox launcher zellij bat)
 
 echo "--- stowe module für macos: ${mac_modules[*]} ---"
 for module in "${mac_modules[@]}"; do

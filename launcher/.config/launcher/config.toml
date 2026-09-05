@@ -1,0 +1,48 @@
+# application search paths (alt+1)
+app_paths = [
+    "/Applications",
+    "/System/Applications",
+    "~/Applications",
+    "/usr/share/applications",
+    "~/.local/share/applications",
+]
+
+# file search paths and excludes (alt+2)
+search_paths = [
+    "~",
+]
+
+file_excludes = [
+    ".git",
+    "node_modules",
+    "Library",
+    ".Trash",
+    ".cache",
+    "target",
+]
+
+# custom script directories (alt+4). empty list disables tab.
+script_paths = [
+    "~/.config/scripts",
+]
+
+# maximum result count
+max_results = 60
+
+# keep process resident in ram to avoid cold start latency
+persistent_daemon = true
+
+# color palette (hex)
+[theme]
+border = "#7aa2f7"
+prompt_fg = "#7dcfff"
+input_fg = "#c0caf5"
+placeholder_fg = "#565f89"
+tab_active_bg = "#7aa2f7"
+tab_active_fg = "#1a1b26"
+tab_inactive_fg = "#565f89"
+selection_bg = "#283457"
+selection_fg = "#bb9af7"
+item_title_fg = "#c0caf5"
+item_subtitle_fg = "#565f89"
+recent_badge_fg = "#e0af68"

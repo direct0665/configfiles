@@ -27,6 +27,7 @@ main-key ist die windows-taste (super).
 ## terminal & aliase
 
 - `y` : yazi (dateimanager, merkt sich den pfad)
+- `zj` : zellij (terminal multiplexer)
 - `z` : zoxide (schnelles cd in bekannte ordner)
 - `hx` : helix (editor)
 - `lg` : lazygit (git tui)

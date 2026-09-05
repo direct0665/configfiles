@@ -1,0 +1,36 @@
+// zellij config paul
+// abgestimmt auf kitty (#ff0080 pink / #f6ae2d gold) & hyprland
+// tabs deaktiviert da tabs nativ über kitty laufen
+
+theme "paul"
+default_layout "default"
+
+// scrollback passend zur kitty.conf
+scroll_buffer_size 10000
+
+// maus & clipboard
+mouse_mode true
+copy_on_select true
+
+// pane frames mit titel/rahmen anzeigen
+pane_frames true
+
+// nerd font glyphs nutzen
+simplified_ui false
+
+// theme definition passend zu kitty, hyprland & helix
+themes {
+    paul {
+        fg "#dddddd"
+        bg "#000000"
+        black "#1a1a1a"
+        red "#ff4444"
+        green "#66cc66"
+        yellow "#F6AE2D"
+        blue "#61afef"
+        magenta "#FF0080"
+        cyan "#4ec9b0"
+        white "#ffffff"
+        orange "#F6AE2D"
+    }
+}

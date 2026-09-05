@@ -1,7 +1,7 @@
 # globaler hotkey-daemon, mac-pendant zu den hyprland-keybinds in hyprland.lua.
 # syntax-referenz: https://github.com/koekeishiya/skhd
 
-# fzf-app-launcher (siehe scripts/.config/scripts/launcher.sh), gleicher
+# Spotlight-Style Rust TUI Launcher (~/.local/bin/launcher), gleicher
 # shortcut wie unter hyprland (dort ALT + SPACE, siehe hyprland.lua).
 # kittys eingebautes "quick-access-terminal"-kitten hält eine versteckte
 # instanz im hintergrund und blendet sie nur ein/aus, statt jedes mal ein
@@ -13,7 +13,5 @@
 # genau diesem kitten mit "should be run as: kitten quick-access-terminal" ab.
 # sync_to_monitor/repaint_delay/input_delay nur für dieses panel runtergesetzt
 # (nicht global in kitty.conf, das bleibt fürs hauptterminal wie es war) --
-# soll das erste sichtbare frame minimal schneller machen. konnte den
-# effekt nicht messen (siehe infos.dj, "time" erfasst nur die rückkehr des
-# client-aufrufs, nicht den tatsächlichen render-zeitpunkt), aber risikoarm.
-alt - space : /Applications/kitty.app/Contents/MacOS/kitten quick-access-terminal --instance-group launcher -o edge=center-sized -o lines=20 -o columns=90 -o sync_to_monitor=no -o repaint_delay=2 -o input_delay=0 ~/.config/scripts/launcher.sh
+# soll das erste sichtbare frame minimal schneller machen.
+alt - space : /Applications/kitty.app/Contents/MacOS/kitten quick-access-terminal --instance-group launcher -o edge=center-sized -o lines=20 -o columns=90 -o sync_to_monitor=no -o repaint_delay=2 -o input_delay=0 ~/.local/bin/launcher

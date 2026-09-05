@@ -1,0 +1,9 @@
+// standard-layout ohne tab-bar oben (tabs laufen schon über kitty)
+// unten statuszeile für zellij-modi & shortcuts
+
+layout {
+    pane
+    pane size=1 borderless=true {
+        plugin location="status-bar"
+    }
+}

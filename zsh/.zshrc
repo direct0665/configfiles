@@ -1,25 +1,48 @@
-# ZSH Konfiguration Paul
+# zsh config paul
 
 # --- History ---
-HISTFILE=~/.zsh_history       # Speicherort der History-Datei
-HISTSIZE=50000                # Maximale Anzahl der Zeilen im Arbeitsspeicher
-SAVEHIST=50000                # Maximale Anzahl der Zeilen in der History-Datei
-setopt appendhistory          # Neue Einträge an die Datei anhängen
-setopt sharehistory           # History sofort zwischen laufenden Terminals synchronisieren
-setopt hist_ignore_dups       # Direkte Duplikate nicht speichern
-setopt hist_ignore_all_dups   # Ältere Duplikate bei neuen Einträgen entfernen
-setopt hist_ignore_space      # Befehle mit führendem Leerzeichen ignorieren
-setopt hist_verify            # History-Expansion vor Ausführung zur Kontrolle anzeigen
-setopt inc_append_history     # Befehle direkt nach Ausführung zur Datei hinzufügen
+HISTFILE=~/.zsh_history       # speicherort
+HISTSIZE=50000                # max. zeilen in ram
+SAVEHIST=50000                # max. zeilen
+setopt appendhistory          # neue einträge anhängen
+setopt sharehistory           # sofort synchronisieren (praktisch)
+setopt hist_ignore_dups       # duplikate wenn exakt nicht speicher
+setopt hist_ignore_all_dups   # älteres duplikat zugunsten des neueren löschen
+setopt hist_ignore_space      # funktioniert nicht so ganz wegen config weiter unten, ist aber nochmal separat geregelt
+setopt hist_verify
+setopt inc_append_history
+setopt extendedglob
 
-# git- und brew-Befehle nicht in der History speichern
+# jetzt die vollständigen ignore sachen damit die history nicht zumüllt u. das history autocomplete relevant bleibt
+typeset -a HISTORY_IGNORE_PATTERNS=(
+      ' *'                                                  # führendes leerzeichen
+      'git *'
+      'brew *'
+      # 'export *'
+      'clear[[:space:]]*'
+      'just *'
+      'g(st|aa|cm|sw|swc|rs|rss|p|pl|d|l|ab)[[:space:]]*'
+      'lg[[:space:]]*'
+      'z[[:space:]]*'                                       # zoxide
+      'y[[:space:]]*'                                       # yazi
+      'j[[:space:]]*'                                       # just
+      'jl[[:space:]]*'
+      'jg[[:space:]]*'
+      'exit'
+    )
+
+# befehle aus der history ausnehmen wenn sie bei den ignore values sind
+
 zshaddhistory() {
-  emulate -L zsh
-  [[ $1 == git\ * || $1 == brew\ * ]] && return 1
+  emulate -L zsh -o extendedglob
+  (( ${#HISTORY_IGNORE_PATTERNS} == 0 )) && return 0
+  local pattern="(${(j:|:)HISTORY_IGNORE_PATTERNS})"
+  [[ $1 == $~pattern ]] && return 1
   return 0
 }
 
 # Dauer von Befehlen anzeigen, die länger als 10s laufen (praktisch bei cargo build / xcodebuild)
+
 REPORTTIME=10
 TIMEFMT='%J   %*E ges.   %U User   %S System   %P CPU'
 
@@ -49,6 +72,7 @@ setopt auto_pushd             # cd merkt sich besuchte Verzeichnisse (Stack)
 setopt pushd_ignore_dups      # keine Duplikate im Verzeichnis-Stack
 setopt pushd_silent           # kein Stack-Output bei jedem cd
 setopt interactive_comments   # '#' auch interaktiv als Kommentar erlauben
+unsetopt beep                 # kein system bell bei tippfehlern/correct
 
 # --- Keybindings ---
 bindkey -e                         # Emacs-Tastenkürzel verwenden
@@ -56,9 +80,7 @@ bindkey '^[[A' up-line-or-search   # Pfeil hoch: History durchsuchen basierend a
 bindkey '^[[B' down-line-or-search # Pfeil runter: History durchsuchen basierend auf Eingabe
 
 # --- Prompt ---
-# Nerd-Font-Icons nur aktivieren wenn das Terminal sie vermutlich rendern kann
-# (kitty ist mit JetBrainsMono Nerd Font konfiguriert). Sonst Fallback auf
-# reine ASCII/Unicode-Symbole, z.B. über SSH auf einer fremden Maschine.
+# nerd fonts aktiv in kitty etc sonst fallback auf ascii
 if [[ -n "$KITTY_WINDOW_ID" || "$TERM_PROGRAM" == "WezTerm" || "$TERM_PROGRAM" == "ghostty" ]]; then
   typeset -g __prompt_icons=1
 else
@@ -88,28 +110,26 @@ zstyle ':vcs_info:*' enable git
 precmd() {
   local exit_code=$?
   vcs_info
-  # Pfeil wird rot wenn der letzte Befehl fehlgeschlagen ist
+  # roter pfeil wenn letzter befehl falsch, spielerei
   if (( exit_code == 0 )); then
     prompt_arrow_color='%F{#FF0080}'
   else
     prompt_arrow_color='%F{red}'
   fi
-  # %~ kürzt $HOME zu "~" -- das ersetzen wir durch das dezente Home-Icon
-  # (bzw. im Fallback-Fall bleibt es einfach bei "~")
+ # tilde als fallback fürs icon
   prompt_path=${PWD/#$HOME/'~'}
   prompt_path=${prompt_path/#\~/$__prompt_home_icon}
 }
 
-# Prompt Definition (PS1) -- $'\n' MUSS außerhalb der einfachen Anführungszeichen stehen,
-# sonst wird daraus kein echter Zeilenumbruch sondern der literale Text "$n"
+
 PS1='%F{#FF0080}'"${__prompt_host_icon}"'%m%f'$'\n''%F{#F6AE2D}${prompt_path}%f${vcs_info_msg_0_} ${prompt_arrow_color}'"${__prompt_arrow}"'%f '
 
-# Rechter Prompt
+# rechter prompt
 RPROMPT="%F{#FF0080}%T%f"
 
-# --- Aliases ---
+# --- aliase ---
+alias aliases='alias | sort'  # helfer: eigene aliase übersichtlich auflisten
 alias ls='ls --color=auto'
-alias ll='ls -lAh --color=auto'
 alias grep='grep --color=auto'
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -121,10 +141,14 @@ alias jinx='liquidctl --match kraken set sync color fixed 000080 && liquidctl --
 alias ]+='start-hyprland'
 alias ze='zeditor'
 alias y='yazi'
+alias zj='zellij'
+alias j='just'
+alias jl='just --list'
+alias jg='just -g'
 
 alias l='eza --color=auto --icons=auto'
 alias ll='eza -al --color=auto --icons=auto --git'
-alias tree='eza --tree --color=auto --icons=auto'
+alias tree='eza --tree --color=auto --icons=auto --git-ignore'
 
 alias b='bat'
 
@@ -146,7 +170,7 @@ if command -v lazygit &> /dev/null; then
     alias lg='lazygit'                    # tui: status/diff/log/stage/commit/push in einer ansicht
 fi
 if command -v git-absorb &> /dev/null; then
-    alias gab='git absorb --and-rebase'   # staged änderungen automatisch als fixup! in die passenden commits einsortieren
+    alias gab='git absorb --and-rebase'   # staged änderungen automatisch als fixup in die passenden commits einsortieren
 fi
 
 # fzf-gestützte git-funktionen (brauchen fzf, siehe unten)
@@ -179,7 +203,9 @@ if command -v kitty &> /dev/null; then
     alias kssh='kitty +kitten ssh'           # ssh mit korrektem terminfo/farben, kein "TERM unknown" auf dem remote
 fi
 
-eval "$(zoxide init zsh)"
+if command -v zoxide &> /dev/null; then
+    eval "$(zoxide init zsh)"
+fi
 
 # --- PATH Konfiguration ---
 if [[ -d "$HOME/.local/bin" ]] && [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
@@ -216,3 +242,6 @@ fi
 if command -v direnv &> /dev/null; then
     eval "$(direnv hook zsh)"
 fi
+
+# lokale config bewusst nicht gestowed oder getracked
+[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local

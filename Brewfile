@@ -25,6 +25,7 @@ brew "micro"                  # simpler terminal-editor für quick edits
 # === [ TERMINAL ] ===
 cask "kitty"
 cask "font-jetbrains-mono-nerd-font"   # brauchts für die icons im prompt/kitty
+brew "zellij"                 # terminal multiplexer, config siehe zellij/.config/zellij
 
 # === [ GLOBALE HOTKEYS ] ===
 # einmalig vor dem ersten install nötig (neuere brew-versionen verlangen das

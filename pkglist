@@ -18,6 +18,7 @@ jq                          # json-parsing, u.a. für den launcher-"fenster"-mod
 
 # === [ EDITORS & FILE MANAGEMENT ] ===
 helix                       # helix ist ein tui editor. macht mehr spaß als nvim
+zellij                      # terminal workspace / multiplexer. tabs aus weil kitty regelt
 yazi                        # yazi ist ein terminal dateibrowser. wird über configfiles gesteuert und ist schnell und angehm
 lazygit                     # tui für git, bisschen überflüssig aber frisst kaum platz
 git-delta                   # syntax-highlighting-diffs, als core.pager in git/.config/git/config gesetzt
