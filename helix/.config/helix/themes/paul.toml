@@ -6,6 +6,14 @@
 
 inherits = "gruber-darker"
 
+# gruber-darker setzt ui.background fest auf #181818 -- gegen kittys
+# halbtransparentes schwarz (background_opacity 0.6) stach das als solider
+# grauer kasten hervor. leer = transparent, kittys eigener hintergrund
+# scheint durch. gutter erbt automatisch von ui.background, betrifft also
+# auch die zeilennummern-spalte. statuszeile/bufferline bleiben bewusst
+# deckend (siehe gruber-darker), das ist normale chrome-abgrenzung.
+"ui.background" = {}
+
 "ui.cursor.primary" = { fg = "#111111", bg = "#FF0080" }
 
 # statuszeile zeigt farbig an in welchem modus man gerade ist -- praktisch
@@ -13,7 +21,7 @@ inherits = "gruber-darker"
 # normal = pink, insert = orange, select = blau
 "ui.statusline.normal" = { fg = "#111111", bg = "#FF0080", modifiers = ["bold"] }
 "ui.statusline.insert" = { fg = "#111111", bg = "#F6AE2D", modifiers = ["bold"] }
-"ui.statusline.select" = { fg = "#111111", bg = "#61AFEF", modifiers = ["bold"] }
+"ui.statusline.select" = { fg = "#111111", bg = "#7FDEFF", modifiers = ["bold"] }
 
 "ui.linenr.selected" = { fg = "#F6AE2D" }
 "ui.bufferline.active" = { fg = "#FF0080", modifiers = ["bold"] }
