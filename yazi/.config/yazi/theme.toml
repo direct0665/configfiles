@@ -1,52 +1,77 @@
+#:schema https://yazi-rs.github.io/schemas/theme.json
 # ~/.config/yazi/theme.toml
 # Paul's Yazi Theme – abgestimmt auf Kitty (#FF0080 Pink / #F6AE2D Gold)
 
 [flavor]
 # Kein externer Flavor – alles direkt definiert
 
-# ── Manager ────────────────────────────────────────────────────────────────────
-[manager]
+# ── Manager (jetzt [mgr]) ──────────────────────────────────────────────────────
+[mgr]
 cwd = { fg = "#F6AE2D" }                     # Aktuelles Verzeichnis: Gold
 
-# Auswahl-Cursor-Zeile
-hovered         = { bg = "#1a1a1a", bold = true }
-previewed       = { bg = "#0d0d0d" }
-selected        = { fg = "#FF0080", bold = true }
+# hovered/previewed/selected gab es hier mal -- existieren in der echten Mgr-
+# Struct nicht mehr (Quellcode geprueft), wurden also nie angewendet. hovered/
+# previewed sind jetzt [indicator] (siehe unten). Fuer "selected" (Textfarbe
+# einer markierten Zeile) gibt es kein Aequivalent mehr -- Markierung laeuft
+# nur noch ueber den marker_selected-Marker unten, kein separates Textfeld.
+
 # Mehrfach-Selektion Marker
 marker_selected = { fg = "#FF0080", bg = "#FF0080" }
 marker_copied   = { fg = "#F6AE2D", bg = "#F6AE2D" }
-marker_cut      = { fg = "#ff4444", bg = "#ff4444" }
-
-# Tab-Leiste
-tab_active   = { fg = "#000000", bg = "#FF0080", bold = true }
-tab_inactive = { fg = "#444444", bg = "#1a1a1a" }
-tab_width    = 1
+marker_cut      = { fg = "#FF0800", bg = "#FF0800" }
 
 # Border / Rahmen der Panels
 border_symbol = "│"
-border_style  = { fg = "#2a2a2a" }           # Sehr dezent, kaum sichtbar
+border_style  = { fg = "#2f2428" }           # dezent Maroon-getoent statt neutralem Grau
 
-# ── Status Bar ─────────────────────────────────────────────────────────────────
+# ── Hervorhebung der Cursor-Zeile, je nach Pane (loest [mgr].hovered/previewed
+# ab, siehe oben) -- current = aktives mittleres Pane, preview = rechtes
+# Vorschau-Pane, parent = linkes Eltern-Pane ────────────────────────────────────
+[indicator]
+current = { bg = "#1a1a1a", bold = true }
+preview = { bg = "#0d0d0d" }
+parent  = { bg = "#1a1a1a" }
+
+# ── Tabs (Neu ausgelagert) ─────────────────────────────────────────────────────
+[tabs]
+active   = { fg = "#000000", bg = "#FF0080", bold = true }
+inactive = { fg = "#444444", bg = "#1a1a1a" }
+
+# ── Status-Anzeige (Modus links, getrennter Top-Level-Block seit diesem Fix --
+# lag vorher faelschlich als mode_normal/mode_select/mode_unset unter [status],
+# wurde dadurch von yazis "custom"-Sammeltopf lautlos verschluckt statt
+# angewendet, siehe [mode] unten) ──────────────────────────────────────────────
 [status]
-separator_open  = ""
-separator_close = ""
-separator_style = { fg = "#222222", bg = "#222222" }
-
-# Linke Seite: Modus-Anzeige
-mode_normal = { fg = "#000000", bg = "#FF0080", bold = true }
-mode_select = { fg = "#000000", bg = "#F6AE2D", bold = true }
-mode_unset  = { fg = "#000000", bg = "#888888", bold = true }
+# Separatoren nutzen jetzt eine offene/geschlossene Struct-Syntax
+sep_left  = { open = "", close = "" }
+sep_right = { open = "", close = "" }
 
 # Mitte: Pfad/Info
 progress_label  = { fg = "#dddddd", bold = true }
 progress_normal = { fg = "#FF0080", bg = "#1a1a1a" }
-progress_error  = { fg = "#ff4444", bg = "#1a1a1a" }
+progress_error  = { fg = "#FF0800", bg = "#1a1a1a" }
 
-permissions_t = { fg = "#555555" }           # file type char (d, -, l …)
-permissions_r = { fg = "#F6AE2D" }           # r – lesbar: Gold
-permissions_w = { fg = "#FF0080" }           # w – schreibbar: Pink
-permissions_x = { fg = "#66cc66" }           # x – ausführbar: Grün
-permissions_s = { fg = "#888888" }           # s – setuid etc.
+# perm_* statt permissions_* (gleicher Fix-Grund wie oben -- alte Namen
+# wurden lautlos ignoriert, echte Felder laut yazi-Quellcode geprueft)
+perm_sep   = { fg = "#555555" }              # Trenner zwischen den Gruppen
+perm_type  = { fg = "#555555" }              # file type char (d, -, l …)
+perm_read  = { fg = "#F6AE2D" }              # r – lesbar: Gold
+perm_write = { fg = "#FF0080" }              # w – schreibbar: Pink
+perm_exec  = { fg = "#66cc66" }              # x – ausführbar: Grün
+
+# ── Modus-Anzeige (eigener Top-Level-Block, NICHT mehr unter [status]) ─────────
+# _main = primaeres Segment (gefuellter Hintergrund), _alt = zweites Segment
+# (Textfarbe auf gedaempftem Hintergrund) -- Struktur exakt aus yazis eigenem
+# theme-dark.toml uebernommen, nur die Farben sind unser Pink/Gold/Grau.
+[mode]
+normal_main = { fg = "#000000", bg = "#FF0080", bold = true }
+normal_alt  = { fg = "#FF0080", bg = "#1a1a1a" }
+
+select_main = { fg = "#000000", bg = "#F6AE2D", bold = true }
+select_alt  = { fg = "#F6AE2D", bg = "#1a1a1a" }
+
+unset_main = { fg = "#000000", bg = "#888888", bold = true }
+unset_alt  = { fg = "#888888", bg = "#1a1a1a" }
 
 # ── Input-Prompt ───────────────────────────────────────────────────────────────
 [input]
@@ -55,14 +80,15 @@ title    = { fg = "#F6AE2D", bold = true }   # Titel Gold
 value    = { fg = "#dddddd" }
 selected = { reversed = true }
 
-# ── Completion-Popup ───────────────────────────────────────────────────────────
-[completion]
+# ── Completion-Popup (jetzt [cmp]) ─────────────────────────────────────────────
+[cmp]
 border   = { fg = "#2a2a2a" }
 active   = { bg = "#1a1a1a", bold = true }
 inactive = { fg = "#555555" }
 
-# ── Select-Popup (bei mehreren Optionen) ───────────────────────────────────────
-[select]
+# ── Auswahl-Popup (bei mehreren Optionen) -- heisst inzwischen [pick], nicht
+# mehr [select] (gleicher Fix-Grund wie oben) ──────────────────────────────────
+[pick]
 border   = { fg = "#FF0080" }
 active   = { fg = "#FF0080", bold = true }
 inactive = { fg = "#555555" }
@@ -86,7 +112,7 @@ separator_style = { fg = "#333333" }
 [confirm]
 border  = { fg = "#FF0080" }
 title   = { fg = "#FF0080", bold = true }
-content = { fg = "#dddddd" }
+body    = { fg = "#dddddd" }          # hiess vorher "content", falscher Feldname
 list    = { fg = "#aaaaaa" }
 btn_yes = { fg = "#000000", bg = "#FF0080", bold = true }
 btn_no  = { fg = "#dddddd", bg = "#2a2a2a" }
@@ -96,84 +122,180 @@ btn_labels = ["  Yes  ", "  No  "]
 [notify]
 title_info  = { fg = "#aaaaaa", bold = true }
 title_warn  = { fg = "#F6AE2D", bold = true }
-title_error = { fg = "#ff4444", bold = true }
+title_error = { fg = "#FF0800", bold = true }
 icon_info   = ""
 icon_warn   = "󰀦"
 icon_error  = "󰅚"
 
-# ── Datei-Farben (Icons + Farben nach Typ) ─────────────────────────────────────
+# ── Datei-Farben (Text, siehe [icon] unten fuer die Glyphen) ────────────────────
+# Auf die gleiche Palette wie [icon] umgestellt (Mint/Gold/Pink) -- vorher vier
+# verschiedene Blau-Toene (u.a. #7aa2f7 fuer Ordner) quer durch die Kategorien,
+# das dominierte optisch alles (Ordner sind das haeufigste Element), sah dadurch
+# nach generischem Terminal-Blau aus statt nach eigenem Theme. Kein Blau mehr.
 [filetype]
 rules = [
-  # Verzeichnisse (Korrektur: name = "*/" statt is = "dir")
-  { name = "*/",      fg = "#7aa2f7" },       # Blau
+  # Verzeichnisse
+  { url = "*/",               fg = "#AEFFD8" },       # Mint
   # Ausführbare Dateien
-  { is = "exec",      fg = "#66cc66" },       # Grün
+  { url = "*", is = "exec",   fg = "#FF0080" },       # Pink (einzige Stelle)
   # Symlinks
-  { is = "link",      fg = "#BB9AF7" },       # Lila
+  { url = "*", is = "link",   fg = "#7FDEFF" },       # Himmelblau (unterscheidbar von Ordnern)
   # Fehlerhafte Symlinks
-  { is = "orphan",    fg = "#ff4444" },       # Rot
+  { url = "*", is = "orphan", fg = "#FF0800" },       # Rot (Gefahr, bewusst separat)
 
   # --- Code ---
-  { name = "*.rs",    fg = "#ce9178" },
-  { name = "*.py",    fg = "#4ec9b0" },
-  { name = "*.js",    fg = "#F6AE2D" },
-  { name = "*.ts",    fg = "#4fc1ff" },
-  { name = "*.jsx",   fg = "#61afef" },
-  { name = "*.tsx",   fg = "#61afef" },
-  { name = "*.go",    fg = "#79c0ff" },
-  { name = "*.c",     fg = "#7aa2f7" },
-  { name = "*.cpp",   fg = "#7aa2f7" },
-  { name = "*.h",     fg = "#7aa2f7" },
-  { name = "*.sh",    fg = "#66cc66" },
-  { name = "*.zsh",   fg = "#66cc66" },
-  { name = "*.fish",  fg = "#66cc66" },
-  { name = "*.lua",   fg = "#BB9AF7" },
-  { name = "*.vim",   fg = "#66cc66" },
-  { name = "*.nix",   fg = "#7aa2f7" },
+  { url = "*.rs",    fg = "#AEFFD8" },
+  { url = "*.py",    fg = "#AEFFD8" },
+  { url = "*.js",    fg = "#AEFFD8" },
+  { url = "*.ts",    fg = "#AEFFD8" },
+  { url = "*.jsx",   fg = "#AEFFD8" },
+  { url = "*.tsx",   fg = "#AEFFD8" },
+  { url = "*.go",    fg = "#AEFFD8" },
+  { url = "*.c",     fg = "#AEFFD8" },
+  { url = "*.cpp",   fg = "#AEFFD8" },
+  { url = "*.h",     fg = "#AEFFD8" },
+  { url = "*.sh",    fg = "#AEFFD8" },
+  { url = "*.zsh",   fg = "#AEFFD8" },
+  { url = "*.fish",  fg = "#AEFFD8" },
+  { url = "*.lua",   fg = "#AEFFD8" },
+  { url = "*.vim",   fg = "#AEFFD8" },
+  { url = "*.nix",   fg = "#AEFFD8" },
 
   # --- Config / Data ---
-  { name = "*.toml",  fg = "#ce9178" },
-  { name = "*.yaml",  fg = "#ce9178" },
-  { name = "*.yml",   fg = "#ce9178" },
-  { name = "*.json",  fg = "#F6AE2D" },
-  { name = "*.xml",   fg = "#ce9178" },
-  { name = "*.conf",  fg = "#888888" },
-  { name = "*.ini",   fg = "#888888" },
-  { name = "*.env",   fg = "#888888" },
+  { url = "*.toml",  fg = "#F6AE2D" },
+  { url = "*.yaml",  fg = "#F6AE2D" },
+  { url = "*.yml",   fg = "#F6AE2D" },
+  { url = "*.json",  fg = "#F6AE2D" },
+  { url = "*.xml",   fg = "#F6AE2D" },
+  { url = "*.conf",  fg = "#888888" },
+  { url = "*.ini",   fg = "#888888" },
+  { url = "*.env",   fg = "#888888" },
 
   # --- Docs ---
-  { name = "*.md",    fg = "#dddddd" },
-  { name = "*.txt",   fg = "#dddddd" },
-  { name = "*.pdf",   fg = "#ff4444" },
+  { url = "*.md",    fg = "#dddddd" },
+  { url = "*.txt",   fg = "#dddddd" },
+  { url = "*.pdf",   fg = "#dddddd" },        # kein Rot mehr -- das ist Gefahr/Fehler vorbehalten
 
   # --- Media ---
-  { name = "*.png",   fg = "#BB9AF7" },
-  { name = "*.jpg",   fg = "#BB9AF7" },
-  { name = "*.jpeg",  fg = "#BB9AF7" },
-  { name = "*.gif",   fg = "#BB9AF7" },
-  { name = "*.svg",   fg = "#BB9AF7" },
-  { name = "*.webp",  fg = "#BB9AF7" },
-  { name = "*.mp4",   fg = "#FF0080" },
-  { name = "*.mkv",   fg = "#FF0080" },
-  { name = "*.mp3",   fg = "#FF0080" },
-  { name = "*.flac",  fg = "#FF0080" },
+  { url = "*.png",   fg = "#DABFFF" },
+  { url = "*.jpg",   fg = "#DABFFF" },
+  { url = "*.jpeg",  fg = "#DABFFF" },
+  { url = "*.gif",   fg = "#DABFFF" },
+  { url = "*.svg",   fg = "#DABFFF" },
+  { url = "*.webp",  fg = "#DABFFF" },
+  { url = "*.mp4",   fg = "#F6AE2D" },
+  { url = "*.mkv",   fg = "#F6AE2D" },
+  { url = "*.mp3",   fg = "#F6AE2D" },
+  { url = "*.flac",  fg = "#F6AE2D" },
 
   # --- Archive ---
-  { name = "*.zip",   fg = "#F6AE2D" },
-  { name = "*.tar",   fg = "#F6AE2D" },
-  { name = "*.gz",    fg = "#F6AE2D" },
-  { name = "*.zst",   fg = "#F6AE2D" },
-  { name = "*.7z",    fg = "#F6AE2D" },
-  { name = "*.rar",   fg = "#F6AE2D" },
+  { url = "*.zip",   fg = "#F6AE2D" },
+  { url = "*.tar",   fg = "#F6AE2D" },
+  { url = "*.gz",    fg = "#F6AE2D" },
+  { url = "*.zst",   fg = "#F6AE2D" },
+  { url = "*.7z",    fg = "#F6AE2D" },
+  { url = "*.rar",   fg = "#F6AE2D" },
 
   # --- Dotfiles & Special ---
-  { name = ".gitignore",  fg = "#555555" },
-  { name = ".gitconfig",  fg = "#555555" },
-  { name = "Makefile",    fg = "#66cc66" },
-  { name = "Dockerfile",  fg = "#4fc1ff" },
-  { name = "LICENSE",     fg = "#888888" },
-  { name = "README*",     fg = "#F6AE2D" },
+  { url = ".gitignore",  fg = "#555555" },
+  { url = ".gitconfig",  fg = "#555555" },
+  { url = "Makefile",    fg = "#AEFFD8" },
+  { url = "Dockerfile",  fg = "#AEFFD8" },
+  { url = "LICENSE",     fg = "#888888" },
+  { url = "README*",     fg = "#F6AE2D" },
 
   # Fallback
-  { name = "*", fg = "#dddddd" },
+  { url = "*", fg = "#dddddd" },
+]
+
+# ── Icons (Glyphen, getrennt von den Text-Farben oben) ─────────────────────────
+# Palette: Mint (#AEFFD8) als Haupt-Akzent, Gold (#F6AE2D) fuer Config/Daten/
+# Hover, Pink (#FF0080) bewusst nur an einer Stelle (exec) -- nicht #023C40/
+# #4A051C hier, die sind als Vordergrund auf dunklem Terminal kaum lesbar.
+[icon]
+globs = []
+
+dirs = [
+  { name = ".git",     text = "", fg = "#F6AE2D" },
+  { name = ".config",  text = "", fg = "#F6AE2D" },
+  { name = ".github",  text = "", fg = "#F6AE2D" },
+  { name = "Documents", text = "", fg = "#AEFFD8" },
+  { name = "Downloads", text = "", fg = "#AEFFD8" },
+  { name = "Desktop",   text = "", fg = "#AEFFD8" },
+  { name = "Pictures",  text = "", fg = "#AEFFD8" },
+  { name = "Music",     text = "", fg = "#AEFFD8" },
+  { name = "Videos",    text = "", fg = "#AEFFD8" },
+]
+
+files = [
+  { name = ".gitignore", text = "", fg = "#F6AE2D" },
+  { name = ".gitconfig", text = "", fg = "#F6AE2D" },
+  { name = "Makefile",   text = "", fg = "#AEFFD8" },
+  { name = "Dockerfile", text = "", fg = "#AEFFD8" },
+  { name = "LICENSE",    text = "", fg = "#AEFFD8" },
+  { name = "README.md",  text = "", fg = "#F6AE2D" },
+]
+
+exts = [
+  # Code
+  { name = "rs",   text = "", fg = "#AEFFD8" },
+  { name = "py",   text = "", fg = "#AEFFD8" },
+  { name = "js",   text = "", fg = "#AEFFD8" },
+  { name = "ts",   text = "", fg = "#AEFFD8" },
+  { name = "jsx",  text = "", fg = "#AEFFD8" },
+  { name = "tsx",  text = "", fg = "#AEFFD8" },
+  { name = "go",   text = "", fg = "#AEFFD8" },
+  { name = "c",    text = "", fg = "#AEFFD8" },
+  { name = "cpp",  text = "", fg = "#AEFFD8" },
+  { name = "h",    text = "", fg = "#AEFFD8" },
+  { name = "sh",   text = "", fg = "#AEFFD8" },
+  { name = "zsh",  text = "", fg = "#AEFFD8" },
+  { name = "fish", text = "", fg = "#AEFFD8" },
+  { name = "lua",  text = "", fg = "#AEFFD8" },
+  { name = "vim",  text = "", fg = "#AEFFD8" },
+  { name = "nix",  text = "", fg = "#AEFFD8" },
+
+  # Config/Daten
+  { name = "toml", text = "", fg = "#F6AE2D" },
+  { name = "yaml", text = "", fg = "#F6AE2D" },
+  { name = "yml",  text = "", fg = "#F6AE2D" },
+  { name = "json", text = "", fg = "#F6AE2D" },
+  { name = "xml",  text = "󰗀", fg = "#F6AE2D" },
+  { name = "conf", text = "", fg = "#F6AE2D" },
+  { name = "ini",  text = "", fg = "#F6AE2D" },
+  { name = "env",  text = "", fg = "#F6AE2D" },
+
+  # Docs
+  { name = "md",  text = "", fg = "#AEFFD8" },
+  { name = "txt", text = "", fg = "#AEFFD8" },
+  { name = "pdf", text = "", fg = "#F6AE2D" },
+
+  # Medien
+  { name = "png",  text = "", fg = "#DABFFF" },
+  { name = "jpg",  text = "", fg = "#DABFFF" },
+  { name = "jpeg", text = "", fg = "#DABFFF" },
+  { name = "gif",  text = "", fg = "#DABFFF" },
+  { name = "svg",  text = "", fg = "#DABFFF" },
+  { name = "webp", text = "", fg = "#DABFFF" },
+  { name = "mp4",  text = "", fg = "#F6AE2D" },
+  { name = "mkv",  text = "", fg = "#F6AE2D" },
+  { name = "mp3",  text = "", fg = "#F6AE2D" },
+  { name = "flac", text = "", fg = "#F6AE2D" },
+
+  # Archive
+  { name = "zip", text = "", fg = "#F6AE2D" },
+  { name = "tar", text = "", fg = "#F6AE2D" },
+  { name = "gz",  text = "", fg = "#F6AE2D" },
+  { name = "zst", text = "", fg = "#F6AE2D" },
+  { name = "7z",  text = "", fg = "#F6AE2D" },
+  { name = "rar", text = "", fg = "#F6AE2D" },
+]
+
+conds = [
+  { if = "orphan",        text = "", fg = "#dddddd" },
+  { if = "link",          text = "", fg = "#7FDEFF" },
+  { if = "dir & hovered", text = "", fg = "#F6AE2D" },
+  { if = "dir",           text = "", fg = "#AEFFD8" },
+  { if = "exec",          text = "", fg = "#FF0080" },
+  { if = "!dir",          text = "", fg = "#dddddd" },
 ]

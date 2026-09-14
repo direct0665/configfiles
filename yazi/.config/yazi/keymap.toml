@@ -1,5 +1,5 @@
 # ~/.config/yazi/keymap.toml
-"$schema" = "https://yazi-rs.github.io/schemas/keymap.json"
+#:schema "https://yazi-rs.github.io/schemas/keymap.json"
 
 [mgr]
 keymap = [
@@ -24,6 +24,7 @@ keymap = [
 	# --- Öffnen ---
 	{ on = "<Enter>", run = "open",              desc = "Öffnen" },
 	{ on = "e",       run = "open --interactive", desc = "Öffnen mit..." },
+	{ on = "H",       run = 'shell "hx %s" --block', desc = "Mit Helix öffnen" },
 
 	# --- Auswahl ---
 	{ on = "<Space>", run = [ "toggle", "arrow 1" ], desc = "Markieren" },
