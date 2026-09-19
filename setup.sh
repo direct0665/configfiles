@@ -1,5 +1,17 @@
 #!/bin/bash
 
+# -y/--yes: pkglist-Abfrage automatisch mit "ja" beantworten (fuer
+# nicht-interaktive Laeufe, z.B. per pyinfra/ssh ohne TTY). Vorher wurde
+# das per "echo y | ./setup.sh" von aussen reingepiped -- funktioniert,
+# ist aber implizit/fragil (bricht z.B. still, falls vor dem Prompt aus
+# Versehen nochmal was anderes von stdin liest).
+AUTO_YES=0
+for arg in "$@"; do
+    case "$arg" in
+        -y|--yes) AUTO_YES=1 ;;
+    esac
+done
+
 # os check bzw sollte halt nicht auf macos alles stowen
 if [[ "$(uname -s)" != "Linux" ]]; then
     echo "FEHLER: Dieses Skript ist nur für Linux/Arch gedacht!" >&2
@@ -102,9 +114,13 @@ install_packages() {
     fi
 }
 
-echo "Sollen die Programme aus der pkglist installiert werden? (y/n)"
-read -n 1 -r
-echo ""
+if [ "$AUTO_YES" -eq 1 ]; then
+    REPLY="y"
+else
+    echo "Sollen die Programme aus der pkglist installiert werden? (y/n)"
+    read -n 1 -r
+    echo ""
+fi
 [[ $REPLY =~ ^[Yy]$ ]] && install_packages
 
 # 9. mime types setzen

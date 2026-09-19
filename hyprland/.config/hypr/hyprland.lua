@@ -1,10 +1,4 @@
 --------------------------------------------------------------------------------
--- SOURCING & IMPORTS
---------------------------------------------------------------------------------
-package.path = package.path .. ";" .. os.getenv("HOME") .. "/.devicespecific/?.lua"
-pcall(require, "hyprlandlocal")
-
---------------------------------------------------------------------------------
 -- MONITORE
 --------------------------------------------------------------------------------
 hl.monitor({
@@ -184,3 +178,20 @@ hl.define_submap("passthrough", function()
     -- Optionaler Notausstieg: Beenden mit ALT + SHIFT + End
     hl.bind("ALT + SHIFT + End", hl.dsp.submap("reset"))
 end)
+
+--------------------------------------------------------------------------------
+-- SOURCING & IMPORTS
+--------------------------------------------------------------------------------
+-- BEWUSST GANZ AM ENDE (nicht mehr am Dateianfang, siehe Git-Historie):
+-- hl.monitor()/hl.config() mergen pro Feld, nicht als Ganzes -- ein Feld,
+-- das HIER oben (z.B. "scale" im generischen hl.monitor-Aufruf) gesetzt
+-- wird, gewinnt gegen einen frueher (am Dateianfang importierten)
+-- geraetespezifischen Override desselben Feldes. Erst NACH diesem Import
+-- gesetzte, hier NICHT vorkommende Felder (z.B. "cm") bleiben dagegen vom
+-- lokalen Override unangetastet -- das hatte am 20260919 (wohnzimmer)
+-- dazu gefuehrt, dass ein lokal gesetztes "cm" griff, "scale" aber vom
+-- Aufruf oben in dieser Datei wieder ueberschrieben wurde. Mit dem Import
+-- hier am Ende gewinnt der geraetespezifische Override zuverlaessig fuer
+-- JEDES Feld.
+package.path = package.path .. ";" .. os.getenv("HOME") .. "/.devicespecific/?.lua"
+pcall(require, "hyprlandlocal")
