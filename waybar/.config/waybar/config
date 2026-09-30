@@ -3,7 +3,7 @@
     "position": "top",
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["clock"],
-    "modules-right": ["network", "pulseaudio", "pulseaudio/slider", "battery", "custom/power"],
+    "modules-right": ["network", "pulseaudio", "battery", "custom/power"],
 
     "hyprland/workspaces": {
         "format": "{icon}",
@@ -49,12 +49,6 @@
         "on-click-right": "sh -c $HOME/.config/scripts/audio-output.sh",
         "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%+",
         "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%-"
-    },
-
-    "pulseaudio/slider": {
-        "min": 0,
-        "max": 100,
-        "orientation": "horizontal"
     },
 
     "battery": {

@@ -157,6 +157,11 @@ hl.bind(mainMod .. " + CTRL + down", hl.dsp.window.resize({ x = 0, y = 20 }))
 
 hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.float({ action = "toggle" }))
 
+-- screenshots wie auf dem mac (dort cmd+shift+3/4), hier mit ctrl, weil
+-- super+shift+zahl schon fenster verschiebt. datei + zwischenablage.
+hl.bind(mainMod .. " + CTRL + 3", hl.dsp.exec_cmd("~/.config/scripts/screenshot.sh full"))
+hl.bind(mainMod .. " + CTRL + 4", hl.dsp.exec_cmd("~/.config/scripts/screenshot.sh area"))
+
 --------------------------------------------------------------------------------
 -- SUBMAPS
 --------------------------------------------------------------------------------
