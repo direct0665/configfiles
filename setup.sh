@@ -56,11 +56,6 @@ mkdir -p "$HOME/.config/gtk-3.0" "$HOME/.config/gtk-4.0"
 echo -e "[Settings]\ngtk-application-prefer-dark-theme=1" > "$HOME/.config/gtk-3.0/settings.ini"
 echo -e "[Settings]\ngtk-application-prefer-dark-theme=1" > "$HOME/.config/gtk-4.0/settings.ini"
 
-if [ -f "$HOME/.zshrc" ]; then
-    grep -qq "QT_QPA_PLATFORMTHEME" "$HOME/.zshrc" || echo 'export QT_QPA_PLATFORMTHEME=qt5ct' >> "$HOME/.zshrc"
-    grep -qq "QT_SELECT_GUI_STYLE" "$HOME/.zshrc" || echo 'export QT_SELECT_GUI_STYLE=adwaita-dark' >> "$HOME/.zshrc"
-fi
-
 mkdir -p "$HOME/.config"
 echo -e "[ColorScheme]\nColorScheme=BreezeDark\n\n[General]\nColorScheme=BreezeDark" > "$HOME/.config/kdeglobals"
 
@@ -80,22 +75,7 @@ done
 mkdir -p "$HOME/.config/scripts"
 ln -sf "$REPO_ROOT/README.md" "$HOME/.config/scripts/current_readme.md"
 
-# 7. hyprland envs
-mkdir -p ~/.config/hypr/
-cat <<EOF > ~/.config/hypr/env_dark.conf
-# --- Generiert vom Setup-Script ---
-env = GTK_THEME,Adwaita:dark
-env = QT_QPA_PLATFORMTHEME,qt5ct
-env = QT_STYLE_OVERRIDE,adwaita-dark
-env = MOZ_ENABLE_WAYLAND,1
-env = GDK_BACKEND,wayland
-env = GTK_USE_PORTAL,1
-env = XDG_CURRENT_DESKTOP,Hyprland
-env = XDG_SESSION_TYPE,wayland
-env = XDG_SESSION_DESKTOP,Hyprland
-EOF
-
-# 8. firefox user.js verlinken
+# 7. firefox user.js verlinken
 FF_DIR="$HOME/.mozilla/firefox"
 if [ -d "$FF_DIR" ]; then
     PROFILE=$(find "$FF_DIR" -maxdepth 1 -type d \( -name "*.default-release" -o -name "*.default" \) | head -n 1)
@@ -123,7 +103,7 @@ else
 fi
 [[ $REPLY =~ ^[Yy]$ ]] && install_packages
 
-# 9. mime types setzen
+# 8. mime types setzen
 echo ">>> Setze Standardprogramme..."
 if command -v xdg-mime >/dev/null; then
     xdg-mime default firefox.desktop text/html

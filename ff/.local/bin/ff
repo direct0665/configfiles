@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# ff — firefox vom terminal aus oeffnen, ohne staendig zur maus/anderen
+# fenstern wechseln zu muessen. laeuft gleich auf mac und linux.
+#
+# nutzt einfach den eingebauten reuse-mechanismus von firefox (klinkt sich
+# in eine schon laufende instanz ein, neuer tab) -- braucht null setup.
+#
+# frueher gab's hier noch "start"/"tabs" ueber firefox' remote agent
+# (--remote-debugging-port). rausgeflogen (20260919): ohne eine echte
+# geckodriver/webdriver-session dahinter laeuft auf dem nackten port nur
+# httpd.js (mozillas interner test-server), /json/version und /json/list
+# antworten beide mit 404 -- live gegengetestet, nicht nur vermutet. fuer
+# echte tab-kontrolle braeuchte es den vollen geckodriver-session-aufbau
+# (POST /session mit moz:debuggerAddress-capability), deutlich mehr
+# aufwand/fragilitaet als so ein kleines script wert ist.
+set -euo pipefail
+
+cmd_open() {
+    local url="${1:?usage: ff open <url>}"
+    if [[ "$(uname -s)" == "Darwin" ]]; then
+        open -a Firefox "$url"
+    else
+        firefox "$url" >/dev/null 2>&1 &
+        disown
+    fi
+}
+
+case "${1:-}" in
+    open) shift; cmd_open "$@" ;;
+    *)
+        echo "ff — firefox vom terminal aus oeffnen"
+        echo
+        echo "  ff open <url>   url in neuem tab oeffnen (laufende instanz wird genutzt)"
+        exit 1
+        ;;
+esac

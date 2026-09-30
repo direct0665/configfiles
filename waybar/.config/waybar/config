@@ -3,7 +3,7 @@
     "position": "top",
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["clock"],
-    "modules-right": ["network", "pulseaudio", "battery", "custom/power"],
+    "modules-right": ["network", "pulseaudio", "pulseaudio/slider", "battery", "custom/power"],
 
     "hyprland/workspaces": {
         "format": "{icon}",
@@ -28,7 +28,7 @@
         "format-linked": "󰈀 No IP",
         "format-disconnected": "󰖪 Off",
         "tooltip-format": "Interface: {ifname}\nIP: {ipaddr}",
-        "on-click": "nm-connection-editor"
+        "on-click": "kitty --class nmtui -e nmtui"
     },
 
     "pulseaudio": {
@@ -46,8 +46,15 @@
             "default": ["󰕿", "󰖀", "󰕾"]
         },
         "on-click": "pavucontrol",
+        "on-click-right": "sh -c $HOME/.config/scripts/audio-output.sh",
         "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%+",
         "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%-"
+    },
+
+    "pulseaudio/slider": {
+        "min": 0,
+        "max": 100,
+        "orientation": "horizontal"
     },
 
     "battery": {

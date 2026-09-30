@@ -142,6 +142,7 @@ alias ]+='start-hyprland'
 alias ze='zeditor'
 alias y='yazi'
 alias zj='zellij'
+alias zjc='zellij attach -c'   # attach falls die session existiert (auch wenn nur noch resurrectable), sonst neu anlegen -- "zj -s <name>" bricht stattdessen mit fehler ab, wenn die session schon laeuft
 alias j='just'
 alias jl='just --list'
 alias jg='just -g'

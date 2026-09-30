@@ -94,6 +94,34 @@ window#waybar.hidden {
     animation-direction: alternate;
 }
 
+/* Lautstärke-Slider: Griff unsichtbar, nur die Füllung zählt --
+   Farben wie die übrigen Module (weiß mit Deckkraft) */
+#pulseaudio-slider {
+    margin: 5px 3px;
+}
+
+#pulseaudio-slider slider {
+    min-height: 0;
+    min-width: 0;
+    opacity: 0;
+    background-image: none;
+    border: none;
+    box-shadow: none;
+}
+
+#pulseaudio-slider trough {
+    min-height: 8px;
+    min-width: 90px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+#pulseaudio-slider highlight {
+    min-width: 8px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
 /* Power Button: komplett lowkey am Rand */
 #custom-power {
     margin-right: 10px;
