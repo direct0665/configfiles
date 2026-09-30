@@ -30,11 +30,13 @@ brew "zellij"                 # terminal multiplexer, config siehe zellij/.confi
 # === [ GLOBALE HOTKEYS ] ===
 # einmalig vor dem ersten install nötig (neuere brew-versionen verlangen das
 # für taps außerhalb von homebrew/core, siehe infos.dj):
-#   brew tap koekeishiya/formulae
-#   brew trust --formula koekeishiya/formulae/skhd
-tap "koekeishiya/formulae"
-brew "skhd"    # globaler hotkey-daemon, siehe skhd/.config/skhd/skhdrc (ALT+SPACE -> fzf-launcher)
-brew "yabai"   # fenster query/focus fürs launcher-"fenster"-modus (kein SIP/scripting-addition nötig dafür)
+#   brew tap asmvik/formulae
+#   brew trust --formula asmvik/formulae/skhd
+# voll qualifiziert: koekeishiya wurde zu asmvik umbenannt, ist das alte tap
+# noch eingebunden, bricht brew bei "skhd" mit "found in multiple taps" ab.
+tap "asmvik/formulae"
+brew "asmvik/formulae/skhd"    # globaler hotkey-daemon, siehe skhd/.config/skhd/skhdrc (ALT+SPACE -> fzf-launcher)
+brew "asmvik/formulae/yabai"   # fenster query/focus fürs launcher-"fenster"-modus (kein SIP/scripting-addition nötig dafür)
 brew "jq"      # json-parsing für den launcher-"fenster"-modus (yabai/hyprctl output)
 
 # === [ RUST TOOLCHAIN ] ===
