@@ -71,6 +71,10 @@ hl.config({
     dwindle = {
         preserve_split = true,
     },
+
+    cursor = {
+        inactive_timeout = 15,
+    },
 })
 
 --------------------------------------------------------------------------------
