@@ -67,7 +67,7 @@ find "$REPO_ROOT/scripts" -name "*.sh" -exec chmod +x {} + 2>/dev/null
 for dir in */; do
     module=${dir%/}
     if [ "$module" != ".git" ] && [ "$module" != "skhd" ] && [ -d "$module" ]; then
-        stow "$module" 2>/dev/null || echo "Info: $module übersprungen (konflikt? siehe 'stow $module' für details)."
+        stow --no-folding --restow "$module" 2>/dev/null || echo "Info: $module übersprungen (konflikt? siehe 'stow $module' für details)."
     fi
 done
 
